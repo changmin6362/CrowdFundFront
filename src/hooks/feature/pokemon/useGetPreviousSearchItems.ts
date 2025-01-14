@@ -58,6 +58,7 @@ export default function useGetPreviousSearchItems({
   // 초기 마운트 시에만 실행
   useEffect(() => {
     initializeGroups(initialSearchItems);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return {

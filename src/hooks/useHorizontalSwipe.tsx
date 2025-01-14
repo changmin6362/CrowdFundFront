@@ -26,15 +26,18 @@ export default function useHorizontalSwipe(
   const { ref: swipeableRef, ...swipeProps } = useSwipeable(swipeHandlers);
 
   // 수평스크롤 이벤트 핸들러
-  const handleHorizontalScroll = (e: WheelEvent) => {
-    if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
-      if (e.deltaX > 0) {
-        onSwipeLeft();
-      } else if (e.deltaX < 0) {
-        onSwipeRight();
+  const handleHorizontalScroll = useCallback(
+    (e: WheelEvent) => {
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+        if (e.deltaX > 0) {
+          onSwipeLeft();
+        } else if (e.deltaX < 0) {
+          onSwipeRight();
+        }
       }
-    }
-  };
+    },
+    [onSwipeLeft, onSwipeRight],
+  );
 
   // 수평 이벤트 리스너 추가 및 제거
   useEffect(() => {
@@ -49,7 +52,7 @@ export default function useHorizontalSwipe(
     return () => {
       container.removeEventListener("wheel", handleHorizontalScroll);
     };
-  }, [onSwipeLeft, onSwipeRight]);
+  }, [handleHorizontalScroll]);
 
   // 두 ref를 하나로 결합함
   const combinedRef = useCallback(

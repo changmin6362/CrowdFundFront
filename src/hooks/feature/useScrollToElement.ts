@@ -48,7 +48,7 @@ export default function useScrollToElement({
       setPendingScrollId(null);
     },
 
-    [scrollContainerRef],
+    [scrollContainerRef, getRef],
   );
 
   // DOM 요소에 ref를 할당하고 필요한 경우 스크롤을 수행하는 함수
@@ -77,7 +77,7 @@ export default function useScrollToElement({
         }
       }
     },
-    [pendingScrollId, scrollContainerRef],
+    [pendingScrollId, scrollContainerRef, getRef, setRef],
   );
 
   return {

@@ -57,7 +57,13 @@ export default function useUpdateSelectedItem({
         }
       }
     }
-  }, [detectItemRef, displayList, searchItemGroups, setSelectedPokemon]);
+  }, [
+    detectItemRef,
+    displayList,
+    searchItemGroups,
+    setSelectedPokemon,
+    itemRefs,
+  ]);
 
   // 화면에 보이는 아이템을 등록하는 함수
   const updateSelectedItemRef = useCallback(
@@ -66,7 +72,7 @@ export default function useUpdateSelectedItem({
         setRef(item.id, element);
       }
     },
-    [],
+    [setRef],
   );
 
   // 스크롤 이벤트 리스너 등록 및 제거

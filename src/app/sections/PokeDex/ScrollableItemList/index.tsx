@@ -147,6 +147,8 @@ const DetectionLine = forwardRef<HTMLDivElement>((_, ref) => {
   );
 });
 
+DetectionLine.displayName = "DetectionLine";
+
 export {
   ScrollContainer,
   PokemonListPadding,

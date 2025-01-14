@@ -65,7 +65,7 @@ export default function useInfiniteScroll({
         checkVisibility();
       }
     },
-    [checkVisibility],
+    [checkVisibility, disabled, hasMore],
   );
 
   return LastItemRef;
