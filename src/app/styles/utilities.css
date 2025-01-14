@@ -1,0 +1,83 @@
+@tailwind utilities;
+
+@layer utilities {
+  /* 배경색 */
+  .bg-purple {
+    @apply bg-gradient-to-l from-purple-300 to-gray-300;
+  }
+  .bg-striped {
+    background-image: repeating-linear-gradient(
+      0deg,
+      theme("colors.white"),
+      theme("colors.white") 8px,
+      theme("colors.gray.200") 8px,
+      theme("colors.gray.200") 16px
+    );
+  }
+
+  /* 타입별 배경색 및 글자색 */
+  .type-normal {
+    @apply border-0 bg-[#a4acaf] text-[#212121];
+  }
+  .type-fire {
+    @apply border-0 bg-[#fd7d24] text-white;
+  }
+  .type-water {
+    @apply border-0 bg-[#4592c4] text-white;
+  }
+  .type-grass {
+    @apply border-0 bg-[#9bcc50] text-[#212121];
+  }
+  .type-electric {
+    @apply border-0 bg-[#eed535] text-[#212121];
+  }
+  .type-ice {
+    @apply border-0 bg-[#51c4e7] text-[#212121];
+  }
+  .type-fighting {
+    @apply border-0 bg-[#d56723] text-white;
+  }
+  .type-poison {
+    @apply border-0 bg-[#b97fc9] text-white;
+  }
+  .type-ground {
+    @apply border-0 bg-[linear-gradient(#f7de3f_50%,_#ab9842_50%)] text-[#212121];
+  }
+  .type-flying {
+    @apply border-0 bg-[linear-gradient(#3dc7ef_50%,_#bdb9b8_50%)] text-[#212121];
+  }
+  .type-psychic {
+    @apply border-0 bg-[#f366b9] text-white;
+  }
+  .type-bug {
+    @apply border-0 bg-[#729f3f] text-white;
+  }
+  .type-rock {
+    @apply border-0 bg-[#a38c21] text-white;
+  }
+  .type-ghost {
+    @apply border-0 bg-[#7b62a3] text-white;
+  }
+  .type-dragon {
+    @apply border-0 bg-[linear-gradient(#53a4cf_50%,_#f16e57%)] text-[#212121];
+  }
+  .type-dark {
+    @apply border-0 bg-[#707070] text-white;
+  }
+  .type-steel {
+    @apply border-0 bg-[#9eb7b8] text-[#212121];
+  }
+  .type-fairy {
+    @apply border-0 bg-[#fdb9e9] text-[#212121];
+  }
+
+  /* 스크롤 바 숨김 */
+  .hide-scrollbar::-webkit-scrollbar {
+    /* 웹킷 기반 브라우저 (Chrome, Safari 등) */
+    display: none;
+    /* 파이어폭스 */
+    scrollbar-width: none;
+    /* IE and Edge */
+    -ms-overflow-style: none;
+  }
+}

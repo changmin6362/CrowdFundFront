@@ -1,0 +1,38 @@
+@tailwind base;
+
+@layer base {
+  /* 폰트 그룹화; 영문 폰트와 한글 폰트 설정 */
+  .font-pokemon-solid {
+    font-family: var(--font-pokemon-solid), var(--font-neo-dunggeunmo-pro);
+  }
+  .font-pokemon-hollow {
+    font-family: var(--font-pokemon-hollow), var(--font-neo-dunggeunmo-pro);
+  }
+  .font-pokemon-classic {
+    font-family: var(--font-pokemon-classic), var(--font-neo-dunggeunmo-pro);
+  }
+  .font-pokemon-xy {
+    font-family: var(--font-pokemon-XY), var(--font-neo-dunggeunmo-pro);
+  }
+  .font-pretendard-regular {
+    font-family: var(--font-pretendard-regular);
+  }
+
+  /* 기본 스타일 */
+  html,
+  body {
+    @apply overflow-hidden bg-gradient-to-l from-purple-300 to-gray-300;
+  }
+  h1 {
+    @apply font-pokemon-solid p-2 text-5xl font-extrabold text-blue-600;
+  }
+  h2 {
+    @apply font-pretendard-regular py-2 text-lg font-semibold text-[#212121];
+  }
+  h3 {
+    @apply font-pretendard-regular text-lg font-medium;
+  }
+  h4 {
+    @apply font-pokemon-xy text-sm font-semibold text-gray-700;
+  }
+}
