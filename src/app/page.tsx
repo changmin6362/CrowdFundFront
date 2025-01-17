@@ -1,10 +1,10 @@
 "use client";
 
-import SwipeContainer from "@/app/mainPage/SwipeContainer";
+import MainPage from "@/app/components/page/main/";
 import { ContextProvider } from "@/app/contexts/PokemonContext";
 
 import { usePokemonContext } from "@/app/contexts/PokemonContext";
-import PokemonImage from "@/app/components/PokemonImage";
+import PokemonImage from "@/app/components/ui/PokemonImage";
 import PokemonSiluette from "@/app/assets/svg/PokemonSilhouette.svg";
 
 // 페이지의 헤더 부분
@@ -34,7 +34,7 @@ export default function Home() {
   return (
     <ContextProvider>
       <Header />
-      <SwipeContainer />
+      <MainPage />
     </ContextProvider>
   );
 }

@@ -1,4 +1,4 @@
-import PokemonImage from "@/app/components/PokemonImage";
+import PokemonImage from "@/app/components/ui/PokemonImage";
 import POKEBALL from "@/app/assets/svg/Pokeball.svg";
 
 interface PokemonScrollItemProps {

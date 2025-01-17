@@ -1,11 +1,11 @@
 import { useState, useCallback, useMemo } from "react";
 
-import PokemonTypeDisplay from "@/app/sections/PokemonTypeDisplay";
-import useHorizontalSwipe from "@/hooks/useHorizontalSwipe";
-import PokedexListDisplay from "@/app/sections/PokeDex/PokedexListDisplay";
+import PokemonTypeDisplay from "@/app/components/page/main/infoList/PokemonTypeDisplay";
+import useHorizontalSwipe from "@/hooks/scrollEvent/useHorizontalSwipe";
+import Pokedex from "@/app/components/page/main/pokedex/";
 
 // 가로 스크롤을 감지해서 스와이프 동작을 수행하는 컨테이너
-export default function SwipeContainer() {
+export default function MainPage() {
   // 상세 정보 표시 여부를 관리하는 로컬 state
   const [showDetails, setShowDetails] = useState(false);
 
@@ -35,7 +35,7 @@ export default function SwipeContainer() {
         className="flex gap-1 transition-transform duration-300 ease-in-out"
         style={transformStyle}
       >
-        <PokedexListDisplay />
+        <Pokedex />
         <PokemonTypeDisplay />
       </div>
     </div>

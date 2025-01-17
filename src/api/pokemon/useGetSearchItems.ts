@@ -2,7 +2,7 @@ import { useState, useCallback } from "react";
 import { BATCH_SIZE } from "@/constants/pokedexList";
 import FetchPokemonList from "@/api/pokemon/fetchPokemonList";
 import updatePokemonList from "@/utils/pokemon/updatePokemonList";
-import { useLoadingState } from "@/hooks/common/useLoadingState";
+import { useLoadingState } from "@/api/useLoadingState";
 
 /**
  * 검색된 포켓몬 리스트를 관리하는 커스텀 훅

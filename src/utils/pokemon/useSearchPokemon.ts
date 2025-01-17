@@ -2,8 +2,8 @@ import { useState } from "react";
 
 import handleFetchError from "@/utils/error/handleFetchError";
 import searchPokemon from "@/utils/pokemon/searchPokemon";
-import useGetSearchItems from "@/hooks/feature/pokemon/useGetSearchItems";
-import useGetPreviousSearchItems from "@/hooks/feature/pokemon/useGetPreviousSearchItems";
+import useGetSearchItems from "@/api/pokemon/useGetSearchItems";
+import useGetPreviousSearchItems from "@/api/pokemon/useGetPreviousSearchItems";
 
 interface SearchPokemonParams {
   defaultItems: Pokemon[];

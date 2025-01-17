@@ -1,6 +1,6 @@
 "use client";
 
-import TypeLabelGrid from "@/app/components/TypeLabelGrid";
+import TypeLabelGrid from "@/app/components/ui/TypeLabelGrid";
 import { usePokemonContext } from "@/app/contexts/PokemonContext";
 import convertPokemonTypes from "@/utils/pokemon/convertPokemonTypes";
 import calculateWeaknesses from "@/utils/calculateWeaknesses";

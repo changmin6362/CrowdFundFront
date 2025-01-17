@@ -1,7 +1,7 @@
 import { forwardRef, RefObject } from "react";
 
 import getItemText from "@/utils/pokemon/getItemText";
-import PokemonScrollItem from "@/app/components/PokemonScrollItem";
+import PokemonScrollItem from "@/app/components/ui/PokemonScrollItem";
 import { BATCH_SIZE, EMPTY_ITEMS_COUNT } from "@/constants/pokedexList";
 
 interface ScrollContainerProps {

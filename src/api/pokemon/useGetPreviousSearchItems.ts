@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from "react";
 import { BATCH_SIZE } from "@/constants/pokedexList";
 import FetchPokemonList from "@/api/pokemon/fetchPokemonList";
-import { useLoadingState } from "@/hooks/common/useLoadingState";
+import { useLoadingState } from "@/api/useLoadingState";
 
 interface UseGetPreviousSearchItemsProps {
   initialSearchItems: Pokemon[];

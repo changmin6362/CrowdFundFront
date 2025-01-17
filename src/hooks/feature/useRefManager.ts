@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { THRESHOLD } from "@/constants/pokedexList";
 
-interface useInfiniteScrollRefManagerProps {
+interface useRefManagerProps {
   defaultItems: Pokemon[];
   searchItems: Pokemon[];
   lastDefaultItemRef: ((element: HTMLElement | null) => void) | null;
@@ -15,7 +15,7 @@ interface useInfiniteScrollRefManagerProps {
     | null;
 }
 
-export default function useInfiniteScrollRefManager({
+export default function useRefManager({
   defaultItems,
   searchItems,
   lastDefaultItemRef,
@@ -23,7 +23,7 @@ export default function useInfiniteScrollRefManager({
   lastSearchItemRef,
   scrollToElementRef,
   updateSelectedItemRef,
-}: useInfiniteScrollRefManagerProps) {
+}: useRefManagerProps) {
   // Skeleton 아이템용 ref 등록 함수
   const registerSkeletonRef = useCallback(
     (pokemon: Pokemon | null, element: HTMLElement | null) => {

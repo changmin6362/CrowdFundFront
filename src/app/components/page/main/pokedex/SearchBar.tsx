@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Input from "@/app/components/Input";
+import Input from "@/app/components/ui/Input";
 
 interface SearchBarProps {
   handleSearch: (value: string) => void;

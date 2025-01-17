@@ -1,16 +1,15 @@
 import { useRef } from "react";
-import useGetDefaultItems from "@/hooks/feature/pokemon/useGetDefaultItems";
-import useInfiniteScroll from "@/hooks/common/useInfiniteScroll";
+import useGetDefaultItems from "@/api/pokemon/useGetDefaultItems";
+import useInfiniteScroll from "@/hooks/scrollEvent/useInfiniteScroll";
 import useScrollToElement from "@/hooks/feature/useScrollToElement";
-import useInfiniteScrollRefManager from "@/hooks/feature/useInfiniteScrollRefManager";
+import useRefManager from "@/hooks/feature/useRefManager";
 import useBlurControl from "@/hooks/feature/useBlurControl";
-import PokedexScrollView from "./PokedexScrollView";
+import PokedexScrollView from "@/app/components/page/main/pokedex/PokedexScrollView";
 import useSearchPokemon from "@/utils/pokemon/useSearchPokemon";
 import useUpdateSelectedItem from "@/hooks/feature/useUpdateSelectedItem";
+import SearchBar from "@/app/components/page/main/pokedex/SearchBar";
 
-import SearchBar from "./SearchBar";
-
-export default function PokedexListDisplay() {
+export default function Pokedex() {
   // 스크롤 컨테이너에 대한 ref
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
@@ -77,16 +76,15 @@ export default function PokedexListDisplay() {
   });
 
   // ref를 등록하는 콜백 함수 선언
-  const { registerSkeletonRef, registerPokemonRef } =
-    useInfiniteScrollRefManager({
-      defaultItems,
-      searchItems,
-      lastDefaultItemRef,
-      firstSearchItemRef,
-      lastSearchItemRef,
-      scrollToElementRef,
-      updateSelectedItemRef,
-    });
+  const { registerSkeletonRef, registerPokemonRef } = useRefManager({
+    defaultItems,
+    searchItems,
+    lastDefaultItemRef,
+    firstSearchItemRef,
+    lastSearchItemRef,
+    scrollToElementRef,
+    updateSelectedItemRef,
+  });
 
   return (
     <div className="flex h-[270px] w-full flex-col gap-8 p-8">

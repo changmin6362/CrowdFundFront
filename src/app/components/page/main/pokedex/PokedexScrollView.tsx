@@ -7,7 +7,7 @@ import {
   CreateBatchSkeletons,
   PokemonListItem,
   DetectionLine,
-} from "./ScrollableItemList";
+} from "./ui";
 
 interface PokedexScrollViewProps {
   displayList: Pokemon[];
