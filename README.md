@@ -16,7 +16,22 @@
 ![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)
 ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
 ![pokeapi-js-wrapper](https://img.shields.io/badge/pokeapi-js-wrapper?style=for-the-badge&logoColor=yellow&labelColor=black)
+![react-swipeable](https://img.shields.io/badge/react-swipeable?style=for-the-badge&label=react-swipeable)
 
+
+- ssr을 사용하지 않는데 Next.js를 사용한 이유:
+  - 이미지, 폰트 자동 최적화 기능
+  - Vercel을 통한 배포 용이성
+
+- TailwindCss를 사용한 이유
+  - 디자인 로직을 레이어 시스템을 통해 한 곳에서 관리하기 위해
+  - 빠르고 간편한 디자인 구현을 위해서
+
+- react-swipeable을 사용한 이유
+  - 좌우 스와이프 애니메이션을 간편하게 구현하기 위해서
+ 
+- pokeapi-js-wrapper를 사용한 이유
+  - 필요한 포켓몬 정보를 빠르고 손쉽게 받아오기 위해서
 
 
 
