@@ -1,13 +1,11 @@
 import { RefObject, Fragment } from "react";
 import { BATCH_SIZE } from "@/constants/pokedexList";
 
-import {
-  ScrollContainer,
-  PokemonListPadding,
-  CreateBatchSkeletons,
-  PokemonListItem,
-  DetectionLine,
-} from "./ui";
+import ListContainer from "@/app/components/ui/listContainer";
+import ListWrapper from "@/app/components/ui/listContainer/listWrapper";
+import SkeletonBatchRenderer from "@/app/components/ui/listContainer/skeletonBatchRenderer";
+import InitialContentRenderer from "@/app/components/ui/listContainer/initialContentRenderer";
+import DetectionLine from "@/app/components/ui/detectionLine";
 
 interface PokedexScrollViewProps {
   displayList: Pokemon[];
@@ -36,11 +34,11 @@ export default function PokedexScrollView({
   return (
     // 포켓몬 리스트를 감싸는 스크롤 가능한 컨테이너 컴포넌트
     <>
-      <ScrollContainer
+      <ListContainer
         scrollContainerRef={scrollContainerRef}
         handleScrollFocus={handleScrollFocus}
       >
-        <PokemonListPadding>
+        <ListWrapper>
           {/* 다음 데이터를 위한 스켈레톤 UI */}
           {isViewSkeleton && (
             <PreloadedSkeletonUI
@@ -49,15 +47,15 @@ export default function PokedexScrollView({
               registerSkeletonRef={registerSkeletonRef}
             />
           )}
-          {/* 현재 데이터 렌더링 */}
-          <PokemonListItem
+          {/* 초기 데이터 렌더링; 아랫방향의 무한스크롤이 이루어질 때는 이 곳에서 추가된 데이터가 렌더링된다. */}
+          <InitialContentRenderer
             displayList={displayList}
             registerPokemonRef={registerPokemonRef}
           />
-        </PokemonListPadding>
+        </ListWrapper>
         {/* 아이템 선택용 감지선 */}
         <DetectionLine ref={detectItemRef} />
-      </ScrollContainer>
+      </ListContainer>
     </>
   );
 }
@@ -118,7 +116,7 @@ const PreloadedSkeletonUI = ({
           };
           return (
             <Fragment key={`skeleton-group-${batchIndex}`}>
-              <CreateBatchSkeletons
+              <SkeletonBatchRenderer
                 provideSkeletonData={provideSkeletonData}
                 registerSkeletonRef={registerSkeletonRef}
               />
