@@ -4,6 +4,8 @@ import getItemText from "@/utils/pokemon/getItemText";
 import PokemonScrollItem from "@/app/components/ui/PokemonScrollItem";
 import { BATCH_SIZE, EMPTY_ITEMS_COUNT } from "@/constants/pokedexList";
 
+import { POKEMON_IMAGE } from "@/constants/pokedexList";
+
 interface ScrollContainerProps {
   children: React.ReactNode;
   scrollContainerRef: RefObject<HTMLDivElement>;
@@ -100,7 +102,7 @@ const CreateBatchSkeletons = ({
           key={`skeleton-${itemId}`}
           imageUrl={
             preloadedPokemon
-              ? preloadedPokemon.sprites.other["official-artwork"].front_default
+              ? POKEMON_IMAGE.OFFICIAL_ARTWORK(preloadedPokemon)
               : null
           }
           imageAlt={preloadedPokemon ? preloadedPokemon.name : "Skeleton"}
@@ -128,7 +130,7 @@ const PokemonListItem = ({
       {displayList.map((pokemon) => (
         <PokemonScrollItem
           key={`pokemon-${pokemon.id}`}
-          imageUrl={pokemon.sprites.front_default}
+          imageUrl={POKEMON_IMAGE.OFFICIAL_ARTWORK(pokemon)}
           imageAlt={pokemon.name}
           infoText={getItemText(pokemon)}
           registerPokemonRef={registerPokemonRef(pokemon)}

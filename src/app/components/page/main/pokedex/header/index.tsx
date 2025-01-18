@@ -2,12 +2,14 @@ import PokemonImage from "@/app/components/ui/PokemonImage";
 import PokemonSiluette from "@/app/assets/svg/PokemonSilhouette.svg";
 import { usePokemonContext } from "@/app/contexts/PokemonContext";
 
+import { POKEMON_IMAGE } from "@/constants/pokedexList";
+
 // 페이지의 헤더 부분
 export default function Header() {
   const { selectedPokemon } = usePokemonContext();
 
   const artwork = selectedPokemon
-    ? selectedPokemon.sprites.other["official-artwork"].front_default
+    ? POKEMON_IMAGE.OFFICIAL_ARTWORK(selectedPokemon)
     : PokemonSiluette;
 
   return (

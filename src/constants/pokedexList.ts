@@ -7,4 +7,16 @@ export const EMPTY_ITEMS_COUNT = 1;
 export const MAX_POKEMON_ID = 1025;
 
 // 마지막 아이템으로부터 몇개의 아이템까지 ref를 할당할 건지 정하는 수
-export const THRESHOLD = 5;
+export const THRESHOLD = 5 as const;
+
+// pokeapi가 제공하는 최대 이미지 크기
+export const MAX_IMAGE_SIZE = 512;
+
+// pokemon 타입에서 이미지 경로를 가져오는 경로
+export const POKEMON_IMAGE = {
+  OFFICIAL_ARTWORK: (pokemon: Pokemon): string | null =>
+    pokemon.sprites.other["official-artwork"].front_default,
+  FRONT_DEFAULT: (pokemon: Pokemon): string | null =>
+    pokemon.sprites.front_default,
+  // 다른 이미지 경로도 필요하다면 여기에 추가
+} as const;
