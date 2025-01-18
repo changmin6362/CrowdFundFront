@@ -99,7 +99,9 @@ const CreateBatchSkeletons = ({
         <PokemonScrollItem
           key={`skeleton-${itemId}`}
           imageUrl={
-            preloadedPokemon ? preloadedPokemon.sprites.front_default : null
+            preloadedPokemon
+              ? preloadedPokemon.sprites.other["official-artwork"].front_default
+              : null
           }
           imageAlt={preloadedPokemon ? preloadedPokemon.name : "Skeleton"}
           infoText={getItemText(preloadedPokemon || skeletonPokemon)}
