@@ -47,11 +47,11 @@ declare global {
       url: string;
     };
     sprites: {
-      front_default: string;
+      front_default: string | null;
       other: {
         "official-artwork": {
-          front_default: string;
-          front_shiny: string;
+          front_default: string | null;
+          front_shiny: string | null;
         };
       };
     };

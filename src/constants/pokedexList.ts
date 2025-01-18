@@ -14,8 +14,9 @@ export const MAX_IMAGE_SIZE = 512;
 
 // pokemon 타입에서 이미지 경로를 가져오는 경로
 export const POKEMON_IMAGE = {
-  OFFICIAL_ARTWORK: (pokemon: Pokemon): string =>
+  OFFICIAL_ARTWORK: (pokemon: Pokemon): string | null =>
     pokemon.sprites.other["official-artwork"].front_default,
-  FRONT_DEFAULT: (pokemon: Pokemon): string => pokemon.sprites.front_default,
+  FRONT_DEFAULT: (pokemon: Pokemon): string | null =>
+    pokemon.sprites.front_default,
   // 다른 이미지 경로도 필요하다면 여기에 추가
 } as const;

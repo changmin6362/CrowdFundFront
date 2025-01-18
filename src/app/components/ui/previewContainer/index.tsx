@@ -9,14 +9,18 @@ import { POKEMON_IMAGE } from "@/constants/pokedexList";
 export default function PreviewContainer() {
   const { selectedPokemon } = usePokemonContext();
 
+  const artwork = selectedPokemon
+    ? POKEMON_IMAGE.OFFICIAL_ARTWORK(selectedPokemon)
+    : null;
+
   return (
     <header className="flex flex-col items-center justify-center pt-8">
       <h1>PokeDex</h1>
       <div className="flex flex-col items-center justify-center">
         <div className="box-rounded bg-striped mb-6">
-          {selectedPokemon ? (
+          {artwork !== null ? (
             <PokemonImage
-              imageUrl={POKEMON_IMAGE.OFFICIAL_ARTWORK(selectedPokemon)}
+              imageUrl={artwork}
               imageAlt={"Pokemon official artwork"}
               size={{ width: 208, height: 208 }}
             />
