@@ -1,6 +1,11 @@
 <!-- prettier-ignore-start -->
 # 포켓몬 도감 프로젝트
 
+
+- 포켓몬의 타입, 약점을 빠르게 찾아볼 수 있도록 도와주는 사이트
+
+
+
 ## 개발 기간
 
 2024.10 ~ 2025.01
@@ -32,7 +37,7 @@
  
 - pokeapi-js-wrapper를 사용한 이유
   - 필요한 포켓몬 정보를 빠르고 손쉽게 받아오기 위해서
-
+  - Link: https://github.com/PokeAPI/pokeapi?tab=readme-ov-file
 
 
 
@@ -45,46 +50,59 @@
 ---
 ## 핵심 기능
 
-# 양방향 무한스크롤
-https://github.com/user-attachments/assets/4c613430-527d-4ffb-ab2e-2507bc4883d6
+
+|<center>양방향 무한스크롤</center>|
+|:----:|
+|![양방향 무한스크롤](https://github.com/user-attachments/assets/0675d8bd-8c45-4e44-8794-f7503ff3d55e)|
+
+# 양방향 무한스크롤 기능
+
+- 검색 기능이 동작하면 검색한 데이터를 기준으로 새로운 데이터가 불러와지는데, 검색 데이터를 불러온 상황에서  양방향 무한스크롤을 구현함.
+  
+  1. 위쪽 방향 무한스크롤의 경우
+     
+    - api 커스텀훅: [useGetPreviousSearchItems.ts](src/api/pokemon/useGetPreviousSearchItems.ts)
+      - 받아온 추가 데이터를 2차원 배열의 형태로 받아와서 관리함. 즉, 추가 데이터가 searchItemGroups 라는 배열 형태의 상태값의 element로 저장될 때, 배열의 형태로 저장함.
+      - 예시)    [[1번째 추가 데이터, ...], [2번째 추가 데이터, ...], [3번째 추가 데이터, ...], ...]와 같은 형태
+ 
+    - 렌더링 컴포넌트: [PokedexScrollView.tsx](src/app/components/page/main/pokedex/PokedexScrollView.tsx)
+      - api 요청이 발생할 때마다 추가 데이터가 스켈레톤 UI에 할당되어서 컨텐츠 UI가 되고, 다음 api 요청이 발생할 때 추가 데이터가 전달될 새로운 스켈레톤 UI가 미리 렌더링 도도록 구현함.
+      
+    - 위처럼 구현한 이유:
+      - 위쪽 방향에 데이터가 추가되서 DOM 업데이트가 발생하면 브라우저가 스크롤 위치를 자동으로 유지시켜주지 못했습니다. 그래서 데이터가 추가되기 전에 미리 스켈레톤 UI를 렌더링함으로써 스크롤 위치가 유지되게 구현해야 했습니다.
+      - 그리고 스켈레톤 UI에서 각 요청마다 searchItemGroups의 어느 데이터를 가져와야 할 지 명확하게 나타내기 위해 2차원 배열의 형태로 관리했습니다.
+        
+  2. 아래쪽 방향 무한스크롤의 경우
+     
+    - api 커스텀 훅: [useGetSearchItems.ts](src/api/pokemon/useGetSearchItems.ts)
+      - 받아온 추가 데이터를 searchItems라는 배열 형태의 상태값의 뒷부분에 결합하는 형태로 저장함
+
+    - 렌더링 컴포넌트: [PokedexScrollView.tsx](src/app/components/page/main/pokedex/PokedexScrollView.tsx) : 검색 기능 때문에 searchItems와 defaultItems를 결합한 displayList를 받아옴
+      - searchItems를 map으로 콘텐츠 UI에 전달해서 searchItems가 변경되면 추가 데이터가 렌더링 되도록 구현함
+  
+    - 위처럼 구현한 이유
+      - 브라우저가 스크롤 위치를 자동으로 유지시켜주기 때문에 추가 데이터를 미리 렌더링하지 않아도 정상적으로 동작함.
+
+  
+|<center>검색 기능</center>|
+|:----:|
+|![검색 기능](https://github.com/user-attachments/assets/e4b0f5c5-b6ff-4433-bcc0-ce079b2a4ea8)|
 
 # 검색 기능
-https://github.com/user-attachments/assets/84b92071-a8c7-4cb0-9b46-ebb323d9b204
 
+- 검색창에 포켓몬의 이름을 검색하면 해당 포켓몬의 위치로 이동하는 기능을 구현함.
 
+  - 검색 기능을 수행하는 컴포넌트: [useSearchPokemon.ts](src/utils/pokemon/useSearchPokemon.ts)
+    - 포켓몬 이름을 검색창에 입력하면 해당 포켓몬의 id를 기준으로 해당 id가 현재 defaultItems, searchItems, searchItemGroups에 존재하는지 확인함.
+    - 만약 존재한다면 해당 포켓몬의 위치로 이동시킴
+    - 존재하지 않는다면 [useGetSearchItems.ts](src/api/pokemon/useGetSearchItems.ts)에 의해 api 요청이 발생하고 해당 포켓몬부터 시작하는 리스트가 렌더링 됨.
+    - 렌더링이 끝난 뒤에 해당 포켓몬의 위치로 이동시킴
+     
+    
+  - 이동 기능을 수행하는 컴포넌트: [useScrollToElement.ts](src/hooks/feature/useScrollToElement.ts)
+    - 
 
-
-
-
-
----
-## 코드 설명
-
-# 사용 api: PokeAPI
-Link: https://github.com/PokeAPI/pokeapi?tab=readme-ov-file
-각 포켓몬의 이름, 도감 번호, 타입, 이미지를 위 api에서 받아 옴
-
-|<center>여러 api 요청을 배열로 반환하는 함수</center>|
-|:----:|
-|![fetchPokemonList](https://github.com/user-attachments/assets/c9d058cf-e5c0-4145-a5f0-635502bdebe2)|
-
-|<center>처음 페이지를 불러왔을 때 초기 데이터를 불러오는 함수</center>|
-|:----:|
-![useGetDefaultItems](https://github.com/user-attachments/assets/e5e5d17e-21bb-4955-a4c5-dab189b5837e)
-
-|<center>검색 데이터를 불러오는 함수</center>|
-|:----:|
-![useGetSearchItems](https://github.com/user-attachments/assets/a268eb02-0c33-4141-a5fd-ed0b2f20d44c)
-
-|<center>검색 데이터를 기준으로, 위쪽 방향으로 무한스크롤이 트리거 될때 데이터를 2차원 배열 형태로 가져오는 함수</center>|
-|:----:|
-![useGetPreviousSearchItems](https://github.com/user-attachments/assets/8e3f487d-f45c-4946-b704-045c1f5367e1)
-
-
-api 코드 구현|
-|코드 작성 방식|
-
-
+# 코드 작성 방식
 
 
 
