@@ -103,7 +103,11 @@
     - scrollToElementRef를 통해서 마운트 된 DOM 요소와 id를 Map 형태의 ref에 저장함. [useRefMap.ts](src/hooks/feature/useRefMap.ts)
     - scrollToElement를 통해서 Map에 저장된 element의 id를 이용해서 해당 element의 위치로 이동시킴.
 
-
+  - api 활용 방식 및 한계점
+    - api는 포켓몬의 id값을 통해서만 검색이 가능하므로, 포켓몬의 국가별 이름과 id값이 포함된 데이터를 미리 요청 받아서 MockData 형태로 저장함.[Pokedex.json](src/app/assets/mockData/Pokedex.json)
+    - 해당 MockDat와 검색창의 입력값을 대조함으로써 포켓몬의 국가별 이름을 통해 검색할 수 있게 구현함.
+    - 포켓몬의 타입 정보는 제공받을 수 있지만 약점 정보는 받을 수 없으므로, 타입 정볼르 통ㄹ해 약점을 계산하는 훅을 구현함.[calculateWeaknesses.ts](src/utils/calculateWeaknesses.ts)
+    - (미구현)포켓몬의 특성 정보를 제공받을 수 있지만, api 요청이 지금의 3배이상 발생하게 되어서, 이를 미리 요청 받아서 MockData 형태로 저장하려 함.
 
 ## 디자인 로직 처리 방식
 
