@@ -8,7 +8,7 @@
 
 ## 개발 기간
 
-2024.10 ~ 2025.01
+2024.11 ~ 2025.01
 
 
 
@@ -86,8 +86,7 @@
   
 |<center>검색 기능</center>|
 |:----:|
-|![검색 기능](https://github.com/user-attachments/assets/e4b0f5c5-b6ff-4433-bcc0-ce079b2a4ea8)|
-
+|![검색기능](https://github.com/user-attachments/assets/c8a08e65-8f2f-4e9a-b89d-1404e075ede9)|
 ## 검색 기능
 
 - 검색창에 포켓몬의 이름을 검색하면 해당 포켓몬의 위치로 이동하는 기능을 구현함.
@@ -102,6 +101,14 @@
   - 이동 기능을 수행하는 컴포넌트: [useScrollToElement.ts](src/hooks/feature/useScrollToElement.ts)
     - scrollToElementRef를 통해서 마운트 된 DOM 요소와 id를 Map 형태의 ref에 저장함. [useRefMap.ts](src/hooks/feature/useRefMap.ts)
     - scrollToElement를 통해서 Map에 저장된 element의 id를 이용해서 해당 element의 위치로 이동시킴.
+
+
+  
+|<center>정보 표시 기능</center>|
+|:----:|
+|![정보 표시 스와이프](https://github.com/user-attachments/assets/003a43c4-c56e-49ba-9eeb-dd79eeb38919)|
+
+## 정보 표시 기능
 
   - api 활용 방식 및 한계점
     - api는 포켓몬의 id값을 통해서만 검색이 가능하므로, 포켓몬의 국가별 이름과 id값이 포함된 데이터를 미리 요청 받아서 MockData 형태로 저장함.[Pokedex.json](src/app/assets/mockData/Pokedex.json)
