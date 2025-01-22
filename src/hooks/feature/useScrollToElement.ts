@@ -17,10 +17,10 @@ export default function useScrollToElement({
     setPendingScrollId(null);
   }, [clearRefs]);
 
-  // 아직 DOM에 마운트되지 않은 요소에 대한 스크롤 요청을 저장
+  // 아직 DOM에 마운트되지 않은 element에 대한 스크롤 요청을 저장
   const [pendingScrollId, setPendingScrollId] = useState<number | null>(null);
 
-  // 특정 요소로 스크롤하는 함수
+  // Map 특정 id의 element를 찾아 이동하는 함수
   const scrollToElement = useCallback(
     (id: number) => {
       // Map에서 해당 키에 대응하는 DOM 요소를 가져옴
@@ -34,9 +34,9 @@ export default function useScrollToElement({
 
       // 스크롤 컨테이너의 높이 계산
       const { clientHeight: containerHeight } = scrollContainerRef.current;
-      // 대상 요소의 높이 계산
+      // 대상 element의 높이 계산
       const { offsetHeight: elementHeight, offsetTop } = targetElement;
-      // 요소를 컨테이너 중앙에 위치시키기 위한 스크롤 위치 계산
+      // element를 컨테이너 중앙에 위치시키기 위한 스크롤 위치 계산
       const scrollPosition = offsetTop - (containerHeight - elementHeight) / 2;
 
       // 계산된 위치로 부드럽게 스크롤
@@ -51,13 +51,13 @@ export default function useScrollToElement({
     [scrollContainerRef, getRef],
   );
 
-  // DOM 요소에 ref를 할당하고 필요한 경우 스크롤을 수행하는 함수
+  // DOM 요소가 마운트될 때 해당 element와 id를 Map에 매핑하는 ref 콜백 함수
   const scrollToElementRef = useCallback(
     (item: Pokemon | null, element: HTMLElement | null) => {
       if (element && item) {
-        // 새로운 요소를 Map에 저장
+        // element와 element의 id를 Map에 저장
         setRef(item.id, element);
-        // 이 요소가 이전에 스크롤이 요청되었던 요소라면
+        // element가 이전에 마운트 된 적이 있는지 체크
         if (pendingScrollId === item.id) {
           const targetElement = getRef(item.id);
           if (targetElement && scrollContainerRef.current) {

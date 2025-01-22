@@ -62,7 +62,7 @@ export default function calculateWeaknesses(types: string[]) {
 
   // 빈 집합 제거 및 Set을 Array로 변환 (1x 제외)
   // Partial 유틸리티 타입으로 빈 배열은 결과에서 제외
-  // <Record<DamageMultiplier, string[]>> 타입으로ㅓ DamageMultiplier를 키로 가진 객체를 만들어서 관리
+  // <Record<DamageMultiplier, string[]>> 타입으로 DamageMultiplier를 키로 가진 객체를 만들어서 관리
   const result: Partial<Record<DamageMultiplier, string[]>> = {};
   (Object.keys(damageMultipliers) as (DamageMultiplier | "1x")[]).forEach(
     (key) => {

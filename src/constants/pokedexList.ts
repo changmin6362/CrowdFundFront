@@ -20,3 +20,25 @@ export const POKEMON_IMAGE = {
     pokemon.sprites.front_default,
   // 다른 이미지 경로도 필요하다면 여기에 추가
 } as const;
+
+// 포켓몬 타입 한글 이름
+export const POKEMON_TYPE_KR = {
+  normal: "노말",
+  fighting: "격투",
+  flying: "비행",
+  poison: "독",
+  ground: "땅",
+  rock: "바위",
+  bug: "벌레",
+  ghost: "고스트",
+  steel: "강철",
+  fire: "불꽃",
+  water: "물",
+  grass: "풀",
+  electric: "전기",
+  psychic: "에스퍼",
+  ice: "얼음",
+  dragon: "드래곤",
+  dark: "악",
+  fairy: "페어리",
+} as const;

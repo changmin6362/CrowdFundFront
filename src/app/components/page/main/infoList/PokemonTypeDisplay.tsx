@@ -9,8 +9,10 @@ export default function PokemonTypeDisplay() {
   // 전역 상태에서 현재 선택된 포켓몬과 업데이트 함수를 가져옴
   const { selectedPokemon } = usePokemonContext();
 
+  // 객체 형태의 데이터를 배열 형태로 변경
   const pokemonTypesArray = convertPokemonTypes(selectedPokemon);
 
+  // 각 포켓몬 타입을 기준으로 약점 타입을 보여줌
   const weaknesses = calculateWeaknesses(pokemonTypesArray);
 
   return (
