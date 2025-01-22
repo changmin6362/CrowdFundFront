@@ -2,7 +2,7 @@
 # 포켓몬 도감 프로젝트
 
 
-- 포켓몬의 타입, 약점을 빠르게 찾아볼 수 있도록 도와주는 사이트
+- 포켓몬의 이름을 검색해서 해당 포켓몬의 타입, 약점을 빠르게 찾아볼 수 있도록 도와주는 사이트
 
 
 
@@ -55,7 +55,7 @@
 |:----:|
 |![양방향 무한스크롤](https://github.com/user-attachments/assets/0675d8bd-8c45-4e44-8794-f7503ff3d55e)|
 
-# 양방향 무한스크롤 기능
+## 양방향 무한스크롤 기능
 
 - 검색 기능이 동작하면 검색한 데이터를 기준으로 새로운 데이터가 불러와지는데, 검색 데이터를 불러온 상황에서  양방향 무한스크롤을 구현함.
   
@@ -88,7 +88,7 @@
 |:----:|
 |![검색 기능](https://github.com/user-attachments/assets/e4b0f5c5-b6ff-4433-bcc0-ce079b2a4ea8)|
 
-# 검색 기능
+## 검색 기능
 
 - 검색창에 포켓몬의 이름을 검색하면 해당 포켓몬의 위치로 이동하는 기능을 구현함.
 
@@ -100,9 +100,18 @@
      
     
   - 이동 기능을 수행하는 컴포넌트: [useScrollToElement.ts](src/hooks/feature/useScrollToElement.ts)
-    - 
+    - scrollToElementRef를 통해서 마운트 된 DOM 요소와 id를 Map 형태의 ref에 저장함. [useRefMap.ts](src/hooks/feature/useRefMap.ts)
+    - scrollToElement를 통해서 Map에 저장된 element의 id를 이용해서 해당 element의 위치로 이동시킴.
 
-# 코드 작성 방식
+
+
+## 디자인 로직 처리 방식
+
+- 디자인 로직이 선언된 부분을 ui 폴더에 모듈화해서 디자인 로직과 비즈니스 로직을 분리함
+- 폰트 적용 범위, 재사용 가능성이 있는 디자인, 그리고 수정 가능성이 있는 디자인 로직은 레이어 시스템을 통해 한곳에서 관리함.
+  - 폰트 적용 범위, 기본 스타일: [base.css](src/app/styles/base.css)
+  - 재사용 가능한 컴포넌트 스타일: [components.css](src/app/styles/components.css)
+  - 색상 및 스크롤바 숨김 스타일 등의 수정 가능성이 있는 스타일을 유틸리티 타입으로 선언함: [utilities.css](src/app/styles/utilities.css)
 
 
 
