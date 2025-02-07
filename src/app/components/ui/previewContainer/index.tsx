@@ -14,7 +14,7 @@ export default function PreviewContainer() {
     : null;
 
   return (
-    <header className="flex flex-col items-center justify-center pt-8">
+    <header className="flex flex-col items-center justify-center">
       <h1>PokeDex</h1>
       <div className="flex flex-col items-center justify-center">
         <div className="box-rounded bg-striped mb-6">

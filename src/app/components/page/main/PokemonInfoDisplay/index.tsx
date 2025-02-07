@@ -1,14 +1,15 @@
-"use client";
-
 import TypeLabelGrid from "@/app/components/ui/TypeLabelGrid";
-import { usePokemonContext } from "@/app/contexts/PokemonContext";
 import convertPokemonTypes from "@/utils/pokemon/convertPokemonTypes";
 import calculateWeaknesses from "@/utils/calculateWeaknesses";
+import StatsChart from "@/app/components/ui/statsChart";
 
-export default function PokemonTypeDisplay() {
-  // 전역 상태에서 현재 선택된 포켓몬과 업데이트 함수를 가져옴
-  const { selectedPokemon } = usePokemonContext();
+interface PokemonInfoDisplayProps {
+  selectedPokemon: Pokemon | null;
+}
 
+export default function PokemonInfoDisplay({
+  selectedPokemon,
+}: PokemonInfoDisplayProps) {
   // 객체 형태의 데이터를 배열 형태로 변경
   const pokemonTypesArray = convertPokemonTypes(selectedPokemon);
 
@@ -16,8 +17,9 @@ export default function PokemonTypeDisplay() {
   const weaknesses = calculateWeaknesses(pokemonTypesArray);
 
   return (
-    <div className="hide-scrollbar h-[320px] w-full overflow-y-auto p-8">
-      <div className="flex flex-col gap-2 p-4">
+    <div className="hide-scrollbar h-96 w-full overflow-y-auto">
+      <StatsChart selectedPokemon={selectedPokemon} />
+      <div className="flex flex-col gap-2 px-4">
         <h4>Type</h4>
         <TypeLabelGrid pokemonTypesArray={pokemonTypesArray} />
         <h2>방어 상성(특성 미적용)</h2>
