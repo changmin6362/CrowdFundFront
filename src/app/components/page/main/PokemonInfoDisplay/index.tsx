@@ -1,4 +1,4 @@
-import TypeLabelGrid from "@/app/components/ui/TypeLabelGrid";
+import TypeLabelGrid from "@/app/components/ui/typeLabelGrid/";
 import convertPokemonTypes from "@/utils/pokemon/convertPokemonTypes";
 import calculateWeaknesses from "@/utils/calculateWeaknesses";
 import StatsChart from "@/app/components/ui/statsChart";
