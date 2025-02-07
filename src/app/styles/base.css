@@ -19,9 +19,11 @@
   }
 
   /* 기본 스타일 */
-  html,
+  html {
+    @apply flex h-screen w-full justify-center bg-gradient-to-l from-purple-300 to-gray-300;
+  }
   body {
-    @apply overflow-hidden bg-gradient-to-l from-purple-300 to-gray-300;
+    @apply max-w-[500px] overflow-hidden;
   }
   h1 {
     @apply font-pokemon-solid p-2 text-5xl font-extrabold text-blue-600;

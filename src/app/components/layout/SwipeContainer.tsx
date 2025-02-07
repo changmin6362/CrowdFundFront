@@ -77,9 +77,11 @@ interface SwipeContainerProps {
 export default function SwipeContainer({ children }: SwipeContainerProps) {
   const { combinedRef, swipeProps, transformStyle } = useSwipeNavigation();
   return (
-    <div ref={combinedRef} {...swipeProps}>
-      <div className="flex gap-1" style={transformStyle}>
-        {children}
+    <div className="relative w-full overflow-hidden">
+      <div ref={combinedRef} {...swipeProps}>
+        <div className="flex gap-1" style={transformStyle}>
+          {children}
+        </div>
       </div>
     </div>
   );
