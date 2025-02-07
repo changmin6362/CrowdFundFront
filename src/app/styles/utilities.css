@@ -59,7 +59,7 @@
     @apply border-0 bg-[#7b62a3] text-white;
   }
   .type-dragon {
-    @apply border-0 bg-[linear-gradient(#53a4cf_50%,_#f16e57%)] text-[#212121];
+    @apply border-0 bg-[linear-gradient(#53a4cf_50%,_#f16e57_50%)] text-[#212121];
   }
   .type-dark {
     @apply border-0 bg-[#707070] text-white;
