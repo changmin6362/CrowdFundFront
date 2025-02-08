@@ -9,11 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "next": "14.2.13",
+    "next": "^14.2.23",
     "pokeapi-js-wrapper": "^1.2.7",
     "react": "^18",
     "react-dom": "^18",
-    "react-swipeable": "^7.0.1"
+    "react-swipeable": "^7.0.1",
+    "tesseract.js": "^6.0.0"
   },
   "devDependencies": {
     "@types/node": "^20",

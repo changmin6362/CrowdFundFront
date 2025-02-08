@@ -44,7 +44,7 @@ export const PokemonTypeWeaknesses: PokemonTypeWeaknesses = {
   },
   ghost: {
     weak: ["ghost", "dark"],
-    immune: ["normal", "Nighting"],
+    immune: ["normal", "fighting"],
     resist: ["poison", "bug"],
   },
   steel: {
