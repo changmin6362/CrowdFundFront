@@ -17,15 +17,19 @@ export default function PokemonInfoDisplay({
   const weaknesses = calculateWeaknesses(pokemonTypesArray);
 
   return (
-    <div className="hide-scrollbar h-96 w-full overflow-y-auto">
-      <StatsChart selectedPokemon={selectedPokemon} />
-      <div className="flex flex-col gap-2 px-4">
-        <h4>Type</h4>
+    <div className="hide-scrollbar flex h-96 w-full flex-col gap-2 overflow-y-auto">
+      <div className="box-section">
+        <StatsChart selectedPokemon={selectedPokemon} />
+      </div>
+      <div className="box-section">
+        <h2>타입</h2>
         <TypeLabelGrid pokemonTypesArray={pokemonTypesArray} />
-        <h2>방어 상성(특성 미적용)</h2>
+      </div>
+      <div className="box-section">
+        <h2>방어 상성</h2>
         {Object.entries(weaknesses).map(([multiplier, typeList]) => (
           <div key={multiplier} className="mb-1">
-            <h3>{multiplier} damage:</h3>
+            <h3>{`x${multiplier.slice(0, -1)}`} </h3>
             <TypeLabelGrid pokemonTypesArray={typeList} />
           </div>
         ))}

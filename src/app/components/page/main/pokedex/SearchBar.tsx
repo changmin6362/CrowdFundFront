@@ -26,6 +26,7 @@ export default function SearchBar({ handleSearch, inputRef }: SearchBarProps) {
     }
   };
 
+  // 이미지 파일 선택 시 실행되는 핸들러
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {

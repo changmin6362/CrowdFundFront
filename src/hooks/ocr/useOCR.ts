@@ -7,7 +7,7 @@ export default function useOCR() {
   const processImage = async (file: File): Promise<string> => {
     setIsProcessing(true);
     try {
-      const worker = await createWorker("kor+eng");
+      const worker = await createWorker("kor+eng+jpn");
       const {
         data: { text },
       } = await worker.recognize(file);
