@@ -1,16 +1,16 @@
 interface InputProps {
   placeholder: string;
   value: string;
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   inputRef?: React.RefObject<HTMLInputElement>;
 }
 
 export default function Input({
   placeholder,
   value,
-  handleInputChange,
-  handleKeyDown,
+  onChange,
+  onKeyDown,
   inputRef,
 }: InputProps) {
   return (
@@ -20,8 +20,8 @@ export default function Input({
       className="box-circle px-2"
       placeholder={placeholder}
       value={value}
-      onChange={handleInputChange}
-      onKeyDown={handleKeyDown}
+      onChange={onChange}
+      onKeyDown={onKeyDown}
     />
   );
 }
