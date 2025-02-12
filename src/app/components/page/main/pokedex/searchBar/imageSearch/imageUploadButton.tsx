@@ -9,12 +9,21 @@ export default function ImageUploadButton({
 }) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      onSelect(file);
+      // 파일 선택 후 입력값을 초기화
+      e.target.value = "";
+    }
+  };
+
   return (
     <>
       <input
         type="file"
         accept="image/*"
-        onChange={(e) => e.target.files?.[0] && onSelect(e.target.files[0])}
+        onChange={handleFileChange}
         ref={fileInputRef}
         className="hidden"
       />
