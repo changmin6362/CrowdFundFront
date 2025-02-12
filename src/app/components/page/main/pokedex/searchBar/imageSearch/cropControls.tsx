@@ -1,4 +1,4 @@
-interface ModalControlsProps {
+interface CropControlsProps {
   onConfirm: () => void;
   onCancel: () => void;
   isProcessing: boolean;
@@ -6,13 +6,13 @@ interface ModalControlsProps {
   onZoomOut: () => void;
 }
 
-export default function ModalControls({
+export default function CropControls({
   onConfirm,
   onCancel,
   isProcessing,
   onZoomIn,
   onZoomOut,
-}: ModalControlsProps) {
+}: CropControlsProps) {
   return (
     <div className="mt-4 flex justify-end gap-2">
       {/* 확대/축소 버튼 */}

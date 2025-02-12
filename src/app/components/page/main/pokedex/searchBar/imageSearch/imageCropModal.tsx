@@ -3,8 +3,8 @@ import Image from "next/image";
 import ReactCrop, { type Crop, type PixelCrop } from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 
-import Portal from "@/app/components/ui/portal";
-import ModalControls from "./modalControls";
+import RootModal from "@/app/components/ui/modal/rootModal";
+import CropControls from "./cropControls";
 import calculateCropRect from "@/utils/etc/calculateCropRect";
 
 import useImageZoom from "@/hooks/image/useImageZoom";
@@ -46,6 +46,7 @@ export default function ImageCropModal({
     width: 100,
     height: 100,
   });
+  // 원본 이미지 상태
   const [imageSize, setImageSize] = useState({
     naturalWidth: 0,
     naturalHeight: 0,
@@ -86,45 +87,39 @@ export default function ImageCropModal({
   };
 
   return (
-    <Portal>
-      {/* 모달 오버레이 */}
-      <div className="overlay-black">
-        {/* 모달 컨텐츠 영역 */}
-        <div className="modal">
-          {/* 이미지 영역 */}
-          <ReactCrop crop={crop} onChange={setCrop} aspect={undefined}>
-            <div
-              style={{
-                transform: `scale(${scale})`,
-                transformOrigin: "center",
-                transition: "transform 0.1s ease-out",
-              }}
-            >
-              <Image
-                src={imageSrc}
-                alt="Crop preview"
-                width={1200}
-                height={800}
-                style={{ objectFit: "contain" }}
-                onLoad={(e) => {
-                  const img = e.target as HTMLImageElement;
-                  handleImageLoad(img);
-                }}
-                unoptimized // 외부 이미지 최적화 비활성화
-              />
-            </div>
-          </ReactCrop>
-
-          {/* 버튼 영역 */}
-          <ModalControls
-            onConfirm={handleConfirm}
-            onCancel={onCancel}
-            isProcessing={isProcessing}
-            onZoomIn={zoomIn}
-            onZoomOut={zoomOut}
+    <RootModal>
+      {/* 이미지 크롭 영역 */}
+      <ReactCrop crop={crop} onChange={setCrop} aspect={undefined}>
+        <div
+          style={{
+            transform: `scale(${scale})`,
+            transformOrigin: "center",
+            transition: "transform 0.1s ease-out",
+          }}
+        >
+          <Image
+            src={imageSrc}
+            alt="Crop preview"
+            width={1200}
+            height={800}
+            style={{ objectFit: "contain" }}
+            onLoad={(e) => {
+              const img = e.target as HTMLImageElement;
+              handleImageLoad(img);
+            }}
+            unoptimized // 외부 이미지 최적화 비활성화
           />
         </div>
-      </div>
-    </Portal>
+      </ReactCrop>
+
+      {/* 동작 버튼 영역 */}
+      <CropControls
+        onConfirm={handleConfirm}
+        onCancel={onCancel}
+        isProcessing={isProcessing}
+        onZoomIn={zoomIn}
+        onZoomOut={zoomOut}
+      />
+    </RootModal>
   );
 }
