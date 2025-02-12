@@ -1,7 +1,7 @@
 import PokemonImage from "@/app/components/ui/pokemonImage/";
 import SkeletonPokemonImage from "@/app/components/ui/pokemonImage/skeleton";
 import PokemonSiluette from "@/app/assets/svg/PokemonSilhouette.svg";
-import { usePokemonContext } from "@/app/contexts/PokemonContext";
+import { usePokemonContext } from "@/app/contexts/selectedPokemonContext";
 
 import { POKEMON_IMAGE } from "@/constants/pokedexList";
 

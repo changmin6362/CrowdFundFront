@@ -1,4 +1,4 @@
-import { usePokemonContext } from "@/app/contexts/PokemonContext";
+import { usePokemonContext } from "@/app/contexts/selectedPokemonContext";
 
 import PreviewContainer from "@/app/components/ui/previewContainer";
 import SwipeContainer from "@/app/components/layout/SwipeContainer";

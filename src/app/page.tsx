@@ -1,12 +1,15 @@
 "use client";
 
 import MainPage from "@/app/components/page/main/";
-import { ContextProvider } from "@/app/contexts/PokemonContext";
+import { PokemonProvider } from "@/app/contexts/selectedPokemonContext";
+import { ModalProvider } from "./contexts/modalContext";
 
 export default function Home() {
   return (
-    <ContextProvider>
-      <MainPage />
-    </ContextProvider>
+    <PokemonProvider>
+      <ModalProvider>
+        <MainPage />
+      </ModalProvider>
+    </PokemonProvider>
   );
 }

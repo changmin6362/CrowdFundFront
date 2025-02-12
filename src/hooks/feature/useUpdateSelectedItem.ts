@@ -1,5 +1,5 @@
 import { useEffect, useCallback, useRef } from "react";
-import { usePokemonContext } from "@/app/contexts/PokemonContext";
+import { usePokemonContext } from "@/app/contexts/selectedPokemonContext";
 import { checkIntersection } from "@/utils/intersection";
 import useRefMap from "@/hooks/feature/useRefMap";
 

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import ReactCrop, { type Crop, type PixelCrop } from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
@@ -8,6 +8,8 @@ import ModalControls from "./modalControls";
 import calculateCropRect from "@/utils/etc/calculateCropRect";
 
 import useImageZoom from "@/hooks/image/useImageZoom";
+
+import { useModalContext } from "@/app/contexts/modalContext";
 
 interface CropRect {
   left: number;
@@ -29,6 +31,13 @@ export default function ImageCropModal({
   onCancel,
   isProcessing,
 }: ImageCropModalProps) {
+  const { setModalOpen } = useModalContext();
+
+  useEffect(() => {
+    setModalOpen(true);
+    return () => setModalOpen(false);
+  }, [setModalOpen]);
+
   // 크롭 영역 상태 관리 (퍼센트 단위)
   const [crop, setCrop] = useState<Crop>({
     unit: "%",
