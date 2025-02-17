@@ -2,12 +2,17 @@
 
 @layer components {
   /* 재사용 가능한 컴포넌트 스타일 */
+  /* 버튼 스타일 */
   .btn-primary {
     @apply rounded bg-blue-500 px-2 text-white hover:bg-blue-600 disabled:opacity-50;
   }
   .btn-secondary {
     @apply rounded bg-gray-500 px-2 text-white hover:bg-gray-600 disabled:opacity-50;
   }
+  .modal-button {
+    @apply mt-4 flex justify-end gap-2;
+  }
+  /* 상자 스타일 */
   .box-rounded {
     @apply rounded border-2 shadow;
   }
@@ -17,22 +22,25 @@
   .box-section {
     @apply box-rounded border-gray-200 bg-gray-200 p-4;
   }
+  /* 오버레이 스타일 */
   .overlay-black {
     @apply fixed inset-0 z-50 bg-black/50 backdrop-blur-sm;
   }
   .overlay-blur {
     @apply fixed inset-0 z-50 backdrop-blur-sm;
   }
+  /* 모달 스타일 */
   .modal {
     @apply absolute left-1/2 top-1/2 w-full max-w-2xl -translate-x-1/2 -translate-y-1/2 p-4;
   }
+  /* 에러 모달 스타일 */
   .error-modal {
     @apply box-rounded bg-white p-4 font-bold;
   }
   .error-message {
     @apply text-xl text-red-600;
   }
-  .modal-button {
-    @apply mt-4 flex justify-end gap-2;
+  .remove-outline {
+    @apply outline-none focus:ring-0;
   }
 }

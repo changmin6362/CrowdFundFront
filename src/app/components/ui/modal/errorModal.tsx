@@ -26,7 +26,11 @@ export default function ErrorModal({
             </pre>
           )}
           <div className="modal-button">
-            <button className="btn-secondary" onClick={onClose} autoFocus>
+            <button
+              className="btn-secondary remove-outline"
+              onClick={onClose}
+              autoFocus
+            >
               닫기
             </button>
           </div>

@@ -17,7 +17,7 @@ export default function Input({
     <input
       ref={inputRef}
       type="text"
-      className="box-circle px-2"
+      className="box-circle remove-outline px-2"
       placeholder={placeholder}
       value={value}
       onChange={onChange}
