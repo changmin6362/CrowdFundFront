@@ -5,7 +5,7 @@ import useScrollToElement from "@/hooks/feature/useScrollToElement";
 import useRefManager from "@/hooks/feature/useRefManager";
 import useBlurControl from "@/hooks/feature/useBlurControl";
 import PokedexScrollView from "@/app/components/page/main/pokedex/PokedexScrollView";
-import useSearchPokemon from "@/utils/pokemon/useSearchPokemon";
+import useSearchPokemon from "@/hooks/search/useSearchPokemon";
 import useUpdateSelectedItem from "@/hooks/feature/useUpdateSelectedItem";
 import SearchBar from "@/app/components/page/main/pokedex/SearchBar";
 
