@@ -9,7 +9,7 @@
     @apply rounded bg-gray-500 px-2 text-white hover:bg-gray-600 disabled:opacity-50;
   }
   .box-rounded {
-    @apply rounded border-2;
+    @apply rounded border-2 shadow;
   }
   .box-circle {
     @apply rounded border bg-gray-200;
@@ -20,7 +20,19 @@
   .overlay-black {
     @apply fixed inset-0 z-50 bg-black/50 backdrop-blur-sm;
   }
+  .overlay-blur {
+    @apply fixed inset-0 z-50 backdrop-blur-sm;
+  }
   .modal {
     @apply absolute left-1/2 top-1/2 w-full max-w-2xl -translate-x-1/2 -translate-y-1/2 p-4;
+  }
+  .error-modal {
+    @apply box-rounded bg-white p-4 font-bold;
+  }
+  .error-message {
+    @apply text-xl text-red-600;
+  }
+  .modal-button {
+    @apply mt-4 flex justify-end gap-2;
   }
 }

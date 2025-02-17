@@ -101,7 +101,7 @@ export default function Pokedex() {
         handleScrollFocus={handleScrollFocus}
         detectItemRef={detectItemRef}
       />
-      <div className="flex items-center justify-end gap-2 text-sm font-medium text-gray-600">
+      <div className="modal-button text-sm font-medium text-gray-600">
         <span className="">슬라이드로 자세한 정보 보기</span>
         <span className="">➜</span>
       </div>

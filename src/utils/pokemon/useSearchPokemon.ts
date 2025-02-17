@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import handleFetchError from "@/utils/error/handleFetchError";
+import { useErrorModalContext } from "@/app/contexts/errorModalContext";
 import searchPokemon from "@/utils/pokemon/searchPokemon";
 import useGetSearchItems from "@/api/pokemon/useGetSearchItems";
 import useGetPreviousSearchItems from "@/api/pokemon/useGetPreviousSearchItems";
@@ -16,6 +16,7 @@ export default function useSearchPokemon({
   scrollToElement,
   resetRefs,
 }: SearchPokemonParams) {
+  const { showError } = useErrorModalContext();
   const [isLoadingSearch, setIsLoadingSearch] = useState(false);
 
   // 검색 리스트의 데이터 호출을 위한 커스텀 훅
@@ -74,7 +75,7 @@ export default function useSearchPokemon({
       }
     } catch (error) {
       setIsLoadingSearch(false);
-      handleFetchError("포켓몬 검색에 실패했습니다.:", error);
+      showError("포켓몬 검색에 실패했습니다.:", error);
     }
   };
 
@@ -91,7 +92,7 @@ export default function useSearchPokemon({
     if (foundPokemon) {
       handleSearchNavigation(foundPokemon.id);
     } else {
-      handleFetchError(`${value}와 일치하는 이름이 없습니다.`);
+      showError(`${value}와 일치하는 이름이 없습니다.`);
     }
   };
 

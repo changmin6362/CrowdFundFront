@@ -14,7 +14,7 @@ export default function CropControls({
   onZoomOut,
 }: CropControlsProps) {
   return (
-    <div className="mt-4 flex justify-end gap-2">
+    <div className="modal-button">
       {/* 확대/축소 버튼 */}
       <button onClick={onZoomOut} className="btn-secondary">
         −

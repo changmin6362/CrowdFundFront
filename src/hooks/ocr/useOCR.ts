@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { createWorker } from "tesseract.js";
+import { useErrorModalContext } from "@/app/contexts/errorModalContext";
 
 export default function useOCR() {
+  const { showError } = useErrorModalContext();
   const [isProcessing, setIsProcessing] = useState(false);
 
   const processImage = async (
@@ -27,7 +29,7 @@ export default function useOCR() {
       await worker.terminate();
       return text.trim();
     } catch (error) {
-      console.error("OCR Error:", error);
+      showError("OCR Error:", error);
       return "";
     } finally {
       setIsProcessing(false);
