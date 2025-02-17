@@ -1,11 +1,10 @@
 import { useRef } from "react";
-import useGetDefaultItems from "@/api/pokemon/useGetDefaultItems";
 import useInfiniteScroll from "@/hooks/scrollEvent/useInfiniteScroll";
 import useScrollToElement from "@/hooks/feature/useScrollToElement";
 import useRefManager from "@/hooks/feature/useRefManager";
 import useBlurControl from "@/hooks/feature/useBlurControl";
 import PokedexScrollView from "@/app/components/page/main/pokedex/PokedexScrollView";
-import useSearchPokemon from "@/hooks/search/useSearchPokemon";
+import useSearchPokemon from "@/hooks/useSearchPokemon/";
 import useUpdateSelectedItem from "@/hooks/feature/useUpdateSelectedItem";
 import SearchBar from "@/app/components/page/main/pokedex/SearchBar";
 
@@ -23,59 +22,62 @@ export default function Pokedex() {
   // 입력 필드 포커스 제어를 위한 커스텀 훅
   const { inputRef, handleScrollFocus } = useBlurControl();
 
-  // 기본 리스트의 데이터 호출을 위한 커스텀 훅
-  const { defaultItems, hasNextItems, appendNextDefaultItems } =
-    useGetDefaultItems();
-
-  // 검색 기능을 수행하는 함수
+  // 검색 기능 훅
   const {
-    searchItems,
-    hasNextItemsSearch,
-    appendNextSearchItems,
-    handleSearch,
-    isLoadingSearch,
-    searchItemGroups,
-    hasPreviousItems,
-    appendPreviousSearchItems,
+    searchState: {
+      items: searchItems,
+      groups: searchItemGroups,
+      hasNext: hasNextItemsSearch,
+      hasPrevious: hasPreviousItems,
+      hasNext: hasDefaultNext,
+      isLoading,
+      defaultItems,
+    },
+    searchActions: {
+      handleSearch,
+      defaultAppendNext,
+      appendPrevious,
+      appendNext,
+    },
   } = useSearchPokemon({
-    defaultItems,
     scrollToElement,
     resetRefs,
   });
 
-  // 기본 리스트의 마지막 아이템에 대해 데이터 요청을 시도하는 무한스크롤 ref
+  // 기본 데이터 무한스크롤
   const lastDefaultItemRef = useInfiniteScroll({
-    hasMore: hasNextItems,
-    loadMore: appendNextDefaultItems,
+    hasMore: hasDefaultNext,
+    loadMore: defaultAppendNext,
     scrollContainerRef,
-    disabled: isLoadingSearch,
+    disabled: isLoading,
   });
 
   // 검색 리스트의 첫 번째 아이템에 대해 데이터 요청을 시도하는 무한스크롤 ref
   const firstSearchItemRef = useInfiniteScroll({
     hasMore: hasPreviousItems,
-    loadMore: appendPreviousSearchItems,
+    loadMore: appendPrevious,
     scrollContainerRef,
-    disabled: isLoadingSearch,
+    disabled: isLoading,
   });
 
   // 검색 리스트의 마지막 아이템에 대해 데이터 요청을 시도하는 무한스크롤 ref
   const lastSearchItemRef = useInfiniteScroll({
     hasMore: hasNextItemsSearch,
-    loadMore: appendNextSearchItems,
+    loadMore: appendNext,
     scrollContainerRef,
-    disabled: isLoadingSearch,
+    disabled: isLoading,
   });
 
+  // 화면 표시 리스트
   const displayList = searchItems.length > 0 ? searchItems : defaultItems;
 
-  // 데이터 업데이트와 스크롤 이벤트에 의한 중앙 요소 감지 처리를 하는 함수
+  // 아이템 선택 감지
   const { updateSelectedItemRef, detectItemRef } = useUpdateSelectedItem({
     displayList,
     searchItemGroups,
   });
 
-  // ref를 등록하는 콜백 함수 선언
+  // ref 등록 관리
   const { registerSkeletonRef, registerPokemonRef } = useRefManager({
     defaultItems,
     searchItems,
