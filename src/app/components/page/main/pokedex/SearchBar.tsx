@@ -17,14 +17,14 @@ export default function SearchBar({ handleSearch, inputRef }: SearchBarProps) {
   const { processImage, isProcessing } = useOCR();
 
   // 선택된 이미지의 URL 상태 관리
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
   // 텍스트 검색 핸들러
   const handleTextSearch = () => handleSearch(inputValue);
 
   // 이미지 파일 선택 핸들러
   const handleImageSearch = async (file: File) => {
-    setSelectedImage(URL.createObjectURL(file));
+    setSelectedImage(file);
   };
 
   interface CropRect {
@@ -36,15 +36,10 @@ export default function SearchBar({ handleSearch, inputRef }: SearchBarProps) {
 
   // 크롭 영역 확정 처리
   const handleConfirmCrop = async (cropRect: CropRect) => {
-    // 1. 선택된 이미지를 Blob으로 변환
-    const response = await fetch(selectedImage!);
-    const blob = await response.blob();
+    if (!selectedImage) return;
 
-    // 2. Blob을 File 객체로 변환
-    const file = new File([blob], "image.jpg", { type: "image/jpeg" });
-
-    // 3. OCR 처리 실행
-    const text = await processImage(file, cropRect);
+    // OCR 처리 실행
+    const text = await processImage(selectedImage, cropRect);
     if (text) {
       setInputValue(text);
       handleSearch(text);
@@ -57,7 +52,7 @@ export default function SearchBar({ handleSearch, inputRef }: SearchBarProps) {
       {/* 이미지 크롭 필드 */}
       {selectedImage && (
         <ImageCropModal
-          imageSrc={selectedImage}
+          imageSrc={URL.createObjectURL(selectedImage)}
           onConfirm={handleConfirmCrop}
           onCancel={() => setSelectedImage(null)}
           isProcessing={isProcessing}
