@@ -4,6 +4,7 @@ import TextSearch from "./searchBar/textSearch/";
 import ImageUploadButton from "./searchBar/imageSearch/imageUploadButton";
 import ImageCropModal from "./searchBar/imageSearch/imageCropModal";
 import useOCR from "@/hooks/ocr/useOCR";
+import useImageCrop from "@/hooks/imageCrop/useImageCrop";
 
 interface SearchBarProps {
   handleSearch: (value: string) => void;
@@ -16,35 +17,30 @@ export default function SearchBar({ handleSearch, inputRef }: SearchBarProps) {
   // OCR 처리 관련 커스텀 훅
   const { processImage, isProcessing } = useOCR();
 
-  // 선택된 이미지의 URL 상태 관리
-  const [selectedImage, setSelectedImage] = useState<File | null>(null);
-
+  const {
+    selectedImage,
+    crop,
+    setCrop,
+    handleImageSelect,
+    handleImageLoad,
+    handleCropCancel,
+    calculateCropRect,
+  } = useImageCrop();
   // 텍스트 검색 핸들러
   const handleTextSearch = () => handleSearch(inputValue);
 
-  // 이미지 파일 선택 핸들러
-  const handleImageSearch = async (file: File) => {
-    setSelectedImage(file);
-  };
-
-  interface CropArea {
-    left: number;
-    top: number;
-    width: number;
-    height: number;
-  }
-
   // 크롭 영역 확정 처리
-  const handleConfirmCrop = async (cropArea: CropArea) => {
+  const handleCropConfirm = async () => {
     if (!selectedImage) return;
 
+    const cropRect = calculateCropRect(crop);
     // OCR 처리 실행
-    const text = await processImage(selectedImage, cropArea);
+    const text = await processImage(selectedImage, cropRect);
     if (text) {
       setInputValue(text);
       handleSearch(text);
     }
-    setSelectedImage(null);
+    handleCropCancel();
   };
 
   return (
@@ -53,8 +49,11 @@ export default function SearchBar({ handleSearch, inputRef }: SearchBarProps) {
       {selectedImage && (
         <ImageCropModal
           imageSrc={URL.createObjectURL(selectedImage)}
-          onConfirm={handleConfirmCrop}
-          onCancel={() => setSelectedImage(null)}
+          crop={crop}
+          onCropChange={setCrop}
+          onImageLoad={handleImageLoad}
+          onConfirm={handleCropConfirm}
+          onCancel={handleCropCancel}
           isProcessing={isProcessing}
         />
       )}
@@ -67,7 +66,7 @@ export default function SearchBar({ handleSearch, inputRef }: SearchBarProps) {
           inputRef={inputRef}
         />
         <ImageUploadButton
-          onSelect={handleImageSearch}
+          onSelect={handleImageSelect}
           isProcessing={isProcessing}
         />
       </div>
