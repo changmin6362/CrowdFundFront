@@ -42,9 +42,6 @@ export default function useSearchPokemon({
   const handleNavigation = async (pokemonId: number) => {
     try {
       setIsLoading(true);
-      // 모든 캐시 초기화
-      dataActions.clearItems();
-      resetRefs();
       const { inDefault, inSearch, inGroups } = checkItemExistence(pokemonId);
 
       if (inDefault) {
@@ -52,6 +49,8 @@ export default function useSearchPokemon({
       } else if (inSearch || inGroups) {
         smartScroll(pokemonId);
       } else {
+        dataActions.clearItems();
+        resetRefs();
         await dataActions.fetchByPokemonId(pokemonId);
         dataActions.initializeGroups([]);
         smartScroll(pokemonId);
