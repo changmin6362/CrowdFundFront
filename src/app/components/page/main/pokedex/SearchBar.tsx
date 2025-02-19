@@ -27,7 +27,7 @@ export default function SearchBar({ handleSearch, inputRef }: SearchBarProps) {
     setSelectedImage(file);
   };
 
-  interface CropRect {
+  interface CropArea {
     left: number;
     top: number;
     width: number;
@@ -35,11 +35,11 @@ export default function SearchBar({ handleSearch, inputRef }: SearchBarProps) {
   }
 
   // 크롭 영역 확정 처리
-  const handleConfirmCrop = async (cropRect: CropRect) => {
+  const handleConfirmCrop = async (cropArea: CropArea) => {
     if (!selectedImage) return;
 
     // OCR 처리 실행
-    const text = await processImage(selectedImage, cropRect);
+    const text = await processImage(selectedImage, cropArea);
     if (text) {
       setInputValue(text);
       handleSearch(text);
