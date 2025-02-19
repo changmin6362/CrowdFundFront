@@ -5,7 +5,7 @@ export default function useSearchData() {
   const {
     searchItems,
     hasNextItems,
-    appendNextSearchItems,
+    fetchNextSearchItems,
     fetchSearchItemsByPokemonId,
     clearSearchItems,
   } = useGetSearchItems();
@@ -24,8 +24,8 @@ export default function useSearchData() {
       hasNext: hasNextItems,
       hasPrevious: hasPreviousItems,
     },
-    dataActions: {
-      fetchNext: appendNextSearchItems,
+    searchActions: {
+      fetchNext: fetchNextSearchItems,
       fetchPrevious: fetchPreviousSearchItems,
       fetchByPokemonId: fetchSearchItemsByPokemonId,
       clearItems: clearSearchItems,

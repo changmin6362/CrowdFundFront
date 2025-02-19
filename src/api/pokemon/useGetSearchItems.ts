@@ -40,7 +40,7 @@ export default function useGetSearchItems() {
   /**
    * 무한 스크롤을 통해 검색 리스트의 뒷부분에 추가 데이터를 결합하는 함수
    */
-  const appendNextSearchItems = useCallback(async () => {
+  const fetchNextSearchItems = useCallback(async () => {
     if (!searchItems.length) return;
 
     const startOffset = searchItems[searchItems.length - 1].id + 1;
@@ -74,7 +74,7 @@ export default function useGetSearchItems() {
   return {
     searchItems,
     hasNextItems,
-    appendNextSearchItems,
+    fetchNextSearchItems,
     fetchSearchItemsByPokemonId,
     clearSearchItems,
   };

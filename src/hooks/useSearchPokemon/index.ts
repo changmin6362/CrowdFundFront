@@ -20,7 +20,7 @@ export default function useSearchPokemon({
   const { defaultData, defaultActions } = useDefaultData();
 
   // 검색 데이터 및 액션
-  const { searchData, dataActions } = useSearchData();
+  const { searchData, searchActions } = useSearchData();
 
   // 아이템 존재 여부 확인
   const { checkItemExistence } = useItemPresence(
@@ -43,11 +43,11 @@ export default function useSearchPokemon({
         scrollToElement(pokemonId);
       } else {
         // 어디에도 없는 경우 -> 기존 검색 결과 초기화
-        dataActions.clearItems();
+        searchActions.clearItems();
         // 새로운 검색 결과 세트 생성
-        await dataActions.fetchByPokemonId(pokemonId);
+        await searchActions.fetchByPokemonId(pokemonId);
         // 검색 그룹 초기화
-        dataActions.initializeGroups(searchData.items);
+        searchActions.initializeGroups(searchData.items);
         // 검색된 포켓몬으로 스크롤
         scrollToElement(pokemonId);
       }
@@ -63,7 +63,7 @@ export default function useSearchPokemon({
   // 검색 입력 핸들러
   const handleSearch = (value: string) => {
     if (value === "") {
-      dataActions.clearItems();
+      searchActions.clearItems();
       scrollToElement(1);
       return;
     }
@@ -80,7 +80,7 @@ export default function useSearchPokemon({
     defaultData,
     defaultActions,
     searchData,
-    dataActions,
+    searchActions,
     isLoading,
     handleSearch,
   };

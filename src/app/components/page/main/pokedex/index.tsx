@@ -25,7 +25,7 @@ export default function Pokedex() {
     defaultData,
     defaultActions,
     searchData,
-    dataActions,
+    searchActions,
     isLoading,
     handleSearch,
   } = useSearchPokemon({
@@ -43,7 +43,7 @@ export default function Pokedex() {
   // 검색 리스트의 첫 번째 아이템에 대해 데이터 요청을 시도하는 무한스크롤 ref
   const firstSearchItemRef = useInfiniteScroll({
     hasMore: searchData.hasPrevious,
-    loadMore: dataActions.fetchPrevious,
+    loadMore: searchActions.fetchPrevious,
     scrollContainerRef,
     disabled: isLoading,
   });
@@ -51,7 +51,7 @@ export default function Pokedex() {
   // 검색 리스트의 마지막 아이템에 대해 데이터 요청을 시도하는 무한스크롤 ref
   const lastSearchItemRef = useInfiniteScroll({
     hasMore: searchData.hasNext,
-    loadMore: dataActions.fetchNext,
+    loadMore: searchActions.fetchNext,
     scrollContainerRef,
     disabled: isLoading,
   });
