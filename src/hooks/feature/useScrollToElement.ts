@@ -11,18 +11,16 @@ export default function useScrollToElement({
 }: UseScrollToElementProps) {
   const { setRef, getRef, clearRefs } = useRefMap();
 
-  // ref Map을 초기화하는 함수
-  const resetRefs = useCallback(() => {
-    clearRefs();
-    setPendingScrollId(null);
-  }, [clearRefs]);
-
   // 아직 DOM에 마운트되지 않은 element에 대한 스크롤 요청을 저장
   const [pendingScrollId, setPendingScrollId] = useState<number | null>(null);
 
   // Map 특정 id의 element를 찾아 이동하는 함수
   const scrollToElement = useCallback(
     (id: number) => {
+      // 초기화
+      clearRefs();
+      setPendingScrollId(null);
+
       // Map에서 해당 키에 대응하는 DOM 요소를 가져옴
       const targetElement = getRef(id);
 
@@ -48,7 +46,7 @@ export default function useScrollToElement({
       setPendingScrollId(null);
     },
 
-    [scrollContainerRef, getRef],
+    [clearRefs, scrollContainerRef, getRef],
   );
 
   // DOM 요소가 마운트될 때 해당 element와 id를 Map에 매핑하는 ref 콜백 함수
@@ -83,6 +81,5 @@ export default function useScrollToElement({
   return {
     scrollToElementRef,
     scrollToElement,
-    resetRefs,
   };
 }

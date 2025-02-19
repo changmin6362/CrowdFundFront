@@ -13,11 +13,9 @@ export default function Pokedex() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   // 스크롤 관련 기능을 제공하는 커스텀 훅
-  const { scrollToElementRef, scrollToElement, resetRefs } = useScrollToElement(
-    {
-      scrollContainerRef,
-    },
-  );
+  const { scrollToElementRef, scrollToElement } = useScrollToElement({
+    scrollContainerRef,
+  });
 
   // 입력 필드 포커스 제어를 위한 커스텀 훅
   const { inputRef, handleScrollFocus } = useBlurControl();
@@ -36,7 +34,6 @@ export default function Pokedex() {
     searchActions: { handleSearch, fetchDefaultNext, fetchPrevious, fetchNext },
   } = useSearchPokemon({
     scrollToElement,
-    resetRefs,
   });
 
   // 기본 데이터 무한스크롤

@@ -3,18 +3,15 @@ import { useState } from "react";
 import searchPokemon from "@/utils/pokemon/searchPokemon";
 import useDefaultData from "./useData/useDefaultData";
 import useSearchData from "./useData/useSearchData";
-import useScrollManager from "./useScrollManager/";
 import useItemPresence from "./validation/useItemPresence";
 import { useErrorModalContext } from "@/app/contexts/errorModalContext";
 
 interface SearchPokemonProps {
   scrollToElement: (pokemonId: number) => void;
-  resetRefs: () => void;
 }
 
 export default function useSearchPokemon({
   scrollToElement,
-  resetRefs,
 }: SearchPokemonProps) {
   const { showError } = useErrorModalContext();
   const [isLoading, setIsLoading] = useState(false);
@@ -24,12 +21,6 @@ export default function useSearchPokemon({
 
   // 검색 데이터 및 액션
   const { searchData, dataActions } = useSearchData(defaultData.items);
-
-  // 스크롤 관리
-  const { navigateToItem, smartScroll } = useScrollManager({
-    scrollToElement,
-    resetRefs,
-  });
 
   // 아이템 존재 여부 확인
   const { checkItemExistence } = useItemPresence(
@@ -45,17 +36,21 @@ export default function useSearchPokemon({
       const { inDefault, inSearch, inGroups } = checkItemExistence(pokemonId);
 
       if (inDefault) {
-        navigateToItem(pokemonId);
+        // 기본 리스트에 있는 경우 -> 해당 포켓몬으로 바로 스크롤
+        scrollToElement(pokemonId);
       } else if (inSearch || inGroups) {
-        smartScroll(pokemonId);
+        // 검색 결과나 이전 검색 그룹에 있는 경우 -> 현재 검색 상태를 유지한 채로 스크롤
+        scrollToElement(pokemonId);
       } else {
+        // 어디에도 없는 경우 -> 기존 검색 결과 초기화
         dataActions.clearItems();
-        resetRefs();
+        // 새로운 검색 결과 세트 생성
         await dataActions.fetchByPokemonId(pokemonId);
+        // 검색 그룹 초기화
         dataActions.initializeGroups([]);
-        smartScroll(pokemonId);
+        // 검색된 포켓몬으로 스크롤
+        scrollToElement(pokemonId);
       }
-      setTimeout(() => setIsLoading(false), 1000);
     } catch (error) {
       showError("검색에 실패했습니다", error);
       setIsLoading(false);
