@@ -22,57 +22,54 @@ export default function Pokedex() {
 
   // 검색 기능 훅
   const {
-    searchState: {
-      items: searchItems,
-      groups: searchItemGroups,
-      hasNext: hasNextItemsSearch,
-      hasPrevious: hasPreviousItems,
-      hasNext: hasDefaultNext,
-      isLoading,
-      defaultItems,
-    },
-    searchActions: { handleSearch, fetchDefaultNext, fetchPrevious, fetchNext },
+    defaultData,
+    defaultActions,
+    searchData,
+    dataActions,
+    isLoading,
+    handleSearch,
   } = useSearchPokemon({
     scrollToElement,
   });
 
   // 기본 데이터 무한스크롤
   const lastDefaultItemRef = useInfiniteScroll({
-    hasMore: hasDefaultNext,
-    loadMore: fetchDefaultNext,
+    hasMore: defaultData.hasNext,
+    loadMore: defaultActions.fetchNext,
     scrollContainerRef,
     disabled: isLoading,
   });
 
   // 검색 리스트의 첫 번째 아이템에 대해 데이터 요청을 시도하는 무한스크롤 ref
   const firstSearchItemRef = useInfiniteScroll({
-    hasMore: hasPreviousItems,
-    loadMore: fetchPrevious,
+    hasMore: searchData.hasPrevious,
+    loadMore: dataActions.fetchPrevious,
     scrollContainerRef,
     disabled: isLoading,
   });
 
   // 검색 리스트의 마지막 아이템에 대해 데이터 요청을 시도하는 무한스크롤 ref
   const lastSearchItemRef = useInfiniteScroll({
-    hasMore: hasNextItemsSearch,
-    loadMore: fetchNext,
+    hasMore: searchData.hasNext,
+    loadMore: dataActions.fetchNext,
     scrollContainerRef,
     disabled: isLoading,
   });
 
   // 화면 표시 리스트
-  const displayList = searchItems.length > 0 ? searchItems : defaultItems;
+  const displayList =
+    searchData.items.length > 0 ? searchData.items : defaultData.items;
 
   // 아이템 선택 감지
   const { updateSelectedItemRef, detectItemRef } = useUpdateSelectedItem({
     displayList,
-    searchItemGroups,
+    searchItemGroups: searchData.groups,
   });
 
   // ref 등록 관리
   const { registerSkeletonRef, registerPokemonRef } = useRefManager({
-    defaultItems,
-    searchItems,
+    defaultItems: defaultData.items,
+    searchItems: searchData.items,
     lastDefaultItemRef,
     firstSearchItemRef,
     lastSearchItemRef,
@@ -87,8 +84,8 @@ export default function Pokedex() {
       {/* 포켓몬 도감 스크롤 뷰 컴포넌트 */}
       <PokedexScrollView
         displayList={displayList}
-        searchItemGroups={searchItemGroups}
-        isViewSkeleton={searchItems.length > 0}
+        searchItemGroups={searchData.groups}
+        isViewSkeleton={searchData.items.length > 0}
         registerSkeletonRef={registerSkeletonRef}
         registerPokemonRef={registerPokemonRef}
         scrollContainerRef={scrollContainerRef}

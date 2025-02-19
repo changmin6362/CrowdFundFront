@@ -1,7 +1,7 @@
 import useGetSearchItems from "@/api/pokemon/useGetSearchItems";
 import useGetPreviousSearchItems from "@/api/pokemon/useGetPreviousSearchItems";
 
-export default function useSearchData(initialSearchItems: Pokemon[]) {
+export default function useSearchData() {
   const {
     searchItems,
     hasNextItems,
@@ -15,7 +15,7 @@ export default function useSearchData(initialSearchItems: Pokemon[]) {
     hasPreviousItems,
     initializeSearchGroups,
     fetchPreviousSearchItems,
-  } = useGetPreviousSearchItems({ initialSearchItems });
+  } = useGetPreviousSearchItems({ searchItems });
 
   return {
     searchData: {

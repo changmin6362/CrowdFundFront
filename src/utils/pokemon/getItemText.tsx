@@ -9,7 +9,8 @@ export default function getItemText(item: Pokemon) {
   // MockData에서 일치하는 id가 일치하는 아이템을 찾음
   const mockDataItem = MockData.find((mock) => mock.id === item.id);
   const koreanName = mockDataItem?.ko_name ?? "";
+  const englishName = mockDataItem?.en_name ?? "";
   const japaneseName = mockDataItem?.jp_name ?? "";
 
-  return `#${convertPokemonId(item.id)} ${koreanName} ${item.name} ${japaneseName}`;
+  return `#${convertPokemonId(item.id)} ${koreanName} ${englishName} ${japaneseName}`;
 }

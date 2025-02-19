@@ -4,11 +4,11 @@ import FetchPokemonList from "@/api/pokemon/fetchPokemonList";
 import { useLoadingState } from "@/api/useLoadingState";
 
 interface UseGetPreviousSearchItemsProps {
-  initialSearchItems: Pokemon[];
+  searchItems: Pokemon[];
 }
 
 export default function useGetPreviousSearchItems({
-  initialSearchItems,
+  searchItems,
 }: UseGetPreviousSearchItemsProps) {
   const [searchItemGroups, setSearchItemGroups] = useState<Pokemon[][]>([]);
   const [hasPreviousItems, setHasPreviousItems] = useState(true);
@@ -31,7 +31,7 @@ export default function useGetPreviousSearchItems({
     // 그 이후부터는 searchItemGroups의 마지막 그룹 기준
     const targetList =
       searchItemGroups.length === 0
-        ? initialSearchItems
+        ? searchItems
         : searchItemGroups[searchItemGroups.length - 1];
 
     if (!targetList.length) return;
@@ -53,11 +53,11 @@ export default function useGetPreviousSearchItems({
       setSearchItemGroups((prev) => [...prev, fetchedList]);
       setHasPreviousItems(startOffset > 0);
     }
-  }, [withLoading, searchItemGroups, initialSearchItems]);
+  }, [withLoading, searchItemGroups, searchItems]);
 
   // 초기 마운트 시에만 실행
   useEffect(() => {
-    initializeSearchGroups(initialSearchItems);
+    initializeSearchGroups(searchItems);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
