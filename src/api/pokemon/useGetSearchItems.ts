@@ -16,7 +16,7 @@ export default function useGetSearchItems() {
   /**
    * 포켓몬 id를 통해 검색 리스트를 생성하는 함수
    */
-  const createsearchItemsByPokemonId = useCallback(
+  const fetchSearchItemsByPokemonId = useCallback(
     async (pokemonId: number) => {
       const fetchedList = await withLoading(
         "search",
@@ -66,7 +66,7 @@ export default function useGetSearchItems() {
   /**
    * 검색 리스트를 초기화하는 함수
    */
-  const clearSearch = useCallback(() => {
+  const clearSearchItems = useCallback(() => {
     setSearchItems([]);
     setHasNextItems(true);
   }, []);
@@ -75,7 +75,7 @@ export default function useGetSearchItems() {
     searchItems,
     hasNextItems,
     appendNextSearchItems,
-    createsearchItemsByPokemonId,
-    clearSearch,
+    fetchSearchItemsByPokemonId,
+    clearSearchItems,
   };
 }

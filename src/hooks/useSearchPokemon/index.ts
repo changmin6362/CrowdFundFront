@@ -39,22 +39,21 @@ export default function useSearchPokemon({
   );
 
   // 검색 네비게이션 핸들러
-  const handleSearchNavigation = async (pokemonId: number) => {
+  const handleNavigation = async (pokemonId: number) => {
     try {
       setIsLoading(true);
       // 모든 캐시 초기화
-      dataActions.clearSearch();
+      dataActions.clearItems();
       resetRefs();
       const { inDefault, inSearch, inGroups } = checkItemExistence(pokemonId);
 
       if (inDefault) {
-        dataActions.clearSearch();
         navigateToItem(pokemonId);
       } else if (inSearch || inGroups) {
         smartScroll(pokemonId);
       } else {
-        await dataActions.createNewSet(pokemonId);
-        dataActions.initGroups([]);
+        await dataActions.fetchByPokemonId(pokemonId);
+        dataActions.initializeGroups([]);
         smartScroll(pokemonId);
       }
       setTimeout(() => setIsLoading(false), 1000);
@@ -67,14 +66,14 @@ export default function useSearchPokemon({
   // 검색 입력 핸들러
   const handleSearch = (value: string) => {
     if (value === "") {
-      dataActions.clearSearch();
+      dataActions.clearItems();
       scrollToElement(1);
       return;
     }
 
     const foundPokemon = searchPokemon(value);
     if (foundPokemon) {
-      handleSearchNavigation(foundPokemon.id);
+      handleNavigation(foundPokemon.id);
     } else {
       showError(`${value}와 일치하는 이름이 없습니다.`);
     }
@@ -89,10 +88,10 @@ export default function useSearchPokemon({
     },
     searchActions: {
       handleSearch,
-      handleNavigation: handleSearchNavigation,
-      defaultAppendNext: defaultActions.appendNext,
-      appendPrevious: dataActions.appendPrevious,
-      appendNext: dataActions.appendNext,
+      handleNavigation,
+      fetchDefaultNext: defaultActions.fetchNext,
+      fetchPrevious: dataActions.fetchPrevious,
+      fetchNext: dataActions.fetchNext,
     },
   };
 }

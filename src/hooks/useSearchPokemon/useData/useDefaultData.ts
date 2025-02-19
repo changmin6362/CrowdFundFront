@@ -1,7 +1,7 @@
 import useGetDefaultItems from "@/api/pokemon/useGetDefaultItems";
 
 export default function useDefaultData() {
-  const { defaultItems, hasNextItems, appendNextDefaultItems } =
+  const { defaultItems, hasNextItems, fetchNextDefaultItems } =
     useGetDefaultItems();
 
   return {
@@ -10,7 +10,7 @@ export default function useDefaultData() {
       hasNext: hasNextItems,
     },
     defaultActions: {
-      appendNext: appendNextDefaultItems,
+      fetchNext: fetchNextDefaultItems,
     },
   };
 }

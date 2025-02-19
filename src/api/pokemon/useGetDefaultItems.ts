@@ -16,7 +16,7 @@ export default function useGetDefaultItems() {
   /**
    * 기본 리스트를 생성하는 함수
    */
-  const createDefaultList = useCallback(async () => {
+  const fetchDefaultItems = useCallback(async () => {
     const fetchedList = await withLoading(
       "defaultList",
       async () => {
@@ -39,7 +39,7 @@ export default function useGetDefaultItems() {
   /**
    * 무한 스크롤을 통해 기본 리스트의 뒷 부분에 추가 데이터를 병합하는 함수
    */
-  const appendNextDefaultItems = useCallback(async () => {
+  const fetchNextDefaultItems = useCallback(async () => {
     if (!defaultItems.length) return;
 
     const startOffset = defaultItems[defaultItems.length - 1].id + 1;
@@ -65,7 +65,7 @@ export default function useGetDefaultItems() {
   // 초기 데이터 로드
   useEffect(() => {
     if (!defaultItems.length) {
-      createDefaultList();
+      fetchDefaultItems();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -73,6 +73,6 @@ export default function useGetDefaultItems() {
   return {
     defaultItems,
     hasNextItems,
-    appendNextDefaultItems,
+    fetchNextDefaultItems,
   };
 }

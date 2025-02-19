@@ -33,12 +33,7 @@ export default function Pokedex() {
       isLoading,
       defaultItems,
     },
-    searchActions: {
-      handleSearch,
-      defaultAppendNext,
-      appendPrevious,
-      appendNext,
-    },
+    searchActions: { handleSearch, fetchDefaultNext, fetchPrevious, fetchNext },
   } = useSearchPokemon({
     scrollToElement,
     resetRefs,
@@ -47,7 +42,7 @@ export default function Pokedex() {
   // 기본 데이터 무한스크롤
   const lastDefaultItemRef = useInfiniteScroll({
     hasMore: hasDefaultNext,
-    loadMore: defaultAppendNext,
+    loadMore: fetchDefaultNext,
     scrollContainerRef,
     disabled: isLoading,
   });
@@ -55,7 +50,7 @@ export default function Pokedex() {
   // 검색 리스트의 첫 번째 아이템에 대해 데이터 요청을 시도하는 무한스크롤 ref
   const firstSearchItemRef = useInfiniteScroll({
     hasMore: hasPreviousItems,
-    loadMore: appendPrevious,
+    loadMore: fetchPrevious,
     scrollContainerRef,
     disabled: isLoading,
   });
@@ -63,7 +58,7 @@ export default function Pokedex() {
   // 검색 리스트의 마지막 아이템에 대해 데이터 요청을 시도하는 무한스크롤 ref
   const lastSearchItemRef = useInfiniteScroll({
     hasMore: hasNextItemsSearch,
-    loadMore: appendNext,
+    loadMore: fetchNext,
     scrollContainerRef,
     disabled: isLoading,
   });

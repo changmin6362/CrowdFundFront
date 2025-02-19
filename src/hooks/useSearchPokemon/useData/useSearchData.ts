@@ -6,15 +6,15 @@ export default function useSearchData(initialSearchItems: Pokemon[]) {
     searchItems,
     hasNextItems,
     appendNextSearchItems,
-    createsearchItemsByPokemonId,
-    clearSearch,
+    fetchSearchItemsByPokemonId,
+    clearSearchItems,
   } = useGetSearchItems();
 
   const {
     searchItemGroups,
     hasPreviousItems,
-    appendPreviousSearchItems,
-    initializeGroups,
+    initializeSearchGroups,
+    fetchPreviousSearchItems,
   } = useGetPreviousSearchItems({ initialSearchItems });
 
   return {
@@ -25,11 +25,11 @@ export default function useSearchData(initialSearchItems: Pokemon[]) {
       hasPrevious: hasPreviousItems,
     },
     dataActions: {
-      appendNext: appendNextSearchItems,
-      appendPrevious: appendPreviousSearchItems,
-      createNewSet: createsearchItemsByPokemonId,
-      clearSearch,
-      initGroups: initializeGroups,
+      fetchNext: appendNextSearchItems,
+      fetchPrevious: fetchPreviousSearchItems,
+      fetchByPokemonId: fetchSearchItemsByPokemonId,
+      clearItems: clearSearchItems,
+      initializeGroups: initializeSearchGroups,
     },
   };
 }

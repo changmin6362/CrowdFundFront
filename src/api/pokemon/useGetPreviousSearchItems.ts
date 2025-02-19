@@ -15,7 +15,7 @@ export default function useGetPreviousSearchItems({
   const { withLoading } = useLoadingState();
 
   // 초기화 함수
-  const initializeGroups = useCallback((items: Pokemon[]) => {
+  const initializeSearchGroups = useCallback((items: Pokemon[]) => {
     if (items.length > 0) {
       setSearchItemGroups([items]);
       setHasPreviousItems(items[0].id > 1);
@@ -26,7 +26,7 @@ export default function useGetPreviousSearchItems({
   }, []);
 
   // 이전 데이터 로드
-  const appendPreviousSearchItems = useCallback(async () => {
+  const fetchPreviousSearchItems = useCallback(async () => {
     // 첫 번째 요청일 때는 initialSearchItems 기준,
     // 그 이후부터는 searchItemGroups의 마지막 그룹 기준
     const targetList =
@@ -57,14 +57,14 @@ export default function useGetPreviousSearchItems({
 
   // 초기 마운트 시에만 실행
   useEffect(() => {
-    initializeGroups(initialSearchItems);
+    initializeSearchGroups(initialSearchItems);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return {
     searchItemGroups,
     hasPreviousItems,
-    appendPreviousSearchItems,
-    initializeGroups,
+    fetchPreviousSearchItems,
+    initializeSearchGroups,
   };
 }
