@@ -45,9 +45,9 @@ export default function useSearchPokemon({
         // 어디에도 없는 경우 -> 기존 검색 결과 초기화
         searchActions.clearItems();
         // 새로운 검색 결과 세트 생성
-        await searchActions.fetchByPokemonId(pokemonId);
+        const newItems = await searchActions.fetchByPokemonId(pokemonId);
         // 검색 그룹 초기화
-        searchActions.initializeGroups(searchData.items);
+        searchActions.initializeGroups(newItems);
         // 검색된 포켓몬으로 스크롤
         scrollToElement(pokemonId);
       }

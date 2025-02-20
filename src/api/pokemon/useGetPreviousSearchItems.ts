@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from "react";
 import { BATCH_SIZE } from "@/constants/pokedexList";
 import FetchPokemonList from "@/api/pokemon/fetchPokemonList";
-import { useLoadingState } from "@/api/useLoadingState";
+import { useErrorModalContext } from "@/app/contexts/errorModalContext";
 
 interface UseGetPreviousSearchItemsProps {
   searchItems: Pokemon[];
@@ -12,9 +12,9 @@ export default function useGetPreviousSearchItems({
 }: UseGetPreviousSearchItemsProps) {
   const [searchItemGroups, setSearchItemGroups] = useState<Pokemon[][]>([]);
   const [hasPreviousItems, setHasPreviousItems] = useState(true);
-  const { withLoading } = useLoadingState();
+  const { showError } = useErrorModalContext();
 
-  // 초기화 함수
+  // 초기값 설정 함수
   const initializeSearchGroups = useCallback((items: Pokemon[]) => {
     if (items.length > 0) {
       setSearchItemGroups([items]);
@@ -36,24 +36,21 @@ export default function useGetPreviousSearchItems({
 
     if (!targetList.length) return;
 
-    const startOffset = targetList[0].id - BATCH_SIZE;
+    try {
+      const startOffset = targetList[0].id - BATCH_SIZE;
+      const fetchedList = await FetchPokemonList({
+        startOffset,
+        batchSize: BATCH_SIZE,
+      });
 
-    const fetchedList = await withLoading(
-      "searchList",
-      async () => {
-        return await FetchPokemonList({
-          startOffset,
-          batchSize: BATCH_SIZE,
-        });
-      },
-      "이전 데이터를 가져오는데 실패했습니다:",
-    );
-
-    if (fetchedList) {
-      setSearchItemGroups((prev) => [...prev, fetchedList]);
-      setHasPreviousItems(startOffset > 0);
+      if (fetchedList) {
+        setSearchItemGroups((prev) => [...prev, fetchedList]);
+        setHasPreviousItems(startOffset > 0);
+      }
+    } catch (error) {
+      showError("이전 데이터를 가져오는데 실패했습니다:", error);
     }
-  }, [withLoading, searchItemGroups, searchItems]);
+  }, [searchItemGroups, searchItems, showError]);
 
   // 초기 마운트 시에만 실행
   useEffect(() => {
@@ -61,10 +58,17 @@ export default function useGetPreviousSearchItems({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // 상태 초기화 함수 추가
+  const resetSearchGroups = useCallback(() => {
+    setSearchItemGroups([]);
+    setHasPreviousItems(true);
+  }, []);
+
   return {
     searchItemGroups,
     hasPreviousItems,
     fetchPreviousSearchItems,
     initializeSearchGroups,
+    resetSearchGroups,
   };
 }

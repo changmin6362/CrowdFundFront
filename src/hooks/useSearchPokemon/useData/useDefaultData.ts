@@ -1,4 +1,4 @@
-import useGetDefaultItems from "@/api/pokemon/useGetDefaultItems";
+import useGetDefaultItems from "@/api/useGetDefaultItems";
 
 export default function useDefaultData() {
   const { defaultItems, hasNextItems, fetchNextDefaultItems } =
