@@ -1,5 +1,5 @@
-import useGetSearchItems from "@/api/pokemon/useGetSearchItems";
-import useGetPreviousSearchItems from "@/api/pokemon/useGetPreviousSearchItems";
+import useGetSearchItems from "@/api/useGetSearchItems";
+import useGetPreviousSearchItems from "@/api/useGetPreviousSearchItems";
 
 export default function useSearchData() {
   const {
