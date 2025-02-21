@@ -16,10 +16,13 @@ export default function useInfiniteScroll({
   // ref가 할당된 요소를 추적하기 위한 ref
   const targetRef = useRef<HTMLElement | null>(null);
 
+  // 쓰로틀링 상태를 추적하는 ref
+  const isThrottlingRef = useRef(false);
+
   // ref가 할당된 요소가 스크롤 컨테이너 내에 있는지 확인하는 함수
   const checkVisibility = useCallback(() => {
-    // disabled가 true, hasMore이 false라면 리턴
-    if (disabled || !hasMore) return;
+    // 쓰로틀링 중이거나 disabled가 true, hasMore이 false면 요청 무시
+    if (isThrottlingRef.current || disabled || !hasMore) return;
 
     // ref가 할당된 요소나 스크롤 컨테이너가 없으면 종료
     if (!targetRef.current || !scrollContainerRef.current) return;
@@ -35,7 +38,14 @@ export default function useInfiniteScroll({
 
     // 타겟 요소가 보여지면 함수 실행
     if (isVisible) {
+      // 쓰로틀링 상태 활성화
+      isThrottlingRef.current = true;
       loadMore();
+
+      // 일정 시간 후 쓰로틀링 해제
+      setTimeout(() => {
+        isThrottlingRef.current = false;
+      }, 300); // 300ms 쓰로틀 타임
     }
   }, [hasMore, loadMore, disabled, scrollContainerRef]);
 
