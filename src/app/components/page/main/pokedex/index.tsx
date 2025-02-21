@@ -3,10 +3,10 @@ import useInfiniteScroll from "@/hooks/scrollEvent/useInfiniteScroll";
 import useScrollToElement from "@/hooks/feature/useScrollToElement";
 import useRefManager from "@/hooks/feature/useRefManager";
 import useBlurControl from "@/hooks/feature/useBlurControl";
-import PokedexScrollView from "@/app/components/page/main/pokedex/PokedexScrollView";
+import PokedexScrollView from "@/app/components/page/main/pokedex/components/pokedexScrollView/";
 import useSearchPokemon from "@/hooks/useSearchPokemon/";
 import useUpdateSelectedItem from "@/hooks/feature/useUpdateSelectedItem";
-import SearchBar from "@/app/components/page/main/pokedex/SearchBar";
+import SearchBar from "@/app/components/page/main/pokedex/components/searchBar/";
 
 export default function Pokedex() {
   // 스크롤 컨테이너에 대한 ref
