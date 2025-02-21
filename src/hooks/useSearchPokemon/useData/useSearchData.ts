@@ -28,11 +28,7 @@ export default function useSearchData() {
     searchActions: {
       fetchNext: fetchNextSearchItems,
       fetchPrevious: fetchPreviousSearchItems,
-      fetchByPokemonId: async (pokemonId: number) => {
-        await fetchSearchItemsByPokemonId(pokemonId);
-        // searchItems가 업데이트된 후에 groups 초기화
-        return searchItems;
-      },
+      fetchByPokemonId: fetchSearchItemsByPokemonId,
       clearItems: () => {
         clearSearchItems();
         resetSearchGroups();
