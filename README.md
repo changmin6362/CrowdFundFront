@@ -8,7 +8,7 @@
 
 ## 개발 기간
 
-2024.11 ~ 2025.01
+2024.11 ~ 2025.02
 
 
 
@@ -16,12 +16,14 @@
 --
 
 ### Development
-![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
-![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
-![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)
-![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
-![pokeapi-js-wrapper](https://img.shields.io/badge/pokeapi-js-wrapper?style=for-the-badge&logoColor=yellow&labelColor=black)
-![react-swipeable](https://img.shields.io/badge/react-swipeable?style=for-the-badge&label=react-swipeable)
+[![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=flat&logo=typescript&logoColor=white)](https://github.com/microsoft/TypeScript)
+[![React](https://img.shields.io/badge/react-%2320232a.svg?style=flat&logo=react&logoColor=%2361DAFB)](https://github.com/facebook/react)
+[![Next JS](https://img.shields.io/badge/Next-black?style=flat&logo=next.js&logoColor=white)](https://github.com/vercel/next.js)
+[![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=flat&logo=tailwind-css&logoColor=white)](https://github.com/tailwindlabs/tailwindcss)
+[![pokeapi-js-wrapper](https://img.shields.io/badge/pokeapi-js-wrapper?style=flat&logoColor=yellow&labelColor=black)](https://github.com/PokeAPI/pokeapi-js-wrapper)
+[![react-swipeable](https://img.shields.io/badge/react-swipeable?style=flat&label=react-swipeable)](https://github.com/FormidableLabs/react-swipeable?tab=readme-ov-file)
+[![tesseract.js](https://img.shields.io/badge/Tesseract.js-black?style=flat&logo=tesseract)](https://github.com/naptha/tesseract.js#tesseractjs)
+[![react-image-crop](https://img.shields.io/badge/react-image-crop?style=flat&logo=react-image-crop)](link=https%3A%2F%2Fgithub.com%2Fdominictobias%2Freact-image-crop)
 
 
 - ssr을 사용하지 않는데 Next.js를 사용한 이유:
@@ -29,21 +31,21 @@
   - Vercel을 통한 배포 용이성
 
 - TailwindCss를 사용한 이유
-  - 디자인 로직을 레이어 시스템을 통해 한 곳에서 관리하기 위해
+  - 디자인 로직을 레이어 시스템을 통해 한 곳에서 관리하고 비즈니스 로직과 분리하기 위해
   - 빠르고 간편한 디자인 구현을 위해서
 
 - react-swipeable을 사용한 이유
-  - 좌우 스와이프 애니메이션을 간편하게 구현하기 위해서
+  - 좌우 스와이프 애니메이션을 별도의 커스텀훅 사용 없이 간편하게 구현하기 위해
  
 - pokeapi-js-wrapper를 사용한 이유
   - 필요한 포켓몬 정보를 빠르고 손쉽게 받아오기 위해서
-  - Link: https://github.com/PokeAPI/pokeapi?tab=readme-ov-file
 
+- tesseract.js를 사용한 이유
+  - api를 사용하지 않고 개발서버에서 직접 ocr을 수행하는 라이브러리라서
+  - 문장이 아닌 짧은 단어에 대한 ocr을 수행하기에 적절한 수준의 정확성을 지녀서
 
-
-### Environment
-![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white)
-
+- react-image-crop을 사용한 이유
+  - ocr 기능을 수행할 때 받아온 이미지 파일을 브러우저에서 크롭처리하기 위해
 
 
 
