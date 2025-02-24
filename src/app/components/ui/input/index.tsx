@@ -22,6 +22,7 @@ export default function Input({
       value={value}
       onChange={onChange}
       onKeyDown={onKeyDown}
+      tabIndex={0}
     />
   );
 }

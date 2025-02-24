@@ -5,12 +5,14 @@ import ImageCropModal from "./imageCropModal/";
 import ImageUploadButton from "./imageUploadButton/";
 
 interface ImageSearchProps {
-  onOCRTextSearch: (text: string) => void;
+  setInputValue: (value: string) => void;
+  handleSearch: (value: string) => void;
   children: React.ReactNode;
 }
 
 export default function ImageSearch({
-  onOCRTextSearch,
+  setInputValue,
+  handleSearch,
   children,
 }: ImageSearchProps) {
   const { processImage, isProcessing } = useOCR();
@@ -32,7 +34,8 @@ export default function ImageSearch({
     const cropRect = calculateCropRect(crop);
     // OCR로 text 변환
     const text = await processImage(selectedImage, cropRect);
-    onOCRTextSearch(text);
+    setInputValue(text);
+    handleSearch(text);
     handleCropCancel();
   };
 

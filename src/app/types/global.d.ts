@@ -71,6 +71,12 @@ declare global {
       };
     }[];
   }
+  interface PokemonName {
+    id: number;
+    ko_name: string;
+    en_name: string;
+    jp_name: string;
+  }
 }
 
 export {};

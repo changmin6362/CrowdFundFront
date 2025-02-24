@@ -61,7 +61,7 @@ export default function usePokemonIdSearch({
     }
   };
 
-  // 검색 입력 핸들러
+  // 입력된 포켓몬 이름으로 검색을 수행하는 핸들러
   const handleSearch = (value: string) => {
     if (value === "") {
       searchActions.clearItems();
