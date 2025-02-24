@@ -3,7 +3,7 @@ export default function useItemPresence(
   searchItems: Pokemon[],
   searchGroups: Pokemon[][],
 ) {
-  const checkItemExistence = (pokemonId: number) => ({
+  const checkItemPresence = (pokemonId: number) => ({
     inDefault: defaultItems.some((p) => p.id === pokemonId),
     inSearch: searchItems.some((p) => p.id === pokemonId),
     inGroups: searchGroups.some((group) =>
@@ -11,5 +11,5 @@ export default function useItemPresence(
     ),
   });
 
-  return { checkItemExistence };
+  return { checkItemPresence };
 }

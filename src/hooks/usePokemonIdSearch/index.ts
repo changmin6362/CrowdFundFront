@@ -1,18 +1,19 @@
 import { useState } from "react";
 
+import { useErrorModalContext } from "@/app/contexts/errorModalContext";
 import searchPokemon from "@/utils/pokemon/searchPokemon";
+
 import useDefaultData from "./useData/useDefaultData";
 import useSearchData from "./useData/useSearchData";
 import useItemPresence from "./validation/useItemPresence";
-import { useErrorModalContext } from "@/app/contexts/errorModalContext";
 
-interface SearchPokemonProps {
+interface usePokemonIdSearchProps {
   scrollToElement: (pokemonId: number) => void;
 }
 
-export default function useSearchPokemon({
+export default function usePokemonIdSearch({
   scrollToElement,
-}: SearchPokemonProps) {
+}: usePokemonIdSearchProps) {
   const { showError } = useErrorModalContext();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -23,7 +24,7 @@ export default function useSearchPokemon({
   const { searchData, searchActions } = useSearchData();
 
   // 아이템 존재 여부 확인
-  const { checkItemExistence } = useItemPresence(
+  const { checkItemPresence } = useItemPresence(
     defaultData.items,
     searchData.items,
     searchData.groups,
@@ -33,7 +34,7 @@ export default function useSearchPokemon({
   const handleNavigation = async (pokemonId: number) => {
     try {
       setIsLoading(true);
-      const { inDefault, inSearch, inGroups } = checkItemExistence(pokemonId);
+      const { inDefault, inSearch, inGroups } = checkItemPresence(pokemonId);
 
       if (inDefault) {
         // 기본 리스트에 있는 경우 -> 해당 포켓몬으로 바로 스크롤
