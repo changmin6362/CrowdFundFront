@@ -4,7 +4,7 @@ import ReactCrop, { type Crop } from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 
 import RootModal from "@/app/components/ui/modal/rootModal";
-import useImageZoom from "@/hooks/image/useImageZoom";
+import useImageZoom from "@/hooks/zoom/useImageZoom";
 import { useModalContext } from "@/app/contexts/modalContext";
 
 import CropControls from "./cropControls";
