@@ -2,6 +2,8 @@ import { useState } from "react";
 
 import PokemonNameData from "@/app/assets/mockData/PokemonNameData.json";
 
+import { MAX_AUTO_COMPLETE_ITEMS } from "@/constants/pokedexList";
+
 export default function useAutoComplete() {
   const [autoCompleteItems, setAutoCompleteItems] = useState<string[]>([]);
 
@@ -33,6 +35,7 @@ export default function useAutoComplete() {
         })
         // 빈 값을 제외한 배열만 반환
         .filter((name) => name !== null)
+        .slice(0, MAX_AUTO_COMPLETE_ITEMS)
     );
   };
 

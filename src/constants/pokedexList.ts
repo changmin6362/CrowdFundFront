@@ -12,6 +12,9 @@ export const THRESHOLD = 5 as const;
 // pokeapi가 제공하는 최대 이미지 크기
 export const MAX_IMAGE_SIZE = 512;
 
+// 자동완성 목록이 보여줄 아이템의 개수
+export const MAX_AUTO_COMPLETE_ITEMS = 6;
+
 // pokemon 타입에서 이미지 경로를 가져오는 경로
 export const POKEMON_IMAGE = {
   OFFICIAL_ARTWORK: (pokemon: Pokemon): string | null =>

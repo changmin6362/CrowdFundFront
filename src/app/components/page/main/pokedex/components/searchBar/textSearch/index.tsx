@@ -4,6 +4,8 @@ import Input from "@/app/components/ui/input";
 import Dropdown from "@/app/components/ui/dropdown";
 import useAutoComplete from "@/hooks/autoComplete/useAutoComplete";
 
+import { MAX_AUTO_COMPLETE_ITEMS } from "@/constants/pokedexList";
+
 export default function TextSearch({
   inputValue,
   setInputValue,
@@ -35,16 +37,18 @@ export default function TextSearch({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    // IME 조합 중일 때는 이벤트 처리하지 않음
+    if (e.nativeEvent.isComposing) return;
+
     if (e.key === "Tab" && autoCompleteItems.length > 0) {
       e.preventDefault();
 
-      // 다음 인덱스 계산 (순환)
-      const nextIndex = (selectedIndex + 1) % autoCompleteItems.length;
+      // MAX_AUTO_COMPLETE_ITEMS개수에 도달하면 다시 0부터 시작
+      const nextIndex = (selectedIndex + 1) % MAX_AUTO_COMPLETE_ITEMS;
       setSelectedIndex(nextIndex);
       setInputValue(autoCompleteItems[nextIndex]);
     } else if (e.key === "Enter" && selectedIndex >= 0) {
       e.preventDefault();
-
       onSelectItem(autoCompleteItems[selectedIndex]);
     }
   };
