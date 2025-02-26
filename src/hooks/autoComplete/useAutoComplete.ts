@@ -44,9 +44,5 @@ export default function useAutoComplete() {
     setAutoCompleteItems(matchedPokemons);
   };
 
-  const clearAutoCompleteList = () => {
-    setAutoCompleteItems([]);
-  };
-
-  return { autoCompleteItems, updateAutoCompleteList, clearAutoCompleteList };
+  return { autoCompleteItems, updateAutoCompleteList };
 }

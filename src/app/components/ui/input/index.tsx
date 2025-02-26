@@ -3,6 +3,7 @@ interface InputProps {
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onFocus?: () => void;
+  onBlur?: () => void;
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   inputRef?: React.RefObject<HTMLInputElement>;
 }
@@ -12,6 +13,7 @@ export default function Input({
   value,
   onChange,
   onFocus,
+  onBlur,
   onKeyDown,
   inputRef,
 }: InputProps) {
@@ -24,8 +26,10 @@ export default function Input({
       value={value}
       onChange={onChange}
       onFocus={onFocus}
+      onBlur={onBlur}
       onKeyDown={onKeyDown}
       tabIndex={0}
+      autoComplete="off"
     />
   );
 }

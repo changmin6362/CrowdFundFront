@@ -1,52 +1,29 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 
 import Input from "@/app/components/ui/input";
 import Dropdown from "@/app/components/ui/dropdown";
 import useAutoComplete from "@/hooks/autoComplete/useAutoComplete";
 
-import { MAX_AUTO_COMPLETE_ITEMS } from "@/constants/pokedexList";
+interface TextSearchProps {
+  inputValue: string;
+  setInputValue: (value: string) => void;
+  handleSearch: (value: string) => void;
+  inputRef: React.RefObject<HTMLInputElement>;
+}
 
 export default function TextSearch({
   inputValue,
   setInputValue,
   handleSearch,
   inputRef,
-}: {
-  inputValue: string;
-  setInputValue: (value: string) => void;
-  handleSearch: (value: string) => void;
-  inputRef: React.RefObject<HTMLInputElement>;
-}) {
+}: TextSearchProps) {
+  const { autoCompleteItems, updateAutoCompleteList } = useAutoComplete();
+
   // 현재 선택된 자동완성 항목의 인덱스
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
-  // input과 dropdown에 focus중인지 확인하는 상태
+  // input에 focus중인지 확인하는 상태
   const [isFocused, setIsFocused] = useState(false);
-  const dropdownRef = useRef<HTMLUListElement>(null);
-
-  const { autoCompleteItems, updateAutoCompleteList, clearAutoCompleteList } =
-    useAutoComplete();
-
-  // 외부 클릭 감지
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        !inputRef.current?.contains(event.target as Node) &&
-        !dropdownRef.current?.contains(event.target as Node)
-      ) {
-        setIsFocused(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [inputRef]);
-
-  const handleFocus = () => {
-    setIsFocused(true);
-  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
@@ -57,7 +34,6 @@ export default function TextSearch({
 
   const onSelectItem = (selectedValue: string) => {
     setInputValue(selectedValue);
-    clearAutoCompleteList();
     handleSearch(selectedValue);
   };
 
@@ -65,17 +41,31 @@ export default function TextSearch({
     // IME 조합 중일 때는 이벤트 처리하지 않음
     if (e.nativeEvent.isComposing) return;
 
-    if (e.key === "Tab" && autoCompleteItems.length > 0) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleSearch(inputValue);
+    }
+
+    if (e.key === "Tab") {
       e.preventDefault();
 
-      // MAX_AUTO_COMPLETE_ITEMS개수에 도달하면 다시 0부터 시작
-      const nextIndex = (selectedIndex + 1) % MAX_AUTO_COMPLETE_ITEMS;
-      setSelectedIndex(nextIndex);
-      setInputValue(autoCompleteItems[nextIndex]);
-    } else if (e.key === "Enter" && selectedIndex >= 0) {
-      e.preventDefault();
-      onSelectItem(autoCompleteItems[selectedIndex]);
+      if (autoCompleteItems.length > 0) {
+        // 마지막 아이템에 도달하면 다시 0부터 시작
+        const nextIndex = (selectedIndex + 1) % autoCompleteItems.length;
+        setSelectedIndex(nextIndex);
+        setInputValue(autoCompleteItems[nextIndex]);
+      }
     }
+  };
+
+  const handleFocus = () => {
+    setIsFocused(true);
+  };
+
+  const handleBlur = () => {
+    setTimeout(() => {
+      setIsFocused(false);
+    }, 150);
   };
 
   return (
@@ -86,6 +76,7 @@ export default function TextSearch({
         onChange={handleChange}
         onKeyDown={handleKeyDown}
         onFocus={handleFocus}
+        onBlur={handleBlur}
         inputRef={inputRef}
       />
       <Dropdown
@@ -93,7 +84,6 @@ export default function TextSearch({
         isOpen={isFocused && autoCompleteItems.length > 0}
         onSelect={onSelectItem}
         selectedIndex={selectedIndex}
-        dropdownRef={dropdownRef}
       />
     </div>
   );
