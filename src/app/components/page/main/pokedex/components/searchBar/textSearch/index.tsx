@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import Input from "@/app/components/ui/input";
 import Dropdown from "@/app/components/ui/dropdown";
@@ -20,8 +20,33 @@ export default function TextSearch({
   // 현재 선택된 자동완성 항목의 인덱스
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
+  // input과 dropdown에 focus중인지 확인하는 상태
+  const [isFocused, setIsFocused] = useState(false);
+  const dropdownRef = useRef<HTMLUListElement>(null);
+
   const { autoCompleteItems, updateAutoCompleteList, clearAutoCompleteList } =
     useAutoComplete();
+
+  // 외부 클릭 감지
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        !inputRef.current?.contains(event.target as Node) &&
+        !dropdownRef.current?.contains(event.target as Node)
+      ) {
+        setIsFocused(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [inputRef]);
+
+  const handleFocus = () => {
+    setIsFocused(true);
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
@@ -60,13 +85,15 @@ export default function TextSearch({
         value={inputValue}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
+        onFocus={handleFocus}
         inputRef={inputRef}
       />
       <Dropdown
         items={autoCompleteItems}
-        isOpen={autoCompleteItems.length > 0}
+        isOpen={isFocused && autoCompleteItems.length > 0}
         onSelect={onSelectItem}
         selectedIndex={selectedIndex}
+        dropdownRef={dropdownRef}
       />
     </div>
   );

@@ -3,6 +3,7 @@ interface DropdownProps {
   isOpen: boolean;
   onSelect: (item: string) => void;
   selectedIndex: number;
+  dropdownRef?: React.RefObject<HTMLUListElement>;
 }
 
 export default function Dropdown({
@@ -10,11 +11,13 @@ export default function Dropdown({
   isOpen,
   onSelect,
   selectedIndex,
+  dropdownRef,
 }: DropdownProps) {
   if (!isOpen || items.length === 0) return null;
 
   return (
     <ul
+      ref={dropdownRef}
       role="listbox"
       className="absolute z-10 mt-1 max-h-60 w-full overflow-hidden rounded-md border bg-white shadow-lg"
     >
