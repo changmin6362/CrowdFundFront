@@ -27,6 +27,7 @@ export default function Pokedex() {
     searchData,
     searchActions,
     isLoading,
+    isSearchMode,
     handleSearch,
   } = usePokemonIdSearch({
     scrollToElement,
@@ -57,8 +58,7 @@ export default function Pokedex() {
   });
 
   // 화면 표시 리스트
-  const displayList =
-    searchData.items.length > 0 ? searchData.items : defaultData.items;
+  const displayList = isSearchMode ? searchData.items : defaultData.items;
 
   // 아이템 선택 감지
   const { updateSelectedItemRef, detectItemRef } = useUpdateSelectedItem({
@@ -85,7 +85,7 @@ export default function Pokedex() {
       <PokedexScrollView
         displayList={displayList}
         searchItemGroups={searchData.groups}
-        isViewSkeleton={searchData.items.length > 0}
+        isViewSkeleton={isSearchMode}
         registerSkeletonRef={registerSkeletonRef}
         registerPokemonRef={registerPokemonRef}
         scrollContainerRef={scrollContainerRef}
