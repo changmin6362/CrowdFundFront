@@ -35,8 +35,17 @@ export default function usePokemonIdSearch({
     try {
       setIsLoading(true);
       const { inDefault, inSearch, inGroups } = checkItemPresence(pokemonId);
+      console.log(
+        `inDefault: ${inDefault}; inSearch: ${inSearch};inGroups: ${inGroups}`,
+      );
 
       if (inDefault) {
+        // 기본 리스트에 있는 경우
+        // 검색 결과가 표시 중이라면 초기화하여 기본 리스트로 돌아감
+        if (searchData.items.length > 0) {
+          searchActions.clearItems();
+        }
+
         // 기본 리스트에 있는 경우 -> 해당 포켓몬으로 바로 스크롤
         scrollToElement(pokemonId);
       } else if (inSearch || inGroups) {
