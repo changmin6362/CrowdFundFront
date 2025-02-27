@@ -1,72 +1,70 @@
-import { useState } from "react";
-
 import Input from "@/app/components/ui/input";
 import Dropdown from "@/app/components/ui/dropdown";
 import useAutoComplete from "@/hooks/autoComplete/useAutoComplete";
-
-interface TextSearchProps {
-  inputValue: string;
-  setInputValue: (value: string) => void;
-  handleSearch: (value: string) => void;
-  inputRef: React.RefObject<HTMLInputElement>;
-}
 
 export default function TextSearch({
   inputValue,
   setInputValue,
   handleSearch,
   inputRef,
-}: TextSearchProps) {
-  const { autoCompleteItems, updateAutoCompleteList } = useAutoComplete();
+}: {
+  inputValue: string;
+  setInputValue: (value: string) => void;
+  handleSearch: (value: string) => void;
+  inputRef: React.RefObject<HTMLInputElement>;
+}) {
+  // 자동완성 관련 로직
+  const {
+    autoCompleteList,
+    selectedIndex,
+    setSelectedIndex,
+    isOpen,
+    updateAutoCompleteList,
+    clearAutoCompleteList,
+  } = useAutoComplete();
 
-  // 현재 선택된 자동완성 항목의 인덱스
-  const [selectedIndex, setSelectedIndex] = useState(-1);
-
-  // input에 focus중인지 확인하는 상태
-  const [isFocused, setIsFocused] = useState(false);
-
+  // 입력값 변경 핸들러
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value;
-    setInputValue(newValue);
-    updateAutoCompleteList(newValue);
-    setSelectedIndex(-1);
+    const value = e.target.value;
+    setInputValue(value);
+    updateAutoCompleteList(value);
   };
 
-  const onSelectItem = (selectedValue: string) => {
+  // 자동완성 항목 선택 핸들러
+  const handleSelectItem = (selectedValue: string) => {
     setInputValue(selectedValue);
+    clearAutoCompleteList();
     handleSearch(selectedValue);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    // IME 조합 중일 때는 이벤트 처리하지 않음
-    if (e.nativeEvent.isComposing) return;
+    if (e.key === "ArrowDown" || e.key === "Tab") {
+      e.preventDefault();
+      setSelectedIndex((prev) =>
+        Math.min(prev + 1, autoCompleteList.length - 1),
+      );
+    }
+
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setSelectedIndex((prev) => Math.max(prev - 1, -1));
+    }
 
     if (e.key === "Enter") {
       e.preventDefault();
-      handleSearch(inputValue);
-    }
-
-    if (e.key === "Tab") {
-      e.preventDefault();
-
-      if (autoCompleteItems.length > 0) {
-        // 마지막 아이템에 도달하면 다시 0부터 시작
-        const nextIndex = (selectedIndex + 1) % autoCompleteItems.length;
-        setSelectedIndex(nextIndex);
-        setInputValue(autoCompleteItems[nextIndex]);
+      if (selectedIndex >= 0) {
+        handleSelectItem(autoCompleteList[selectedIndex]);
+      } else {
+        handleSearch(inputValue);
       }
     }
   };
 
-  const handleFocus = () => {
-    setIsFocused(true);
-  };
+  // 포커스 핸들러
+  const handleFocus = () => updateAutoCompleteList(inputValue);
 
-  const handleBlur = () => {
-    setTimeout(() => {
-      setIsFocused(false);
-    }, 150);
-  };
+  // 블러 핸들러
+  const handleBlur = () => setTimeout(clearAutoCompleteList, 150);
 
   return (
     <div className="relative w-full">
@@ -80,9 +78,9 @@ export default function TextSearch({
         inputRef={inputRef}
       />
       <Dropdown
-        items={autoCompleteItems}
-        isOpen={isFocused && autoCompleteItems.length > 0}
-        onSelect={onSelectItem}
+        items={autoCompleteList}
+        isOpen={isOpen}
+        onSelect={handleSelectItem}
         selectedIndex={selectedIndex}
       />
     </div>
