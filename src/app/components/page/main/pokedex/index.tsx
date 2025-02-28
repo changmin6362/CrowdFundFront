@@ -78,7 +78,7 @@ export default function Pokedex() {
   });
 
   return (
-    <div className="flex h-[270px] w-full flex-col gap-8 p-8">
+    <div className="flex w-full flex-col gap-8 p-8">
       {/* 검색 바 컴포넌트 */}
       <SearchBar handleSearch={handleSearch} inputRef={inputRef} />
       {/* 포켓몬 도감 스크롤 뷰 컴포넌트 */}

@@ -43,4 +43,20 @@
   .remove-outline {
     @apply outline-none focus:ring-0;
   }
+
+  /* 사이즈 토큰 */
+
+  /* 리스트 컨테이너 높이 */
+  .list-container-height {
+    @apply h-[148px] gap-1;
+  }
+
+  /* 포켓몬 이미지 크기 */
+  .pokemon-image-sm {
+    @apply h-[44px] w-[44px];
+  }
+
+  .pokemon-image-lg {
+    @apply h-[208px] w-[208px];
+  }
 }

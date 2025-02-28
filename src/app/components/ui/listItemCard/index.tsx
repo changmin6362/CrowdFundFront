@@ -29,13 +29,17 @@ export default function ListItemCard({
   return (
     <div
       ref={registerSkeletonRef || registerPokemonRef}
-      className="box-circle flex min-h-[46px] items-center justify-start"
+      className="box-circle flex items-center justify-start"
     >
       {/* 스켈레톤 이미지 (이미지 로드 전까지 표시) */}
-      {!isImageLoaded && <SkeletonPokemonImage imageUrl={POKEBALL} />}
+      {!isImageLoaded && (
+        <div className="pokemon-image-sm">
+          <SkeletonPokemonImage imageUrl={POKEBALL} />
+        </div>
+      )}
       {/* 실제 이미지 (이미지가 로드 된 이후에 표시) */}
       {imageUrl && (
-        <div className={isImageLoaded ? "block" : "hidden"}>
+        <div className={isImageLoaded ? "pokemon-image-sm block" : "hidden"}>
           <PokemonImage
             imageUrl={imageUrl}
             imageAlt={imageAlt}

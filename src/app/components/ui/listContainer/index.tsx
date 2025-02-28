@@ -16,7 +16,7 @@ export default function ListContainer({
     <div className="relative">
       <div
         ref={scrollContainerRef}
-        className="hide-scrollbar flex h-[148px] flex-col gap-1 overflow-y-auto px-8"
+        className="hide-scrollbar list-container-height flex flex-col overflow-y-auto px-8"
         onScroll={handleScrollFocus}
       >
         {children}

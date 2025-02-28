@@ -17,18 +17,14 @@ export default function PreviewContainer() {
     <header className="flex flex-col items-center justify-center">
       <h1>PokeDex</h1>
       <div className="flex flex-col items-center justify-center">
-        <div className="box-rounded bg-striped mb-6">
+        <div className="box-rounded bg-striped pokemon-image-lg mb-6">
           {artwork !== null ? (
             <PokemonImage
               imageUrl={artwork}
               imageAlt={"Pokemon official artwork"}
-              size={{ width: 208, height: 208 }}
             />
           ) : (
-            <SkeletonPokemonImage
-              imageUrl={PokemonSiluette}
-              size={{ width: 208, height: 208 }}
-            />
+            <SkeletonPokemonImage imageUrl={PokemonSiluette} />
           )}
         </div>
       </div>
