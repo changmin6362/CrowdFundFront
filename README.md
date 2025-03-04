@@ -58,7 +58,7 @@
   - 아랫방향 api 커스텀 훅: [useGetSearchItems.ts](src/api/useGetSearchItems.ts)
   - 무한스크롤 훅: [useInfiniteScroll.ts](src/hooks/scrollEvent/useInfiniteScroll.ts)
   - 스켈레톤 UI: [PreloadedSkeletonUI.tsx](src/app/components/page/main/pokedex/components/pokedexScrollView/preloadedSkeletonUI/index.tsx)
-  - 렌더링 컴포넌트: [PokedexScrollView.tsx](src/app/components/page/main/pokedex/PokedexScrollView.tsx)
+  - 렌더링 컴포넌트: [PokedexScrollView.tsx](src/app/components/page/main/pokedex/components/pokedexScrollView/index.tsx)
 
 
     - 구현 방식:
@@ -96,7 +96,7 @@
   - ocr 커스텀 훅: [useOCR.ts](src/hooks/ocr/useOCR.ts)
   - 이미지 검색 컴포넌트: [ImageSearch.tsx](src/app/components/page/main/pokedex/components/searchBar/imageSearch/index.tsx)
   - 이미지 크롭 훅: [useImageCrop.ts](src/hooks/imageCrop/useImageCrop.ts)
-  - 이미지 크롭 컴포넌트: [ImageCropModal.tsx](src/app/components/searchBar/imageSearch/imageCropModal/index.tsx)
+  - 이미지 크롭 컴포넌트: [ImageCropModal.tsx](src/app/components/page/main/pokedex/components/searchBar/imageSearch/imageCropModal/index.tsx)
 
   - 구현 방식: 이미지 파일을 크롭하면 해당 범위 내의 이미지를 OCR로 텍스트를 추출함
 
