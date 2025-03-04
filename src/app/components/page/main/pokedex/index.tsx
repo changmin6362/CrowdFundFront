@@ -4,7 +4,7 @@ import useScrollToElement from "@/hooks/feature/useScrollToElement";
 import useRefManager from "@/hooks/feature/useRefManager";
 import useBlurControl from "@/hooks/feature/useBlurControl";
 import PokedexScrollView from "@/app/components/page/main/pokedex/components/pokedexScrollView/";
-import usePokemonIdSearch from "@/hooks/usePokemonIdSearch";
+import useSearchNavigation from "@/hooks/useSearchNavigation";
 import useUpdateSelectedItem from "@/hooks/feature/useUpdateSelectedItem";
 import SearchBar from "@/app/components/page/main/pokedex/components/searchBar/";
 
@@ -29,7 +29,7 @@ export default function Pokedex() {
     isLoading,
     isSearchMode,
     handleSearch,
-  } = usePokemonIdSearch({
+  } = useSearchNavigation({
     scrollToElement,
   });
 

@@ -7,13 +7,13 @@ import useDefaultData from "./useData/useDefaultData";
 import useSearchData from "./useData/useSearchData";
 import useItemPresence from "./validation/useItemPresence";
 
-interface usePokemonIdSearchProps {
+interface useSearchNavigationProps {
   scrollToElement: (pokemonId: number) => void;
 }
 
-export default function usePokemonIdSearch({
+export default function useSearchNavigation({
   scrollToElement,
-}: usePokemonIdSearchProps) {
+}: useSearchNavigationProps) {
   const { showError } = useErrorModalContext();
   const [isLoading, setIsLoading] = useState(false);
 
