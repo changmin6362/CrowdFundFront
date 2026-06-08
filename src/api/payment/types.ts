@@ -29,7 +29,7 @@ export interface PaymentDetail {
 }
 
 /**
- * 결제 요청 (POST /api/payments)
+ * 결제 요청
  */
 export interface PaymentCreateRequest {
   /** 후원 ID */
@@ -49,7 +49,7 @@ export interface PaymentCreateResponse {
 }
 
 /**
- * 결제 상세 조회 응답 (GET /api/payments/pledge/{pledgeId})
+ * 결제 상세 조회 응답
  */
 export interface PaymentDetailResponse {
   paymentDetail: PaymentDetail;
