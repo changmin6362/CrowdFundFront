@@ -1,11 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import {
-  PokemonHollow,
-  PokemonSolid,
-  PokemonClassic,
-  PokemonXY,
-  NeoDunggeunmoPro,
   PretendardRegular,
 } from "./styles/fonts";
 
@@ -24,7 +19,7 @@ export default function RootLayout({
     <html lang="ko">
       <body
         // var 변수로 선언된 커스텀 폰트를 css 변수로 할당
-        className={`${PokemonHollow.variable} ${PokemonSolid.variable} ${PokemonClassic.variable} ${PokemonXY.variable} ${NeoDunggeunmoPro.variable} ${PretendardRegular.variable} antialiased`}
+        className={`${PretendardRegular.variable} antialiased`}
       >
         {children}
       </body>
