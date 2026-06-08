@@ -12,7 +12,16 @@ export const useApiHandler = () => {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await axios<ApiResult<T>>(config);
+      const accessToken = localStorage.getItem('accessToken');
+      const headers = {
+        ...config.headers,
+        ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+      };
+
+      const response = await axios<ApiResult<T>>({
+        ...config,
+        headers,
+      });
       return response.data;
     } catch (err) {
       const axiosError = err as AxiosError<ApiResult>;
