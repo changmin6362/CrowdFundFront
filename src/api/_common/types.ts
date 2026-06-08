@@ -9,11 +9,18 @@ export interface ApiResult<T = void> {
 }
 
 /**
- * 복합 커서 기반 페이지네이션 요청
+ * 복합 커서 기반 페이지네이션 요청, 응답 구조
  */
-export interface CursorRequest {
-  /** 커서의 날짜 키 (ISO String) */
-  createdAt: string | null;
-  /** 커서의 ID 키 */
-  id: number | null;
-}
+export type CursorRequest =
+  | {
+      /** 커서의 날짜 키 (ISO String) */
+      createdAt: string;
+      /** 커서의 ID 키 */
+      id: number;
+    }
+  | {
+      /** 커서의 날짜 키 (ISO String) */
+      createdAt: null;
+      /** 커서의 ID 키 */
+      id: null;
+    };
