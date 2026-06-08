@@ -6,8 +6,8 @@ import {
 
 // 메타데이터 선언
 export const metadata: Metadata = {
-  title: "Pokedex",
-  description: "포켓몬 도감을 보여줍니다.",
+  title: "CrowdFund",
+  description: "크라우드 펀딩 사이트입니다.",
 };
 
 export default function RootLayout({
