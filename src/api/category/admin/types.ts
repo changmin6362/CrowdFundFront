@@ -43,7 +43,7 @@ export interface AdminCategoryReorderRequest {
 }
 
 /**
- * 카테고리 정렬 정보 아이템
+ * 카테고리 정렬 순서 변경 목록
  */
 export interface CategorySortItem {
   /** 카테고리 ID */
