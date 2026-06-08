@@ -75,7 +75,7 @@
   - 기본 데이터를 관리하는 훅: [useDefaultData.ts](src/hooks/useSearchNavigation/useData/useDefaultData.ts)
   - 검색 데이터를 관리하는 훅: [useSearchData.ts](src/hooks/useSearchNavigation/useData/useSearchData.ts)
   - 검색 훅: [useSearchNavigation.ts](src/hooks/useSearchNavigation/index.ts)
-  - 네비게이션 훅: [useScrollToElement.ts](src/hooks/feature/useScrollToElement.ts)
+  - 네비게이션 훅: [useScrollToElement.ts](src/hooks/blur/useScrollToElement.ts)
 
   - 구현 방식:
     - 포켓몬 이름을 받아서 포켓몬 ID로 반환하는 로직
