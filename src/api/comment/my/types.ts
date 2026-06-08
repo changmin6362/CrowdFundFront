@@ -5,8 +5,11 @@ import { CursorRequest } from '@api/_common/types';
  * 내 댓글 목록 조회 응답
  */
 export interface MyCommentsResponse {
+  /** 내 댓글 목록 */
   myComments: MyCommentInfo[];
+  /** 다음 페이지 존재 여부 */
   hasNext: boolean;
+  /** 다음 페이지 커서 정보 */
   nextCursor: CursorRequest;
 }
 
@@ -14,6 +17,7 @@ export interface MyCommentsResponse {
  * 댓글 수정 요청
  */
 export interface ProjectCommentUpdateRequest {
+  /** 수정할 댓글 내용 */
   content: string;
 }
 
@@ -21,6 +25,7 @@ export interface ProjectCommentUpdateRequest {
  * 댓글 수정 응답
  */
 export interface ProjectCommentUpdateResponse {
+  /** 수정한 댓글 내용 */
   patchedComment: CommentInfo;
 }
 
@@ -28,5 +33,6 @@ export interface ProjectCommentUpdateResponse {
  * 댓글 삭제 응답
  */
 export interface ProjectCommentDeleteResponse {
+  /** 삭제한 댓글 ID */
   deletedCommentId: number;
 }
