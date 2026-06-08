@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "generate-api": "swagger-typescript-api generate --path http://3.34.181.49/api-docs --output ./src/api/generated --name api.ts --httpClient-type axios"
+
+
   },
   "dependencies": {
     "next": "^14.2.23",
@@ -26,6 +29,7 @@
     "postcss": "^8",
     "prettier": "^3.3.3",
     "prettier-plugin-tailwindcss": "^0.6.8",
+    "swagger-typescript-api": "^13.12.1",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   }
