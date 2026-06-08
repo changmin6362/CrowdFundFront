@@ -12,10 +12,15 @@ export type PaymentStatus = 'PENDING' | 'PAID' | 'FAILED' | 'CANCELED' | 'REFUND
  * 결제 상세 정보
  */
 export interface PaymentDetail {
+  /** 결제 ID */
   paymentId: number;
+  /** 후원 ID */
   pledgeId: number;
+  /** 결제 방법 */
   paymentMethod: PaymentMethod;
+  /** 결제 금액 */
   amount: number;
+  /** 결제 상태 */
   status: PaymentStatus;
   /** 결제 일시 (ISO String) */
   paidAt: string | null;
@@ -24,25 +29,14 @@ export interface PaymentDetail {
 }
 
 /**
- * 결제 이력 정보
- */
-export interface PaymentHistoryInfo {
-  historyId: number;
-  status: PaymentStatus;
-  /** 상태 변경 시각 (ISO String) */
-  changedAt: string;
-  /** 상태 변경 사유 */
-  reason: string;
-  /** PG 트랜잭션 ID */
-  pgTransactionId: string | null;
-}
-
-/**
  * 결제 요청 (POST /api/payments)
  */
 export interface PaymentCreateRequest {
+  /** 후원 ID */
   pledgeId: number;
+  /** 결제 수단 */
   paymentMethod: PaymentMethod;
+  /** 결제 금액 */
   amount: number;
 }
 
@@ -50,6 +44,7 @@ export interface PaymentCreateRequest {
  * 결제 요청 응답
  */
 export interface PaymentCreateResponse {
+  /** 결제 ID */
   paymentId: number;
 }
 
@@ -61,8 +56,25 @@ export interface PaymentDetailResponse {
 }
 
 /**
- * 결제 이력 조회 응답 (GET /api/payments/{paymentId}/history)
+ * 결제 이력 조회 응답
  */
 export interface PaymentHistoryResponse {
+  /** 결제 이력 목록 */
   paymentHistories: PaymentHistoryInfo[];
+}
+
+/**
+ * 결제 이력 정보
+ */
+export interface PaymentHistoryInfo {
+  /** 결제 이력 ID */
+  historyId: number;
+  /** 변경된 결제 상태 */
+  status: PaymentStatus;
+  /** 상태 변경 시각 (ISO String) */
+  changedAt: string;
+  /** 상태 변경 사유 */
+  reason: string;
+  /** PG 트랜잭션 ID */
+  pgTransactionId: string | null;
 }
