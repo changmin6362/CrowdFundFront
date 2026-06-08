@@ -1,5 +1,5 @@
 /**
- * 회원가입 요청 정보
+ * 회원가입 요청
  */
 export interface SignUpRequest {
   /** 이메일 (최대 50자) */
@@ -15,13 +15,25 @@ export interface SignUpRequest {
 }
 
 /**
- * 로그인 요청 정보
+ * 로그인 요청
  */
 export interface LoginRequest {
   /** 이메일 */
   email: string;
   /** 비밀번호 */
   password: string;
+}
+
+/**
+ * 로그인 응답
+ */
+export interface LoginResponse {
+  /** Access Token */
+  accessToken: string;
+  /** 토큰 타입 (기본값: Bearer) */
+  tokenType: string;
+  /** 유저 상세 정보 */
+  userInfo: UserProfileInfo;
 }
 
 /**
@@ -32,16 +44,4 @@ export interface UserProfileInfo {
   email: string;
   /** 유저 닉네임 */
   nickname: string;
-}
-
-/**
- * 로그인 응답 정보
- */
-export interface LoginResponse {
-  /** Access Token */
-  accessToken: string;
-  /** 토큰 타입 (기본값: Bearer) */
-  tokenType: string;
-  /** 유저 상세 정보 */
-  userInfo: UserProfileInfo;
 }
