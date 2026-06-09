@@ -1,7 +1,7 @@
-import { CategoryTreeNode } from '../types';
+import { CategoryTreeNode } from "../types";
 
 /** 카테고리 트리 조회 응답 */
-export interface UserFetchCategoryResponse {
+export interface CategoryFetchResponse {
   /** 카테고리 트리 */
   categoryTree?: CategoryTreeNode[];
 }
