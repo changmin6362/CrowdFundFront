@@ -36,6 +36,12 @@ export default function Home() {
               >
                 Address Management Test Page
               </Link>
+              <Link
+                href={ROUTES.ADMIN.CATEGORY}
+                className="p-4 border rounded-lg hover:bg-gray-50 text-xl font-medium"
+              >
+                Admin Category Test Page
+              </Link>
             </div>
           </div>
         </ErrorModalProvider>

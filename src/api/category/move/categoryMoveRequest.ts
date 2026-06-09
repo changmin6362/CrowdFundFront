@@ -5,5 +5,5 @@ export interface CategoryMoveRequest {
    * @format int32
    * @example 1
    */
-  parentId?: number;
+  parentId?: number | null;
 }

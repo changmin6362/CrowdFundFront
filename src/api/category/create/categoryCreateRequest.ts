@@ -5,7 +5,7 @@ export interface CategoryCreateRequest {
    * @format int32
    * @example null
    */
-  parentId?: number;
+  parentId?: number | null;
   /**
    * 카테고리 이름
    * @minLength 2
