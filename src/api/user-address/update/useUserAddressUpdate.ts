@@ -9,37 +9,18 @@ export const useUserAddressUpdate = () => {
   const { isLoading, error, handleApiCall } = useApiHandler();
   const [response, setResponse] = useState<ApiResult<UserAddressUpdateResponse> | null>(null);
 
-  const [request, setRequest] = useState<UserAddressUpdateRequest>({
-    recipientName: "",
-    phone: "",
-    postalCode: "",
-    addressMain: "",
-    addressDetail: "",
-  });
-
   const updateAddress = async (id: number, data: UserAddressUpdateRequest): Promise<ApiResult<UserAddressUpdateResponse>> => {
-    return handleApiCall<UserAddressUpdateResponse>({
+    const res = await handleApiCall<UserAddressUpdateResponse>({
       url: USER_ADDRESS_ENDPOINTS.UPDATE(id),
       method: 'PATCH',
       data,
     });
-  };
-
-  const onSubmit = async (id: number, e?: React.FormEvent) => {
-    if (e) e.preventDefault();
-    try {
-      const res = await updateAddress(id, request);
-      setResponse(res);
-    } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : String(err);
-      setResponse({ message, data: null });
-    }
+    setResponse(res);
+    return res;
   };
 
   return {
-    request,
-    setRequest,
-    onSubmit,
+    updateAddress,
     isLoading,
     error,
     response,

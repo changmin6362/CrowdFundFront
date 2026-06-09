@@ -30,6 +30,12 @@ export default function Home() {
               >
                 MyPage Test Page
               </Link>
+              <Link
+                href={ROUTES.MY_PAGE_ADDRESS}
+                className="p-4 border rounded-lg hover:bg-gray-50 text-xl font-medium"
+              >
+                Address Management Test Page
+              </Link>
             </div>
           </div>
         </ErrorModalProvider>

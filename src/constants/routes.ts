@@ -5,4 +5,5 @@ export const ROUTES = {
   },
   HOME: "/",
   MY_PAGE: "/my-page",
+  MY_PAGE_ADDRESS: "/my-page/address",
 } as const;
