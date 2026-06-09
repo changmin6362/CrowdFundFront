@@ -6,13 +6,13 @@ import { CategoryActiveRequest } from "./categoryActiveRequest";
 
 export const useCategoryActive = () => {
   const { isLoading, error, handleApiCall } = useApiHandler();
-  const [response, setResponse] = useState<ApiResult<void> | null>(null);
+  const [response, setResponse] = useState<ApiResult | null>(null);
 
   const [request, setRequest] = useState<CategoryActiveRequest>({
     isActive: true,
   });
 
-  const toggleCategoryActive = async (id: number, data: CategoryActiveRequest): Promise<ApiResult<void>> => {
+  const toggleCategoryActive = async (id: number, data: CategoryActiveRequest): Promise<ApiResult> => {
     const res = await handleApiCall<void>({
       url: CATEGORY_ENDPOINTS.ADMIN.ACTIVE(id),
       method: "PATCH",
@@ -22,21 +22,27 @@ export const useCategoryActive = () => {
     return res;
   };
 
-  const onSubmit = async (id: number, e: React.FormEvent) => {
-    e.preventDefault();
+  const onSubmit = async (id: number, data: CategoryActiveRequest, onSuccess?: () => void) => {
     try {
-      const res = await toggleCategoryActive(id, request);
-      setResponse(res);
+      await toggleCategoryActive(id, data);
+      if (onSuccess) onSuccess();
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : String(err);
-      setResponse({ message, data: null });
+      console.error(err);
     }
+  };
+
+  const onToggle = async (id: number, currentActive: boolean, onSuccess?: () => void) => {
+    await onSubmit(id, { isActive: !currentActive }, () => {
+      alert("카테고리 활성 상태가 변경되었습니다.");
+      if (onSuccess) onSuccess();
+    });
   };
 
   return {
     request,
     setRequest,
     onSubmit,
+    onToggle,
     toggleCategoryActive,
     isLoading,
     error,

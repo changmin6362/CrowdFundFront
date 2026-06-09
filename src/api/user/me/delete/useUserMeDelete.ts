@@ -5,9 +5,9 @@ import { USER_ENDPOINTS } from "@api/user/constants";
 
 export const useUserMeDelete = () => {
   const { isLoading, error, handleApiCall } = useApiHandler();
-  const [response, setResponse] = useState<ApiResult<void> | null>(null);
+  const [response, setResponse] = useState<ApiResult | null>(null);
 
-  const deleteMe = async (): Promise<ApiResult<void>> => {
+  const deleteMe = async (): Promise<ApiResult> => {
     const res = await handleApiCall<void>({
       url: USER_ENDPOINTS.DELETE,
       method: 'DELETE',

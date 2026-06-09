@@ -1,5 +1,3 @@
-import { FulfillmentStatus, PledgeStatus } from "../types";
-
 /** 프로젝트 후원하기 요청 */
 export interface MyPledgeCreateRequest {
   /**

@@ -3,16 +3,18 @@ import { ApiResult } from "@api/_common/types";
 import { useApiHandler } from "@api/_common/useApiHandler";
 import { CATEGORY_ENDPOINTS } from "@api/category/constants";
 import { CategoryMoveRequest } from "./categoryMoveRequest";
+import { CategoryTreeNode } from "../types";
 
 export const useCategoryMove = () => {
   const { isLoading, error, handleApiCall } = useApiHandler();
-  const [response, setResponse] = useState<ApiResult<void> | null>(null);
-
+  const [response, setResponse] = useState<ApiResult | null>(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedId, setSelectedId] = useState<number | null>(null);
   const [request, setRequest] = useState<CategoryMoveRequest>({
-    parentId: undefined,
+    parentId: null,
   });
 
-  const moveCategory = async (id: number, data: CategoryMoveRequest): Promise<ApiResult<void>> => {
+  const moveCategory = async (id: number, data: CategoryMoveRequest): Promise<ApiResult> => {
     const res = await handleApiCall<void>({
       url: CATEGORY_ENDPOINTS.ADMIN.MOVE(id),
       method: "PATCH",
@@ -22,14 +24,27 @@ export const useCategoryMove = () => {
     return res;
   };
 
-  const onSubmit = async (id: number, e: React.FormEvent) => {
+  const onOpen = (category: CategoryTreeNode) => {
+    if (!category.categoryId) return;
+    setSelectedId(category.categoryId);
+    setRequest({ parentId: null });
+    setIsOpen(true);
+  };
+
+  const onClose = () => {
+    setIsOpen(false);
+    setSelectedId(null);
+  };
+
+  const onSubmit = async (e: React.FormEvent, onSuccess?: () => void) => {
     e.preventDefault();
+    if (!selectedId) return;
     try {
-      const res = await moveCategory(id, request);
-      setResponse(res);
+      await moveCategory(selectedId, request);
+      if (onSuccess) onSuccess();
+      onClose();
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : String(err);
-      setResponse({ message, data: null });
+      console.error(err);
     }
   };
 
@@ -37,6 +52,9 @@ export const useCategoryMove = () => {
     request,
     setRequest,
     onSubmit,
+    onOpen,
+    onClose,
+    isOpen,
     moveCategory,
     isLoading,
     error,

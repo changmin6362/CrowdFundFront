@@ -5,9 +5,9 @@ import { PROJECT_ENDPOINTS } from "@api/project/constants";
 
 export const useProjectDelete = () => {
   const { isLoading, error, handleApiCall } = useApiHandler();
-  const [response, setResponse] = useState<ApiResult<void> | null>(null);
+  const [response, setResponse] = useState<ApiResult | null>(null);
 
-  const deleteProject = async (projectId: number): Promise<ApiResult<void>> => {
+  const deleteProject = async (projectId: number): Promise<ApiResult> => {
     const res = await handleApiCall<void>({
       url: PROJECT_ENDPOINTS.CREATOR.DELETE(projectId),
       method: 'DELETE',

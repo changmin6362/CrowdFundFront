@@ -6,14 +6,14 @@ import { ProjectUpdateRequest } from "@api/project/creator/update/projectUpdateR
 
 export const useProjectUpdate = () => {
   const { isLoading, error, handleApiCall } = useApiHandler();
-  const [response, setResponse] = useState<ApiResult<void> | null>(null);
+  const [response, setResponse] = useState<ApiResult | null>(null);
 
   const [request, setRequest] = useState<ProjectUpdateRequest>({
     title: "",
     contentBlocks: {},
   });
 
-  const updateProject = async (projectId: number, data: ProjectUpdateRequest): Promise<ApiResult<void>> => {
+  const updateProject = async (projectId: number, data: ProjectUpdateRequest): Promise<ApiResult> => {
     return handleApiCall<void>({
       url: PROJECT_ENDPOINTS.CREATOR.UPDATE(projectId),
       method: 'PATCH',

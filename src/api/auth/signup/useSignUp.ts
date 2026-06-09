@@ -6,7 +6,7 @@ import { SignUpRequest } from "@api/auth/signup/signUpRequest";
 
 export const useSignUp = () => {
   const { isLoading, error, handleApiCall } = useApiHandler();
-  const [response, setResponse] = useState<ApiResult<void> | null>(null);
+  const [response, setResponse] = useState<ApiResult | null>(null);
 
   const [request, setRequest] = useState<SignUpRequest>({
     email: "",
@@ -16,7 +16,7 @@ export const useSignUp = () => {
     phone: "",
   });
 
-  const signUp = async (data: SignUpRequest): Promise<ApiResult<void>> => {
+  const signUp = async (data: SignUpRequest): Promise<ApiResult> => {
     return handleApiCall<void>({
       url: AUTH_ENDPOINTS.SIGN_UP,
       method: "POST",
