@@ -20,12 +20,13 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@assets/*": ["./src/app/assets/*"],
-      "@components/*": ["./src/app/components/*"],
+      "@assets/*": ["./src/assets/*"],
+      "@components/*": ["./src/components/*"],
       "@hooks/*": ["./src/hooks/*"],
       "@utils/*": ["./src/utils/*"],
       "@api/*": ["./src/api/*"],
-      "@styles/*": ["./src/app/styles/*"],
+      "@contexts/*": ["./src/contexts/*"],
+      "@styles/*": ["./src/styles/*"],
       "@pages/*": ["./src/app/pages/*"],
     }
   },
@@ -34,8 +35,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/**/*.js",
-    "src/app/types/**/*.ts"
+    "src/**/*.js"
   ],
   "exclude": ["node_modules"]
 }

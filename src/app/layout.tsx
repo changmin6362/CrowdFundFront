@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import {
   PretendardRegular,
-} from "./styles/fonts";
+} from "@styles/fonts";
 
 // 메타데이터 선언
 export const metadata: Metadata = {

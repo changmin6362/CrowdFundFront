@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, ReactNode } from "react";
-import ErrorModal from "../components/ui/modal/errorModal";
+import ErrorModal from "@components/ui/modal/errorModal";
 
 interface ErrorModalContextType {
   errorMessage: string | null;
