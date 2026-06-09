@@ -1,31 +1,12 @@
 "use client";
 
-import { useState } from "react";
-import { useAuth } from "@api/auth/useAuth";
-import { LoginRequest } from "@api/auth/types";
+import { useLogin } from "@api/auth/useLogin";
 import Link from "next/link";
 import { ROUTES } from "@/constants/routes";
 
 export default function LoginPage() {
-  const { login, isLoading, error } = useAuth();
+  const { request, setRequest, onSubmit, isLoading, error, response } = useLogin();
   
-  const [loginData, setLoginData] = useState<LoginRequest>({
-    email: "",
-    password: "",
-  });
-
-  const [result, setResult] = useState<any>(null);
-
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      const res = await login(loginData);
-      setResult({ type: "LOGIN SUCCESS", data: res });
-    } catch (err: any) {
-      setResult({ type: "LOGIN ERROR", message: err.message });
-    }
-  };
-
   return (
     <div className="p-8 max-w-2xl mx-auto space-y-8">
       <div className="flex justify-between items-center">
@@ -44,14 +25,14 @@ export default function LoginPage() {
       )}
 
       <section className="p-6 border rounded-lg shadow-sm">
-        <form onSubmit={handleLogin} className="space-y-4">
+        <form onSubmit={onSubmit} className="space-y-4">
           <div>
             <label className="block text-sm font-medium">Email</label>
             <input
               type="email"
               className="w-full p-2 border rounded"
-              value={loginData.email}
-              onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
+              value={request.email}
+              onChange={(e) => setRequest({ ...request, email: e.target.value })}
               required
             />
           </div>
@@ -60,8 +41,8 @@ export default function LoginPage() {
             <input
               type="password"
               className="w-full p-2 border rounded"
-              value={loginData.password}
-              onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
+              value={request.password}
+              onChange={(e) => setRequest({ ...request, password: e.target.value })}
               required
             />
           </div>
@@ -75,11 +56,11 @@ export default function LoginPage() {
         </form>
       </section>
 
-      {result && (
+      {response && (
         <section className="p-6 bg-gray-50 border rounded-lg">
           <h2 className="text-xl font-semibold mb-4">API Result</h2>
           <pre className="bg-white p-4 border rounded overflow-auto max-h-96 text-sm">
-            {JSON.stringify(result, null, 2)}
+            {JSON.stringify(response, null, 2)}
           </pre>
         </section>
       )}

@@ -1,34 +1,12 @@
 "use client";
 
-import { useState } from "react";
-import { useAuth } from "@api/auth/useAuth";
-import { SignUpRequest } from "@api/auth/types";
+import { useSignUp } from "@api/auth/useSignUp";
 import Link from "next/link";
 import { ROUTES } from "@/constants/routes";
 
 export default function SignUpPage() {
-  const { signUp, isLoading, error } = useAuth();
+  const { request, setRequest, onSubmit, isLoading, error, response } = useSignUp();
   
-  const [signUpData, setSignUpData] = useState<SignUpRequest>({
-    email: "",
-    password: "",
-    nickname: "",
-    name: "",
-    phone: "",
-  });
-
-  const [result, setResult] = useState<any>(null);
-
-  const handleSignUp = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      const res = await signUp(signUpData);
-      setResult({ type: "SIGNUP SUCCESS", data: res });
-    } catch (err: any) {
-      setResult({ type: "SIGNUP ERROR", message: err.message });
-    }
-  };
-
   return (
     <div className="p-8 max-w-2xl mx-auto space-y-8">
       <div className="flex justify-between items-center">
@@ -47,14 +25,14 @@ export default function SignUpPage() {
       )}
 
       <section className="p-6 border rounded-lg shadow-sm">
-        <form onSubmit={handleSignUp} className="space-y-4">
+        <form onSubmit={onSubmit} className="space-y-4">
           <div>
             <label className="block text-sm font-medium">Email</label>
             <input
               type="email"
               className="w-full p-2 border rounded"
-              value={signUpData.email}
-              onChange={(e) => setSignUpData({ ...signUpData, email: e.target.value })}
+              value={request.email}
+              onChange={(e) => setRequest({ ...request, email: e.target.value })}
               required
             />
           </div>
@@ -63,8 +41,8 @@ export default function SignUpPage() {
             <input
               type="password"
               className="w-full p-2 border rounded"
-              value={signUpData.password}
-              onChange={(e) => setSignUpData({ ...signUpData, password: e.target.value })}
+              value={request.password}
+              onChange={(e) => setRequest({ ...request, password: e.target.value })}
               required
             />
           </div>
@@ -73,8 +51,8 @@ export default function SignUpPage() {
             <input
               type="text"
               className="w-full p-2 border rounded"
-              value={signUpData.nickname}
-              onChange={(e) => setSignUpData({ ...signUpData, nickname: e.target.value })}
+              value={request.nickname}
+              onChange={(e) => setRequest({ ...request, nickname: e.target.value })}
               required
             />
           </div>
@@ -83,8 +61,8 @@ export default function SignUpPage() {
             <input
               type="text"
               className="w-full p-2 border rounded"
-              value={signUpData.name}
-              onChange={(e) => setSignUpData({ ...signUpData, name: e.target.value })}
+              value={request.name}
+              onChange={(e) => setRequest({ ...request, name: e.target.value })}
               required
             />
           </div>
@@ -94,8 +72,8 @@ export default function SignUpPage() {
               type="text"
               placeholder="010-0000-0000"
               className="w-full p-2 border rounded"
-              value={signUpData.phone}
-              onChange={(e) => setSignUpData({ ...signUpData, phone: e.target.value })}
+              value={request.phone}
+              onChange={(e) => setRequest({ ...request, phone: e.target.value })}
               required
             />
           </div>
@@ -109,11 +87,11 @@ export default function SignUpPage() {
         </form>
       </section>
 
-      {result && (
+      {response && (
         <section className="p-6 bg-gray-50 border rounded-lg">
           <h2 className="text-xl font-semibold mb-4">API Result</h2>
           <pre className="bg-white p-4 border rounded overflow-auto max-h-96 text-sm">
-            {JSON.stringify(result, null, 2)}
+            {JSON.stringify(response, null, 2)}
           </pre>
         </section>
       )}
