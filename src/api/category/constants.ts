@@ -1,13 +1,13 @@
 export const CATEGORY_ENDPOINTS = {
   USER: {
-    FETCH: '/api/category',
+    FETCH: '/api/categories',
   },
   ADMIN: {
-    CREATE: '/api/category/admin',
-    RENAME: (id: number) => `/api/category/admin/${id}/name`,
-    MOVE: (id: number) => `/api/category/admin/${id}/parent`,
-    REORDER: '/api/category/admin/reorder',
-    ACTIVE: (id: number) => `/api/category/admin/${id}/active`,
-    DELETE: (id: number) => `/api/category/admin/${id}`,
+    CREATE: '/api/admin/categories',
+    RENAME: (id: number) => `/api/admin/categories/${id}/rename`,
+    MOVE: (id: number) => `/api/admin/categories/${id}/parent`,
+    REORDER: '/api/admin/categories/sort-order',
+    ACTIVE: (id: number) => `/api/admin/categories/${id}/toggle`,
+    DELETE: (id: number) => `/api/admin/categories/${id}`,
   }
 } as const;
