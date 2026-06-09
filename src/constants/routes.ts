@@ -1,7 +1,8 @@
 export const ROUTES = {
-  AUTH_TEST: {
+  AUTH: {
     LOGIN: "/login",
     SIGNUP: "/signup",
   },
   HOME: "/",
+  MY_PAGE: "/my-page",
 } as const;

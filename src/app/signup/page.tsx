@@ -11,7 +11,7 @@ export default function SignUpPage() {
     <div className="p-8 max-w-2xl mx-auto space-y-8">
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold">SignUp Test</h1>
-        <Link href={ROUTES.AUTH_TEST.LOGIN} className="text-blue-600 hover:underline">
+        <Link href={ROUTES.AUTH.LOGIN} className="text-blue-600 hover:underline">
           Go to Login Test
         </Link>
       </div>
