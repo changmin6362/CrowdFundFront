@@ -19,6 +19,7 @@ export const useApiHandler = () => {
       };
 
       const response = await axios<ApiResult<T>>({
+        baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
         ...config,
         headers,
       });
