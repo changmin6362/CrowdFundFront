@@ -44,48 +44,6 @@ export interface PaymentDetail {
   createdAt?: string;
 }
 
-/** 결제 요청 */
-export interface PaymentCreateRequest {
-  /**
-   * 후원 ID
-   * @format int64
-   * @example 1
-   */
-  pledgeId: number;
-  /**
-   * 결제 수단
-   * @example "CARD"
-   */
-  paymentMethod: PaymentMethod;
-  /**
-   * 결제 금액
-   * @example 35000
-   */
-  amount: number;
-}
-
-/** 결제 요청 응답 */
-export interface PaymentCreateResponse {
-  /**
-   * 결제 ID
-   * @format int64
-   * @example 1
-   */
-  paymentId?: number;
-}
-
-/** 결제 상세 조회 응답 */
-export interface PaymentDetailResponse {
-  /** 결제 상세 정보 */
-  paymentDetail?: PaymentDetail;
-}
-
-/** 결제 이력 조회 응답 */
-export interface PaymentHistoryResponse {
-  /** 결제 이력 목록 */
-  paymentHistories?: PaymentHistoryInfo[];
-}
-
 /** 결제 이력 정보 */
 export interface PaymentHistoryInfo {
   /**
