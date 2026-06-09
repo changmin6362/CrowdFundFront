@@ -1,10 +1,4 @@
-/** 프로젝트의 리워드 목록 조회 응답 */
-export interface UserRewardsFetchResponse {
-  /** 리워드 목록 */
-  rewards?: RewardFetchInfo[];
-}
-
-/** 리워드 조회 정보 (사용자용) */
+/** 리워드 정보 (사용자용) */
 export interface RewardFetchInfo {
   /**
    * 리워드 ID
@@ -45,4 +39,15 @@ export interface RewardFetchInfo {
    * @example "2023-08-01T12:00:00"
    */
   createdAt?: string;
+}
+
+/** 리워드 기본 정보 (창작자용) */
+export interface RewardInfo {
+  rewardId: number;
+  projectId: number;
+  title: string;
+  description: string;
+  price: number;
+  stock: number;
+  createdAt: string; // ISO Date String
 }
