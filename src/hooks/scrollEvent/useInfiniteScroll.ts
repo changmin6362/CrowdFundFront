@@ -1,4 +1,4 @@
-import { RefObject, useCallback, useRef, useEffect } from "react";
+import { RefObject, useCallback, useEffect, useRef } from "react";
 
 interface UseInfiniteScrollProps {
   hasMore: boolean;
@@ -66,7 +66,9 @@ export default function useInfiniteScroll({
   }, [checkVisibility, scrollContainerRef, disabled, hasMore]);
 
   // ref를 할당하고 visibility를 체크하는 콜백 함수
-  const LastItemRef = useCallback(
+
+
+  return useCallback(
     (node: HTMLElement | null) => {
       // 새로운 요소에 ref 할당
       targetRef.current = node;
@@ -77,6 +79,4 @@ export default function useInfiniteScroll({
     },
     [checkVisibility, disabled, hasMore],
   );
-
-  return LastItemRef;
 }

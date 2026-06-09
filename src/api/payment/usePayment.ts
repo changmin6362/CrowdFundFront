@@ -45,7 +45,7 @@ export const usePayment = () => {
   /**
    * 결제 환불
    */
-  const refundPayment = async (paymentId: number): Promise<ApiResult<void>> => {
+  const refundPayment = async (paymentId: number): Promise<ApiResult> => {
     return handleApiCall<void>({
       url: PAYMENT_ENDPOINTS.REFUND(paymentId),
       method: 'DELETE',

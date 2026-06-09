@@ -9,7 +9,7 @@ export const useAuth = () => {
   /**
    * 회원가입
    */
-  const signUp = async (data: SignUpRequest): Promise<ApiResult<void>> => {
+  const signUp = async (data: SignUpRequest): Promise<ApiResult> => {
     return handleApiCall<void>(
       {
         url: AUTH_ENDPOINTS.SIGN_UP,

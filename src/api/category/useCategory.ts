@@ -38,7 +38,7 @@ export const useCategory = () => {
   /**
    * [Admin] 카테고리 이름 변경
    */
-  const renameCategory = async (id: number, data: AdminCategoryRenameRequest): Promise<ApiResult<void>> => {
+  const renameCategory = async (id: number, data: AdminCategoryRenameRequest): Promise<ApiResult> => {
     return handleApiCall<void>({
       url: CATEGORY_ENDPOINTS.ADMIN.RENAME(id),
       method: 'PATCH',
@@ -49,7 +49,7 @@ export const useCategory = () => {
   /**
    * [Admin] 카테고리 이동 (부모 변경)
    */
-  const moveCategory = async (id: number, data: AdminCategoryMoveRequest): Promise<ApiResult<void>> => {
+  const moveCategory = async (id: number, data: AdminCategoryMoveRequest): Promise<ApiResult> => {
     return handleApiCall<void>({
       url: CATEGORY_ENDPOINTS.ADMIN.MOVE(id),
       method: 'PATCH',
@@ -60,7 +60,7 @@ export const useCategory = () => {
   /**
    * [Admin] 카테고리 정렬 순서 변경
    */
-  const reorderCategories = async (data: AdminCategoryReorderRequest): Promise<ApiResult<void>> => {
+  const reorderCategories = async (data: AdminCategoryReorderRequest): Promise<ApiResult> => {
     return handleApiCall<void>({
       url: CATEGORY_ENDPOINTS.ADMIN.REORDER,
       method: 'PATCH',
@@ -71,7 +71,7 @@ export const useCategory = () => {
   /**
    * [Admin] 카테고리 활성화/비활성화
    */
-  const toggleCategoryActive = async (id: number, data: AdminCategoryActiveRequest): Promise<ApiResult<void>> => {
+  const toggleCategoryActive = async (id: number, data: AdminCategoryActiveRequest): Promise<ApiResult> => {
     return handleApiCall<void>({
       url: CATEGORY_ENDPOINTS.ADMIN.ACTIVE(id),
       method: 'PATCH',
@@ -82,7 +82,7 @@ export const useCategory = () => {
   /**
    * [Admin] 카테고리 삭제
    */
-  const deleteCategory = async (id: number): Promise<ApiResult<void>> => {
+  const deleteCategory = async (id: number): Promise<ApiResult> => {
     return handleApiCall<void>({
       url: CATEGORY_ENDPOINTS.ADMIN.DELETE(id),
       method: 'DELETE',

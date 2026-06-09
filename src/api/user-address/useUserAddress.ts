@@ -48,7 +48,7 @@ export const useUserAddress = () => {
   /**
    * 내 배송지 삭제
    */
-  const deleteAddress = async (id: number): Promise<ApiResult<void>> => {
+  const deleteAddress = async (id: number): Promise<ApiResult> => {
     return handleApiCall<void>({
       url: USER_ADDRESS_ENDPOINTS.DELETE(id),
       method: 'DELETE',

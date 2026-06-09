@@ -58,7 +58,7 @@ export const useProject = () => {
   /**
    * [Creator] 프로젝트 제목과 본문 수정
    */
-  const updateProject = async (projectId: number, data: CreatorProjectUpdateRequest): Promise<ApiResult<void>> => {
+  const updateProject = async (projectId: number, data: CreatorProjectUpdateRequest): Promise<ApiResult> => {
     return handleApiCall<void>({
       url: PROJECT_ENDPOINTS.CREATOR.UPDATE(projectId),
       method: 'PATCH',
@@ -69,7 +69,7 @@ export const useProject = () => {
   /**
    * [Creator] 프로젝트 삭제
    */
-  const deleteProject = async (projectId: number): Promise<ApiResult<void>> => {
+  const deleteProject = async (projectId: number): Promise<ApiResult> => {
     return handleApiCall<void>({
       url: PROJECT_ENDPOINTS.CREATOR.DELETE(projectId),
       method: 'DELETE',
@@ -79,7 +79,7 @@ export const useProject = () => {
   /**
    * [Creator] 프로젝트 취소
    */
-  const cancelProject = async (projectId: number): Promise<ApiResult<void>> => {
+  const cancelProject = async (projectId: number): Promise<ApiResult> => {
     return handleApiCall<void>({
       url: PROJECT_ENDPOINTS.CREATOR.CANCEL(projectId),
       method: 'PATCH',

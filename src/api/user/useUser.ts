@@ -30,7 +30,7 @@ export const useUser = () => {
   /**
    * 회원 탈퇴
    */
-  const deleteMe = async (): Promise<ApiResult<void>> => {
+  const deleteMe = async (): Promise<ApiResult> => {
     return handleApiCall<void>({
       url: USER_ENDPOINTS.DELETE,
       method: 'DELETE',
