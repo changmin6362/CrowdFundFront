@@ -1,6 +1,6 @@
 "use client";
 
-import { useLogin } from "@api/auth/useLogin";
+import { useLogin } from "@api/auth/login/useLogin";
 import Link from "next/link";
 import { ROUTES } from "@/constants/routes";
 

@@ -1,36 +1,33 @@
 import { useState } from "react";
-import { LoginRequest, LoginResponse } from "@api/auth/types";
 import { ApiResult } from "@api/_common/types";
 import { useApiHandler } from "@api/_common/useApiHandler";
 import { AUTH_ENDPOINTS } from "@api/auth/constants";
+import { SignUpRequest } from "@api/auth/signup/signUpRequest";
 
-export const useLogin = () => {
+export const useSignUp = () => {
   const { isLoading, error, handleApiCall } = useApiHandler();
-  const [response, setResponse] = useState<ApiResult<LoginResponse> | null>(null);
+  const [response, setResponse] = useState<ApiResult<void> | null>(null);
 
-  const [request, setRequest] = useState<LoginRequest>({
+  const [request, setRequest] = useState<SignUpRequest>({
     email: "",
     password: "",
+    nickname: "",
+    name: "",
+    phone: "",
   });
 
-  const login = async (data: LoginRequest): Promise<ApiResult<LoginResponse>> => {
-    const res = await handleApiCall<LoginResponse>({
-      url: AUTH_ENDPOINTS.LOGIN,
+  const signUp = async (data: SignUpRequest): Promise<ApiResult<void>> => {
+    return handleApiCall<void>({
+      url: AUTH_ENDPOINTS.SIGN_UP,
       method: "POST",
       data,
     });
-
-    if (res.data?.accessToken) {
-      localStorage.setItem("accessToken", res.data.accessToken);
-    }
-
-    return res;
   };
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await login(request);
+      const res = await signUp(request);
       setResponse(res);
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : String(err);

@@ -1,6 +1,6 @@
 "use client";
 
-import { useSignUp } from "@api/auth/useSignUp";
+import { useSignUp } from "@api/auth/signup/useSignUp";
 import Link from "next/link";
 import { ROUTES } from "@/constants/routes";
 
