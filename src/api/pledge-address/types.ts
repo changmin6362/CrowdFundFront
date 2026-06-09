@@ -1,15 +1,3 @@
-/** 참여한 후원의 배송 정보 교체 요청 */
-export interface PledgeAddressReplaceRequest {
-  /** 교체할 배송지 ID (배송지 관리 목록에 등록된 ID) */
-  addressId: number;
-}
-
-/** 참여한 후원의 배송 정보 교체 응답 */
-export interface PledgeAddressReplaceResponse {
-  /** 교체된 후원의 배송 정보 */
-  replacedPledgeAddress: PledgeAddressInfo;
-}
-
 /** 후원 배송 정보 상세 */
 export interface PledgeAddressInfo {
   /**
