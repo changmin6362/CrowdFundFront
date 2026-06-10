@@ -18,9 +18,8 @@ export const useMyPledgeFetch = (props?: UseMyPledgeFetchProps) => {
   const [response, setResponse] = useState<ApiResult<MyPledgesFetchResponse> | null>(null);
   const [pledges, setPledges] = useState<MyPledgeInfo[]>([]);
 
-  // 💡 [수정 포인트] Partial<CursorRequest>를 적용하여 첫 호출 시 커서 정보가 없어도 에러가 나지 않게 합니다.
   const fetchMyPledges = useCallback(async (
-    query?: Partial<CursorRequest> & UseMyPledgeFetchProps,
+    query?: CursorRequest & UseMyPledgeFetchProps,
     isAppend: boolean = false
   ): Promise<ApiResult<MyPledgesFetchResponse>> => {
     try {
@@ -45,9 +44,9 @@ export const useMyPledgeFetch = (props?: UseMyPledgeFetchProps) => {
     }
   }, [handleApiCall]);
 
-  // 첫 진입 및 필터 변경 시 자동 호출 (타입 에러 완벽 해결)
+  // 첫 진입 및 필터 변경 시 자동 호출
   useEffect(() => {
-    fetchMyPledges({ fulfillmentStatus, pledgeStatus, limit });
+    fetchMyPledges({ fulfillmentStatus, pledgeStatus, limit, id: null, createdAt: null });
   }, [fetchMyPledges, fulfillmentStatus, pledgeStatus, limit]);
 
   // 다음 페이지 가져오기
@@ -68,6 +67,6 @@ export const useMyPledgeFetch = (props?: UseMyPledgeFetchProps) => {
     response,
     pledges,
     onLoadMore,
-    handleRefresh: () => fetchMyPledges({ fulfillmentStatus, pledgeStatus, limit }),
+    handleRefresh: () => fetchMyPledges({ fulfillmentStatus, pledgeStatus, limit, id: null, createdAt: null }),
   };
 };

@@ -47,7 +47,7 @@ export const useAdminPledgeFetch = (props?: UseAdminPledgeFetchProps) => {
   }, [handleApiCall]);
 
   useEffect(() => {
-    fetchAdminPledges({ fulfillmentStatus, pledgeStatus, limit });
+    fetchAdminPledges({ fulfillmentStatus, pledgeStatus, limit, id: null, createdAt: null });
   }, [fetchAdminPledges, fulfillmentStatus, pledgeStatus, limit]);
 
   const onLoadMore = useCallback(() => {
@@ -62,7 +62,7 @@ export const useAdminPledgeFetch = (props?: UseAdminPledgeFetchProps) => {
   }, [fetchAdminPledges, fulfillmentStatus, pledgeStatus, limit, response?.data?.hasNext, response?.data?.nextCursor]);
 
   const handleRefresh = useCallback(() => {
-    return fetchAdminPledges({ fulfillmentStatus, pledgeStatus, limit });
+    return fetchAdminPledges({ fulfillmentStatus, pledgeStatus, limit, id: null, createdAt: null });
   }, [fetchAdminPledges, fulfillmentStatus, pledgeStatus, limit]);
 
   return {

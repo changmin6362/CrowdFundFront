@@ -11,7 +11,9 @@ export default function MyProjectsPage() {
     projects, 
     isLoading: isFetchLoading, 
     handleRefresh,
-    error: fetchError
+    error: fetchError,
+    response,
+    onLoadMore
   } = useProjectMyFetch();
 
   const { onDelete, isLoading: isDeleteLoading } = useProjectDelete(handleRefresh);
@@ -117,6 +119,18 @@ export default function MyProjectsPage() {
               </div>
             </div>
           ))}
+        </div>
+      )}
+
+      {response?.data?.hasNext && (
+        <div className="mt-8 text-center">
+          <button
+            onClick={() => onLoadMore()}
+            disabled={isLoading}
+            className="px-6 py-2 border border-gray-300 rounded-lg text-sm font-medium hover:bg-gray-50 transition disabled:opacity-50"
+          >
+            {isFetchLoading ? '로딩 중...' : '더 보기'}
+          </button>
         </div>
       )}
     </div>
