@@ -4,6 +4,7 @@ import { useApiHandler } from "@api/_common/useApiHandler";
 import { AUTH_ENDPOINTS } from "@api/auth/constants";
 import { LoginRequest } from "@api/auth/login/loginRequest";
 import { LoginResponse } from "@api/auth/login/loginResponse";
+import Cookies from "js-cookie";
 
 export const useLogin = () => {
   const { isLoading, error, handleApiCall } = useApiHandler();
@@ -22,7 +23,8 @@ export const useLogin = () => {
     });
 
     if (res.data?.accessToken) {
-      localStorage.setItem("accessToken", res.data.accessToken);
+      // Middleware에서도 접근할 수 있도록 쿠키에 저장
+      Cookies.set("accessToken", res.data.accessToken, { expires: 1 }); // 1일 동안 유지
     }
 
     return res;

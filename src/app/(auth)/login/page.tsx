@@ -66,7 +66,7 @@ export default function LoginPage() {
       )}
 
       <div className="text-sm text-gray-500">
-        <p>* 로그인 성공 시 `accessToken`은 localStorage에 자동으로 저장됩니다.</p>
+        <p>* 로그인 성공 시 `accessToken`은 쿠키에 자동으로 저장됩니다.</p>
         <p>* `useApiHandler`를 통해 로딩 상태와 에러 메시지가 관리됩니다.</p>
       </div>
     </div>

@@ -1,6 +1,7 @@
 import { useState, useCallback } from "react";
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import { ApiResult } from "./types";
+import Cookies from "js-cookie";
 
 export const useApiHandler = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -12,7 +13,8 @@ export const useApiHandler = () => {
     setIsLoading(true);
     setError(null);
     try {
-      const accessToken = localStorage.getItem('accessToken');
+      // 쿠키에서 토큰을 확인
+      const accessToken = Cookies.get('accessToken');
       const headers = {
         ...config.headers,
         ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
