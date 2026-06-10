@@ -42,6 +42,12 @@ export default function Home() {
               >
                 Admin Category Test Page
               </Link>
+              <Link
+                href={ROUTES.PROJECT.LIST}
+                className="p-4 border rounded-lg hover:bg-gray-50 text-xl font-medium"
+              >
+                Project List Test Page
+              </Link>
             </div>
           </div>
         </ErrorModalProvider>

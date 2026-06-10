@@ -9,4 +9,7 @@ export const ROUTES = {
   ADMIN: {
     CATEGORY: "/category",
   },
+  PROJECT: {
+    LIST: "/project",
+  },
 } as const;
