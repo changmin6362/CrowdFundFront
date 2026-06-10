@@ -1,5 +1,10 @@
 /** 사용자의 역할 */
-export type UserRole = "USER" | "ADMIN";
+export const UserRole = {
+  USER: "ROLE_USER",
+  ADMIN: "ROLE_ADMIN",
+} as const;
+
+export type UserRole = (typeof UserRole)[keyof typeof UserRole];
 
 /** 유저 상세 정보 데이터 */
 export interface UserDataInfo {

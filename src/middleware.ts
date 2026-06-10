@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { ROUTES } from './constants/routes';
+import { decodeJwt } from 'jose';
+import { UserRole } from "@api/user/types";
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -13,8 +15,21 @@ export function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL(ROUTES.AUTH.LOGIN, request.url));
     }
     
-    // TODO: JWT 디코딩을 통해 role이 ADMIN인지 확인하는 로직 추가 가능
-    // 현재는 토큰 유무만 체크 (서버 API에서 403으로 한 번 더 걸러짐)
+    try {
+      // JWT 디코딩을 통해 role이 ADMIN인지 확인
+      const payload = decodeJwt(accessToken);
+
+      const role = payload.auth as string;
+      
+      if (role !== UserRole.ADMIN) {
+        // 관리자가 아니면 홈으로 리다이렉트
+        return NextResponse.redirect(new URL(ROUTES.HOME, request.url));
+      }
+    } catch (error) {
+      // 토큰이 유효하지 않으면 로그인 페이지로 리다이렉트
+      console.error('올바른 JWT 토큰이 아닙니다 : ', error);
+      return NextResponse.redirect(new URL(ROUTES.AUTH.LOGIN, request.url));
+    }
   }
 
   // 인증이 필요한 일반 사용자 페이지 접근 제어
