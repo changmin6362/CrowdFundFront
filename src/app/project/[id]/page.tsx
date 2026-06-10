@@ -2,45 +2,31 @@
 
 import React from 'react';
 import { useParams } from 'next/navigation';
-import { useProjectDetail } from '@api/project/user/detail/useProjectDetail';
-import { useRewardFetch } from '@api/reward/user/fetch/useRewardFetch';
-import { useCommentFetch } from '@api/comment/fetch/useCommentFetch';
-import { useCommentCreate } from '@api/comment/create/useCommentCreate';
+import { ROUTES } from "@/constants/routes";
+import Link from 'next/link';
+import { useProjectDetailPage } from './useProjectDetailPage';
 
 export default function ProjectDetailPage() {
   const params = useParams();
   const projectId = params.id ? Number(params.id) : 0;
 
-  const { 
-    response: projectResponse, 
-    isLoading: isProjectLoading 
-  } = useProjectDetail(projectId);
-
-  const { 
-    response: rewardResponse, 
-    isLoading: isRewardLoading 
-  } = useRewardFetch(projectId);
-
-  const { 
-    comments, 
-    onLoadMore, 
-    response: commentFetchResponse,
-    isLoading: isCommentLoading,
-    handleRefresh: refreshComments
-  } = useCommentFetch(projectId);
-
   const {
-    request: commentRequest,
-    setRequest: setCommentRequest,
-    onSubmit: onCommentSubmit,
-    isLoading: isCommentCreating,
-    response: commentCreateResponse
-  } = useCommentCreate(projectId, refreshComments);
+    project,
+    rewards,
+    comments,
+    onLoadMore,
+    commentFetchResponse,
+    isProjectLoading,
+    isCommentLoading,
+    commentRequest,
+    setCommentRequest,
+    onCommentSubmit,
+    isCommentCreating,
+    commentCreateResponse
+  } = useProjectDetailPage(projectId);
 
   if (isProjectLoading) return <div className="p-8 text-center">프로젝트 정보를 불러오는 중...</div>;
-  if (!projectResponse?.data?.projectDetail) return <div className="p-8 text-center text-red-500">프로젝트를 찾을 수 없습니다.</div>;
-
-  const project = projectResponse.data.projectDetail;
+  if (!project) return <div className="p-8 text-center text-red-500">프로젝트를 찾을 수 없습니다.</div>;
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
@@ -71,10 +57,31 @@ export default function ProjectDetailPage() {
               <span className="text-sm text-gray-500">목표 금액</span>
               <p className="text-lg">{project.goalAmount?.toLocaleString()}원</p>
             </div>
-            <button className="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition">
-              프로젝트 후원하기
-            </button>
           </div>
+        </div>
+      </div>
+
+      {/* 오른쪽: 리워드 목록 */}
+      <div className="lg:col-span-1" id="reward-section">
+        <h2 className="text-xl font-bold mb-4 pb-2 border-b">리워드 선택</h2>
+        <div className="space-y-4">
+          {rewards.map((reward) => (
+            <Link
+              key={reward.rewardId}
+              href={`${ROUTES.PROJECT.PLEDGE(projectId)}?rewardId=${reward.rewardId}`}
+              className="block p-4 border rounded-lg hover:border-blue-500 cursor-pointer transition bg-white shadow-sm"
+            >
+              <p className="text-blue-600 font-bold mb-1">{reward.price?.toLocaleString()}원</p>
+              <h3 className="font-semibold mb-2">{reward.title}</h3>
+              <p className="text-sm text-gray-600 mb-3">{reward.description}</p>
+              <div className="flex justify-between text-xs text-gray-400">
+                <span>남은 수량: {reward.stock}개</span>
+              </div>
+            </Link>
+          ))}
+          {rewards.length === 0 && (
+            <p className="text-center text-gray-400 py-4">등록된 리워드가 없습니다.</p>
+          ) }
         </div>
       </div>
 
@@ -149,31 +156,6 @@ export default function ProjectDetailPage() {
               )}
             </div>
           </section>
-        </div>
-
-        {/* 오른쪽: 리워드 목록 */}
-        <div className="lg:col-span-1">
-          <h2 className="text-xl font-bold mb-4 pb-2 border-b">리워드 선택</h2>
-          <div className="space-y-4">
-            {isRewardLoading ? (
-              <p className="text-center text-gray-500 py-4">리워드 정보를 불러오는 중...</p>
-            ) : (project.rewards || rewardResponse?.data?.rewards)?.map((reward) => (
-              <div 
-                key={reward.rewardId} 
-                className="p-4 border rounded-lg hover:border-blue-500 cursor-pointer transition bg-white shadow-sm"
-              >
-                <p className="text-blue-600 font-bold mb-1">{reward.price?.toLocaleString()}원</p>
-                <h3 className="font-semibold mb-2">{reward.title}</h3>
-                <p className="text-sm text-gray-600 mb-3">{reward.description}</p>
-                <div className="flex justify-between text-xs text-gray-400">
-                  <span>남은 수량: {reward.stock}개</span>
-                </div>
-              </div>
-            ))}
-            {!isRewardLoading && !project.rewards && (!rewardResponse?.data?.rewards || rewardResponse.data.rewards.length === 0) && (
-              <p className="text-center text-gray-400 py-4">등록된 리워드가 없습니다.</p>
-            ) }
-          </div>
         </div>
       </div>
     </div>

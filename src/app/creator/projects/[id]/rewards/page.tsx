@@ -1,52 +1,42 @@
 'use client';
 
 import React from 'react';
-import { useParams, useRouter } from 'next/navigation';
-import { useRewardFetch } from '@api/reward/user/fetch/useRewardFetch';
-import { useRewardCreate } from '@api/reward/creator/create/useRewardCreate';
-import { useRewardUpdate } from '@api/reward/creator/update/useRewardUpdate';
-import { useRewardUpdateStock } from '@api/reward/creator/update-stock/useRewardUpdateStock';
-import { useRewardDelete } from '@api/reward/creator/delete/useRewardDelete';
+import { useParams } from 'next/navigation';
 import { ROUTES } from '@/constants/routes';
+import { useRewardManagementPage } from './useRewardManagementPage';
 
 export default function RewardManagementPage() {
   const params = useParams();
-  const router = useRouter();
   const projectId = params.id ? Number(params.id) : 0;
 
-  const { response: fetchResponse, isLoading: isFetchLoading, handleRefresh } = useRewardFetch(projectId);
-  const rewards = fetchResponse?.data?.rewards || [];
-
-  const { 
-    request: createRequest, 
+  const {
+    rewards,
+    isFetchLoading,
+    handleRefresh,
+    createRequest,
     isAdding,
     setIsAdding,
-    handleInputChange: handleCreateInputChange,
-    onFormSubmit: onCreateSubmit, 
-    isLoading: isCreateLoading 
-  } = useRewardCreate();
-
-  const {
-    request: updateRequest,
+    handleCreateInputChange,
+    onCreateSubmit,
+    isCreateLoading,
+    updateRequest,
     editingRewardId,
     setEditingRewardId,
     startEdit,
-    handleInputChange: handleUpdateInputChange,
-    onFormSubmit: onUpdateSubmit,
-    isLoading: isUpdateLoading
-  } = useRewardUpdate();
-
-  const {
-    request: stockRequest,
-    setRequest: setStockRequest,
+    handleUpdateInputChange,
+    onUpdateSubmit,
+    isUpdateLoading,
+    stockRequest,
+    setStockRequest,
     stockEditingId,
     setStockEditingId,
     startStockEdit,
-    onFormSubmit: onStockSubmit,
-    isLoading: isStockLoading
-  } = useRewardUpdateStock();
-
-  const { deleteReward, isLoading: isDeleteLoading } = useRewardDelete();
+    onStockSubmit,
+    isStockLoading,
+    deleteReward,
+    isDeleteLoading,
+    router
+  } = useRewardManagementPage(projectId);
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">

@@ -12,6 +12,7 @@ export const ROUTES = {
   PROJECT: {
     LIST: "/project",
     DETAIL: (id: number) => `/project/${id}`,
+    PLEDGE: (id: number) => `/project/${id}/pledge`,
   },
   CREATOR: {
     MY_PROJECTS: "/creator/projects",
