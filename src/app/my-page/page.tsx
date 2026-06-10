@@ -9,7 +9,7 @@ export default function MyPage() {
   const user = fetchResponse?.data?.user || null;
   const { 
     request, 
-    setRequest, 
+    handleInputChange,
     onUpdate, 
     isUpdating,
     error: updateError,
@@ -38,8 +38,9 @@ export default function MyPage() {
           <label className="block text-sm font-medium text-gray-700">닉네임</label>
           <input
             type="text"
+            name="nickname"
             value={request.nickname}
-            onChange={(e) => setRequest({ ...request, nickname: e.target.value })}
+            onChange={handleInputChange}
             className="mt-1 block w-full border rounded-md p-2"
             required
           />
@@ -48,8 +49,9 @@ export default function MyPage() {
           <label className="block text-sm font-medium text-gray-700">이름</label>
           <input
             type="text"
+            name="name"
             value={request.name}
-            onChange={(e) => setRequest({ ...request, name: e.target.value })}
+            onChange={handleInputChange}
             className="mt-1 block w-full border rounded-md p-2"
             required
           />
@@ -58,8 +60,9 @@ export default function MyPage() {
           <label className="block text-sm font-medium text-gray-700">전화번호</label>
           <input
             type="text"
+            name="phone"
             value={request.phone}
-            onChange={(e) => setRequest({ ...request, phone: e.target.value })}
+            onChange={handleInputChange}
             className="mt-1 block w-full border rounded-md p-2"
             required
           />

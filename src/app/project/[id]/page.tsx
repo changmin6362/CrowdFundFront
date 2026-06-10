@@ -9,7 +9,7 @@ import { useCommentCreate } from '@api/comment/create/useCommentCreate';
 
 export default function ProjectDetailPage() {
   const params = useParams();
-  const projectId = Number(params.id);
+  const projectId = params.id ? Number(params.id) : 0;
 
   const { 
     response: projectResponse, 

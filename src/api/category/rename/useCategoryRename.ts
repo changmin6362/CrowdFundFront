@@ -48,9 +48,18 @@ export const useCategoryRename = () => {
     }
   };
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setRequest(prev => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   return {
     request,
     setRequest,
+    handleInputChange,
     onSubmit,
     onOpen,
     onClose,

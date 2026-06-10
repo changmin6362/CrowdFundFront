@@ -22,8 +22,8 @@ export const useCategoryDelete = () => {
         await deleteCategory(id);
         alert("카테고리가 삭제되었습니다.");
         if (onSuccess) onSuccess();
-      } catch (err: any) {
-        alert(`삭제 실패: ${err.message}`);
+      } catch (err) {
+        alert(`삭제 실패: ${err instanceof Error ? err.message : '알 수 없는 오류'}`);
       }
     }
   };

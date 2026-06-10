@@ -30,7 +30,11 @@ export default function AdminCategoryPage() {
         </div>
         <div className="flex gap-1">
           <button 
-            onClick={() => category.categoryId && createHook.onOpen(category.categoryId)} 
+            onClick={() => {
+              if (category.categoryId) {
+                createHook.onOpen(category.categoryId);
+              }
+            }} 
             className="p-1 text-xs bg-green-100 text-green-700 rounded hover:bg-green-200"
           >
             하위추가
@@ -48,7 +52,11 @@ export default function AdminCategoryPage() {
             이동
           </button>
           <button 
-            onClick={() => category.categoryId && activeHook.onToggle(category.categoryId, !!category.depth, handleRefresh)} 
+            onClick={() => {
+              if (category.categoryId) {
+                activeHook.onToggle(category.categoryId, !!category.depth, handleRefresh);
+              }
+            }} 
             className="p-1 text-xs bg-yellow-100 text-yellow-700 rounded hover:bg-yellow-200"
           >
             토글
@@ -66,7 +74,11 @@ export default function AdminCategoryPage() {
             ↓
           </button>
           <button 
-            onClick={() => category.categoryId && deleteHook.onDelete(category.categoryId, handleRefresh)} 
+            onClick={() => {
+              if (category.categoryId) {
+                deleteHook.onDelete(category.categoryId, handleRefresh);
+              }
+            }} 
             className="p-1 text-xs bg-red-100 text-red-700 rounded hover:bg-red-200"
           >
             삭제
@@ -124,8 +136,9 @@ export default function AdminCategoryPage() {
                   <label className="block text-sm font-medium mb-1">카테고리 이름</label>
                   <input
                     type="text"
+                    name="name"
                     value={createHook.request.name}
-                    onChange={(e) => createHook.setRequest({ ...createHook.request, name: e.target.value })}
+                    onChange={createHook.handleInputChange}
                     className="w-full border rounded p-2"
                     required
                     minLength={2}
@@ -138,8 +151,9 @@ export default function AdminCategoryPage() {
                   </label>
                   <input
                     type="number"
-                    value={createHook.request.parentId || ""}
-                    onChange={(e) => createHook.setRequest({ ...createHook.request, parentId: e.target.value ? Number(e.target.value) : null })}
+                    name="parentId"
+                    value={createHook.request.parentId ?? ""}
+                    onChange={createHook.handleInputChange}
                     className="w-full border rounded p-2"
                     placeholder="ID 입력"
                   />
@@ -159,8 +173,9 @@ export default function AdminCategoryPage() {
                   <label className="block text-sm font-medium mb-1">카테고리 이름</label>
                   <input
                     type="text"
+                    name="name"
                     value={renameHook.request.name}
-                    onChange={(e) => renameHook.setRequest({ ...renameHook.request, name: e.target.value })}
+                    onChange={renameHook.handleInputChange}
                     className="w-full border rounded p-2"
                     required
                     minLength={2}
@@ -184,8 +199,9 @@ export default function AdminCategoryPage() {
                   </label>
                   <input
                     type="number"
-                    value={moveHook.request.parentId || ""}
-                    onChange={(e) => moveHook.setRequest({ ...moveHook.request, parentId: e.target.value ? Number(e.target.value) : null })}
+                    name="parentId"
+                    value={moveHook.request.parentId ?? ""}
+                    onChange={moveHook.handleInputChange}
                     className="w-full border rounded p-2"
                     placeholder="ID 입력"
                   />

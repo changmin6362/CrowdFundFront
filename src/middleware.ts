@@ -33,7 +33,7 @@ export function middleware(request: NextRequest) {
   }
 
   // 인증이 필요한 일반 사용자 페이지 접근 제어
-  const authRequiredPaths = [ROUTES.MY_PAGE, ROUTES.MY_PAGE_ADDRESS];
+  const authRequiredPaths = [ROUTES.MY_PAGE, ROUTES.CREATOR.MY_PROJECTS];
   if (authRequiredPaths.some(path => pathname === path || pathname.startsWith(path + '/'))) {
     if (!accessToken) {
       return NextResponse.redirect(new URL(ROUTES.AUTH.LOGIN, request.url));
@@ -56,6 +56,7 @@ export const config = {
   matcher: [
     '/category/:path*',
     '/my-page/:path*',
+    '/creator/:path*',
     '/login',
     '/signup',
   ],

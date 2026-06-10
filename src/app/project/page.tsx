@@ -80,7 +80,7 @@ export default function ProjectListPage() {
               href={ROUTES.PROJECT.DETAIL(project.projectId!)}
               className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer"
             >
-              <div className="h-48 bg-gray-200 flex items-center justify-center">
+              <div className="h-48 bg-gray-200 flex items-center justify-center relative">
                 <span className="text-gray-400">이미지 준비 중</span>
               </div>
               <div className="p-4">

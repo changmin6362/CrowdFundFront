@@ -46,9 +46,18 @@ export const useUserMeUpdate = (initialData: UserDataInfo | null) => {
     }
   };
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setRequest(prev => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   return {
     request,
     setRequest,
+    handleInputChange,
     onUpdate: onSubmit,
     updateMe,
     isUpdating: isLoading,

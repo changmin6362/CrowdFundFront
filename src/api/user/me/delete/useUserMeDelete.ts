@@ -22,8 +22,8 @@ export const useUserMeDelete = () => {
         await deleteMe();
         alert("회원 탈퇴가 완료되었습니다.");
         window.location.href = "/";
-      } catch (err: any) {
-        alert(`탈퇴 실패: ${err.message}`);
+      } catch (err) {
+        alert(`탈퇴 실패: ${err instanceof Error ? err.message : '알 수 없는 오류'}`);
       }
     }
   };

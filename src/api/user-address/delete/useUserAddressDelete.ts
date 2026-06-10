@@ -22,8 +22,8 @@ export const useUserAddressDelete = () => {
         await deleteAddress(id);
         alert("배송지가 삭제되었습니다.");
         if (onSuccess) onSuccess();
-      } catch (err: any) {
-        alert(`삭제 실패: ${err.message}`);
+      } catch (err) {
+        alert(`삭제 실패: ${err instanceof Error ? err.message : '알 수 없는 오류'}`);
       }
     }
   };

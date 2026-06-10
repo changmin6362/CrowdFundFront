@@ -44,9 +44,29 @@ export const useCategoryCreate = () => {
     }
   };
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    
+    // 숫자형 데이터 처리 (parentId)
+    if (name === 'parentId') {
+      const numValue = value === '' ? null : Number(value);
+      setRequest(prev => ({
+        ...prev,
+        [name]: numValue === null || isNaN(numValue) ? null : numValue,
+      }));
+      return;
+    }
+
+    setRequest(prev => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   return {
     request,
     setRequest,
+    handleInputChange,
     onSubmit,
     onOpen,
     onClose,

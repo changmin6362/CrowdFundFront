@@ -22,8 +22,8 @@ export const useUserAddressSetDefault = () => {
       await setDefaultAddress(id);
       alert("기본 배송지로 설정되었습니다.");
       if (onSuccess) onSuccess();
-    } catch (err: any) {
-      alert(`설정 실패: ${err.message}`);
+    } catch (err) {
+      alert(`설정 실패: ${err instanceof Error ? err.message : '알 수 없는 오류'}`);
     }
   };
 

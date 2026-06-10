@@ -55,14 +55,23 @@ export const useUserAddressUpdate = () => {
       alert("배송지가 수정되었습니다.");
       if (onSuccess) onSuccess();
       onClose();
-    } catch (err: any) {
-      alert(`요청 실패: ${err.message}`);
+    } catch (err) {
+      alert(`요청 실패: ${err instanceof Error ? err.message : '알 수 없는 오류'}`);
     }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setRequest(prev => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   return {
     request,
     setRequest,
+    handleInputChange,
     onSubmit,
     onOpen,
     onClose,

@@ -60,7 +60,11 @@ export default function AddressPage() {
                     수정
                   </button>
                   <button
-                    onClick={() => addr.addressId && deleteHook.onDelete(addr.addressId, handleRefresh)}
+                    onClick={() => {
+                      if (addr.addressId) {
+                        deleteHook.onDelete(addr.addressId, handleRefresh);
+                      }
+                    }}
                     className="text-sm border px-3 py-1 rounded text-red-500 hover:bg-red-50"
                   >
                     삭제
@@ -68,7 +72,11 @@ export default function AddressPage() {
                 </div>
                 {!addr.isDefault && (
                   <button
-                    onClick={() => addr.addressId && setDefaultHook.onSetDefault(addr.addressId, handleRefresh)}
+                    onClick={() => {
+                      if (addr.addressId) {
+                        setDefaultHook.onSetDefault(addr.addressId, handleRefresh);
+                      }
+                    }}
                     disabled={setDefaultHook.isLoading}
                     className="text-xs border px-3 py-1 rounded hover:bg-gray-50"
                   >
@@ -96,11 +104,9 @@ export default function AddressPage() {
                 <label className="block text-sm font-medium mb-1">수령인</label>
                 <input
                   type="text"
+                  name="recipientName"
                   value={createHook.isOpen ? createHook.request.recipientName : updateHook.request.recipientName}
-                  onChange={(e) => createHook.isOpen 
-                    ? createHook.setRequest({ ...createHook.request, recipientName: e.target.value })
-                    : updateHook.setRequest({ ...updateHook.request, recipientName: e.target.value })
-                  }
+                  onChange={createHook.isOpen ? createHook.handleInputChange : updateHook.handleInputChange}
                   className="w-full border rounded p-2"
                   required
                 />
@@ -109,11 +115,9 @@ export default function AddressPage() {
                 <label className="block text-sm font-medium mb-1">연락처</label>
                 <input
                   type="text"
+                  name="phone"
                   value={createHook.isOpen ? createHook.request.phone : updateHook.request.phone}
-                  onChange={(e) => createHook.isOpen 
-                    ? createHook.setRequest({ ...createHook.request, phone: e.target.value })
-                    : updateHook.setRequest({ ...updateHook.request, phone: e.target.value })
-                  }
+                  onChange={createHook.isOpen ? createHook.handleInputChange : updateHook.handleInputChange}
                   placeholder="010-0000-0000"
                   className="w-full border rounded p-2"
                   required
@@ -123,11 +127,9 @@ export default function AddressPage() {
                 <label className="block text-sm font-medium mb-1">우편번호</label>
                 <input
                   type="text"
+                  name="postalCode"
                   value={createHook.isOpen ? createHook.request.postalCode : updateHook.request.postalCode}
-                  onChange={(e) => createHook.isOpen 
-                    ? createHook.setRequest({ ...createHook.request, postalCode: e.target.value })
-                    : updateHook.setRequest({ ...updateHook.request, postalCode: e.target.value })
-                  }
+                  onChange={createHook.isOpen ? createHook.handleInputChange : updateHook.handleInputChange}
                   className="w-full border rounded p-2"
                   required
                 />
@@ -136,11 +138,9 @@ export default function AddressPage() {
                 <label className="block text-sm font-medium mb-1">주소</label>
                 <input
                   type="text"
+                  name="addressMain"
                   value={createHook.isOpen ? createHook.request.addressMain : updateHook.request.addressMain}
-                  onChange={(e) => createHook.isOpen 
-                    ? createHook.setRequest({ ...createHook.request, addressMain: e.target.value })
-                    : updateHook.setRequest({ ...updateHook.request, addressMain: e.target.value })
-                  }
+                  onChange={createHook.isOpen ? createHook.handleInputChange : updateHook.handleInputChange}
                   className="w-full border rounded p-2"
                   required
                 />
@@ -149,11 +149,9 @@ export default function AddressPage() {
                 <label className="block text-sm font-medium mb-1">상세주소</label>
                 <input
                   type="text"
+                  name="addressDetail"
                   value={createHook.isOpen ? createHook.request.addressDetail : updateHook.request.addressDetail}
-                  onChange={(e) => createHook.isOpen 
-                    ? createHook.setRequest({ ...createHook.request, addressDetail: e.target.value })
-                    : updateHook.setRequest({ ...updateHook.request, addressDetail: e.target.value })
-                  }
+                  onChange={createHook.isOpen ? createHook.handleInputChange : updateHook.handleInputChange}
                   className="w-full border rounded p-2"
                   required
                 />
