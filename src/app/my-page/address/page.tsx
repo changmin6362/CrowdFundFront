@@ -1,127 +1,30 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useUserAddressFetch } from "@api/user-address/fetch/useUserAddressFetch";
 import { useUserAddressCreate } from "@api/user-address/create/useUserAddressCreate";
 import { useUserAddressUpdate } from "@api/user-address/update/useUserAddressUpdate";
 import { useUserAddressDelete } from "@api/user-address/delete/useUserAddressDelete";
 import { useUserAddressSetDefault } from "@api/user-address/set-default/useUserAddressSetDefault";
-import { UserAddressInfo } from "@api/user-address/types";
 
 export default function AddressPage() {
   const { fetchAddresses, isLoading: isFetching, response: fetchResponse } = useUserAddressFetch();
-  const { createAddress, isLoading: isCreating } = useUserAddressCreate();
-  const { updateAddress, isLoading: isUpdating } = useUserAddressUpdate();
-  const { deleteAddress, isLoading: isDeleting } = useUserAddressDelete();
-  const { setDefaultAddress, isLoading: isSettingDefault } = useUserAddressSetDefault();
+  const createHook = useUserAddressCreate();
+  const updateHook = useUserAddressUpdate();
+  const deleteHook = useUserAddressDelete();
+  const setDefaultHook = useUserAddressSetDefault();
 
-  const [addresses, setAddresses] = useState<UserAddressInfo[]>([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingAddress, setEditingAddress] = useState<UserAddressInfo | null>(null);
-  const [formData, setFormData] = useState({
-    recipientName: "",
-    phone: "",
-    postalCode: "",
-    addressMain: "",
-    addressDetail: "",
-  });
+  const addresses = fetchResponse?.data?.addresses || [];
+  const handleRefresh = () => fetchAddresses();
 
-  useEffect(() => {
-    loadAddresses();
-  }, []);
-
-  const loadAddresses = async () => {
-    try {
-      const res = await fetchAddresses();
-      if (res.data?.addresses) {
-        setAddresses(res.data.addresses);
-      } else {
-        setAddresses([]);
-      }
-    } catch (err) {
-      console.error("Failed to fetch addresses:", err);
-      setAddresses([]);
-    }
-  };
-
-  const handleOpenModal = (address?: UserAddressInfo) => {
-    if (address) {
-      setEditingAddress(address);
-      setFormData({
-        recipientName: address.recipientName || "",
-        phone: address.phone || "",
-        postalCode: address.postalCode || "",
-        addressMain: address.addressMain || "",
-        addressDetail: address.addressDetail || "",
-      });
-    } else {
-      setEditingAddress(null);
-      setFormData({
-        recipientName: "",
-        phone: "",
-        postalCode: "",
-        addressMain: "",
-        addressDetail: "",
-      });
-    }
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setEditingAddress(null);
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      if (editingAddress?.addressId) {
-        await updateAddress(editingAddress.addressId, formData);
-        alert("배송지가 수정되었습니다.");
-      } else {
-        await createAddress(formData);
-        alert("새 배송지가 추가되었습니다.");
-      }
-      handleCloseModal();
-      loadAddresses();
-    } catch (err: any) {
-      alert(`요청 실패: ${err.message}`);
-    }
-  };
-
-  const handleDelete = async (id: number) => {
-    if (confirm("정말로 이 배송지를 삭제하시겠습니까?")) {
-      try {
-        await deleteAddress(id);
-        alert("배송지가 삭제되었습니다.");
-        loadAddresses();
-      } catch (err: any) {
-        alert(`삭제 실패: ${err.message}`);
-      }
-    }
-  };
-
-  const handleSetDefault = async (id: number) => {
-    try {
-      await setDefaultAddress(id);
-      alert("기본 배송지로 설정되었습니다.");
-      loadAddresses();
-    } catch (err: any) {
-      alert(`설정 실패: ${err.message}`);
-    }
-  };
+  const isModalOpen = createHook.isOpen || updateHook.isOpen;
+  const isActionLoading = createHook.isLoading || updateHook.isLoading;
 
   return (
     <div className="max-w-4xl mx-auto p-8">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">배송지 관리</h1>
         <button
-          onClick={() => handleOpenModal()}
+          onClick={createHook.onOpen}
           className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
         >
           새 배송지 추가
@@ -151,13 +54,13 @@ export default function AddressPage() {
               <div className="flex flex-col gap-2">
                 <div className="flex gap-2">
                   <button
-                    onClick={() => handleOpenModal(addr)}
+                    onClick={() => updateHook.onOpen(addr)}
                     className="text-sm border px-3 py-1 rounded hover:bg-gray-50"
                   >
                     수정
                   </button>
                   <button
-                    onClick={() => addr.addressId && handleDelete(addr.addressId)}
+                    onClick={() => addr.addressId && deleteHook.onDelete(addr.addressId, handleRefresh)}
                     className="text-sm border px-3 py-1 rounded text-red-500 hover:bg-red-50"
                   >
                     삭제
@@ -165,8 +68,8 @@ export default function AddressPage() {
                 </div>
                 {!addr.isDefault && (
                   <button
-                    onClick={() => addr.addressId && handleSetDefault(addr.addressId)}
-                    disabled={isSettingDefault}
+                    onClick={() => addr.addressId && setDefaultHook.onSetDefault(addr.addressId, handleRefresh)}
+                    disabled={setDefaultHook.isLoading}
                     className="text-xs border px-3 py-1 rounded hover:bg-gray-50"
                   >
                     기본 배송지로 설정
@@ -183,16 +86,21 @@ export default function AddressPage() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-lg p-6 max-w-md w-full">
             <h2 className="text-xl font-bold mb-4">
-              {editingAddress ? "배송지 수정" : "새 배송지 추가"}
+              {createHook.isOpen ? "새 배송지 추가" : "배송지 수정"}
             </h2>
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form 
+              onSubmit={(e) => createHook.isOpen ? createHook.onSubmit(e, handleRefresh) : updateHook.onSubmit(e, handleRefresh)} 
+              className="space-y-4"
+            >
               <div>
                 <label className="block text-sm font-medium mb-1">수령인</label>
                 <input
                   type="text"
-                  name="recipientName"
-                  value={formData.recipientName}
-                  onChange={handleInputChange}
+                  value={createHook.isOpen ? createHook.request.recipientName : updateHook.request.recipientName}
+                  onChange={(e) => createHook.isOpen 
+                    ? createHook.setRequest({ ...createHook.request, recipientName: e.target.value })
+                    : updateHook.setRequest({ ...updateHook.request, recipientName: e.target.value })
+                  }
                   className="w-full border rounded p-2"
                   required
                 />
@@ -201,9 +109,11 @@ export default function AddressPage() {
                 <label className="block text-sm font-medium mb-1">연락처</label>
                 <input
                   type="text"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleInputChange}
+                  value={createHook.isOpen ? createHook.request.phone : updateHook.request.phone}
+                  onChange={(e) => createHook.isOpen 
+                    ? createHook.setRequest({ ...createHook.request, phone: e.target.value })
+                    : updateHook.setRequest({ ...updateHook.request, phone: e.target.value })
+                  }
                   placeholder="010-0000-0000"
                   className="w-full border rounded p-2"
                   required
@@ -213,9 +123,11 @@ export default function AddressPage() {
                 <label className="block text-sm font-medium mb-1">우편번호</label>
                 <input
                   type="text"
-                  name="postalCode"
-                  value={formData.postalCode}
-                  onChange={handleInputChange}
+                  value={createHook.isOpen ? createHook.request.postalCode : updateHook.request.postalCode}
+                  onChange={(e) => createHook.isOpen 
+                    ? createHook.setRequest({ ...createHook.request, postalCode: e.target.value })
+                    : updateHook.setRequest({ ...updateHook.request, postalCode: e.target.value })
+                  }
                   className="w-full border rounded p-2"
                   required
                 />
@@ -224,9 +136,11 @@ export default function AddressPage() {
                 <label className="block text-sm font-medium mb-1">주소</label>
                 <input
                   type="text"
-                  name="addressMain"
-                  value={formData.addressMain}
-                  onChange={handleInputChange}
+                  value={createHook.isOpen ? createHook.request.addressMain : updateHook.request.addressMain}
+                  onChange={(e) => createHook.isOpen 
+                    ? createHook.setRequest({ ...createHook.request, addressMain: e.target.value })
+                    : updateHook.setRequest({ ...updateHook.request, addressMain: e.target.value })
+                  }
                   className="w-full border rounded p-2"
                   required
                 />
@@ -235,9 +149,11 @@ export default function AddressPage() {
                 <label className="block text-sm font-medium mb-1">상세주소</label>
                 <input
                   type="text"
-                  name="addressDetail"
-                  value={formData.addressDetail}
-                  onChange={handleInputChange}
+                  value={createHook.isOpen ? createHook.request.addressDetail : updateHook.request.addressDetail}
+                  onChange={(e) => createHook.isOpen 
+                    ? createHook.setRequest({ ...createHook.request, addressDetail: e.target.value })
+                    : updateHook.setRequest({ ...updateHook.request, addressDetail: e.target.value })
+                  }
                   className="w-full border rounded p-2"
                   required
                 />
@@ -245,17 +161,17 @@ export default function AddressPage() {
               <div className="flex gap-2 mt-6">
                 <button
                   type="button"
-                  onClick={handleCloseModal}
+                  onClick={createHook.isOpen ? createHook.onClose : updateHook.onClose}
                   className="flex-1 border py-2 rounded hover:bg-gray-50"
                 >
                   취소
                 </button>
                 <button
                   type="submit"
-                  disabled={isCreating || isUpdating}
+                  disabled={isActionLoading}
                   className="flex-1 bg-blue-600 text-white py-2 rounded hover:bg-blue-700 disabled:bg-blue-300"
                 >
-                  {isCreating || isUpdating ? "저장 중..." : "저장"}
+                  {isActionLoading ? "저장 중..." : "저장"}
                 </button>
               </div>
             </form>

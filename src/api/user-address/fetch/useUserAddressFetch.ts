@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ApiResult } from "@api/_common/types";
 import { useApiHandler } from "@api/_common/useApiHandler";
 import { USER_ADDRESS_ENDPOINTS } from "@api/user-address/constants";
@@ -16,6 +16,10 @@ export const useUserAddressFetch = () => {
     setResponse(res);
     return res;
   };
+
+  useEffect(() => {
+    fetchAddresses();
+  }, []);
 
   return {
     fetchAddresses,

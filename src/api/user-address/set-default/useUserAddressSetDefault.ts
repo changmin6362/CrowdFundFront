@@ -17,7 +17,18 @@ export const useUserAddressSetDefault = () => {
     return res;
   };
 
+  const onSetDefault = async (id: number, onSuccess?: () => void) => {
+    try {
+      await setDefaultAddress(id);
+      alert("기본 배송지로 설정되었습니다.");
+      if (onSuccess) onSuccess();
+    } catch (err: any) {
+      alert(`설정 실패: ${err.message}`);
+    }
+  };
+
   return {
+    onSetDefault,
     setDefaultAddress,
     isLoading,
     error,

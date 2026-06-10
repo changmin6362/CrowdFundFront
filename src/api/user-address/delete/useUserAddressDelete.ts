@@ -16,7 +16,20 @@ export const useUserAddressDelete = () => {
     return res;
   };
 
+  const onDelete = async (id: number, onSuccess?: () => void) => {
+    if (confirm("정말로 이 배송지를 삭제하시겠습니까?")) {
+      try {
+        await deleteAddress(id);
+        alert("배송지가 삭제되었습니다.");
+        if (onSuccess) onSuccess();
+      } catch (err: any) {
+        alert(`삭제 실패: ${err.message}`);
+      }
+    }
+  };
+
   return {
+    onDelete,
     deleteAddress,
     isLoading,
     error,
