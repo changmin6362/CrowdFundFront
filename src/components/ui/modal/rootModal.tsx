@@ -1,5 +1,5 @@
 import React from "react";
-import Portal from "@/app/components/ui/portal";
+import Portal from "@/components/ui/portal";
 
 interface RootModalProps {
   children: React.ReactNode;
