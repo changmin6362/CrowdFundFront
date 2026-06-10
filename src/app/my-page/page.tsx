@@ -3,6 +3,8 @@
 import { useUserMeFetch } from "@api/user/me/fetch/useUserMeFetch";
 import { useUserMeUpdate } from "@api/user/me/update/useUserMeUpdate";
 import { useUserMeDelete } from "@api/user/me/delete/useUserMeDelete";
+import { ROUTES } from "@/constants/routes";
+import Link from "next/link";
 
 export default function MyPage() {
   const { fetchMe, response: fetchResponse, isLoading: isFetching } = useUserMeFetch();
@@ -27,10 +29,18 @@ export default function MyPage() {
     <div className="max-w-md mx-auto p-8 border rounded-lg shadow-md mt-10">
       <h1 className="text-2xl font-bold mb-6">마이페이지 (프로필 관리)</h1>
       
-      <div className="mb-6 pb-6 border-b">
+      <div className="mb-6 pb-6 border-b space-y-2">
         <h2 className="text-lg font-semibold mb-2">기본 정보</h2>
         <p className="text-gray-600">이메일: {user?.email || "불러오는 중..."}</p>
         <p className="text-gray-600">역할: {user?.role || "불러오는 중..."}</p>
+        <div className="pt-2 flex flex-col gap-2">
+          <Link href={ROUTES.MY_PAGE_PLEDGES} className="text-blue-600 hover:underline font-medium text-sm">
+            내 후원 내역 보러가기 →
+          </Link>
+          <Link href={ROUTES.MY_PAGE_ADDRESS} className="text-blue-600 hover:underline font-medium text-sm">
+            배송지 관리 →
+          </Link>
+        </div>
       </div>
 
       <form onSubmit={(e) => onUpdate(e, fetchMe)} className="space-y-4">

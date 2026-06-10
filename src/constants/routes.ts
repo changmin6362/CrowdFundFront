@@ -6,6 +6,8 @@ export const ROUTES = {
   HOME: "/",
   MY_PAGE: "/my-page",
   MY_PAGE_ADDRESS: "/my-page/address",
+  MY_PAGE_PLEDGES: "/my-page/pledges",
+  MY_PAGE_PLEDGE_DETAIL: (id: number) => `/my-page/pledges/${id}`,
   ADMIN: {
     CATEGORY: "/category",
   },

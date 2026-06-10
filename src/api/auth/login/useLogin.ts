@@ -1,12 +1,15 @@
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { ApiResult } from "@api/_common/types";
 import { useApiHandler } from "@api/_common/useApiHandler";
 import { AUTH_ENDPOINTS } from "@api/auth/constants";
 import { LoginRequest } from "@api/auth/login/loginRequest";
 import { LoginResponse } from "@api/auth/login/loginResponse";
+import { ROUTES } from "@/constants/routes";
 import Cookies from "js-cookie";
 
 export const useLogin = () => {
+  const router = useRouter();
   const { isLoading, error, handleApiCall } = useApiHandler();
   const [response, setResponse] = useState<ApiResult<LoginResponse> | null>(null);
 
@@ -34,6 +37,9 @@ export const useLogin = () => {
     try {
       const res = await login(request);
       setResponse(res);
+      if (res.data?.accessToken) {
+        router.push(ROUTES.HOME);
+      }
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : String(err);
       setResponse({ message, data: null });
