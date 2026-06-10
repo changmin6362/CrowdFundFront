@@ -1,29 +1,76 @@
+import { useState, useCallback, useEffect } from "react";
 import { ApiResult, CursorRequest } from "@api/_common/types";
 import { useApiHandler } from "@api/_common/useApiHandler";
 import { PLEDGE_ENDPOINTS } from "@api/pledge/constants";
 import { FulfillmentStatus, PledgeStatus } from "@api/pledge/types";
-import { AdminPledgesFetchResponse } from "@api/pledge/admin/fetch/adminPledgesFetchResponse";
+import { AdminPledgesFetchResponse, PledgeSummary } from "@api/pledge/admin/fetch/adminPledgesFetchResponse";
 
-export const useAdminPledgeFetch = () => {
+interface UseAdminPledgeFetchProps {
+  fulfillmentStatus?: FulfillmentStatus;
+  pledgeStatus?: PledgeStatus;
+  limit?: number;
+}
+
+export const useAdminPledgeFetch = (props?: UseAdminPledgeFetchProps) => {
+  const fulfillmentStatus = props?.fulfillmentStatus;
+  const pledgeStatus = props?.pledgeStatus;
+  const limit = props?.limit;
+
   const { isLoading, error, handleApiCall } = useApiHandler();
+  const [response, setResponse] = useState<ApiResult<AdminPledgesFetchResponse> | null>(null);
+  const [pledges, setPledges] = useState<PledgeSummary[]>([]);
 
-  const fetchAdminPledges = async (
-    query?: CursorRequest & {
-      fulfillmentStatus?: FulfillmentStatus;
-      pledgeStatus?: PledgeStatus;
-      limit?: number;
-    }
+  const fetchAdminPledges = useCallback(async (
+    query?: CursorRequest & UseAdminPledgeFetchProps,
+    isAppend: boolean = false
   ): Promise<ApiResult<AdminPledgesFetchResponse>> => {
-    return handleApiCall<AdminPledgesFetchResponse>({
-      url: PLEDGE_ENDPOINTS.ADMIN.FETCH,
-      method: 'GET',
-      params: query,
-    });
-  };
+    try {
+      const res = await handleApiCall<AdminPledgesFetchResponse>({
+        url: PLEDGE_ENDPOINTS.ADMIN.FETCH,
+        method: 'GET',
+        params: query,
+      });
+      setResponse(res);
+      if (res.data?.pledges) {
+        setPledges(prev => isAppend ? [...prev, ...res.data!.pledges!] : res.data!.pledges!);
+      } else if (!isAppend) {
+        setPledges([]);
+      }
+      return res;
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err);
+      const errorRes = { message, data: null };
+      setResponse(errorRes);
+      if (!isAppend) setPledges([]);
+      return errorRes;
+    }
+  }, [handleApiCall]);
+
+  useEffect(() => {
+    fetchAdminPledges({ fulfillmentStatus, pledgeStatus, limit });
+  }, [fetchAdminPledges, fulfillmentStatus, pledgeStatus, limit]);
+
+  const onLoadMore = useCallback(() => {
+    if (response?.data?.hasNext && response?.data?.nextCursor) {
+      fetchAdminPledges({
+        fulfillmentStatus,
+        pledgeStatus,
+        limit,
+        ...response.data.nextCursor
+      }, true);
+    }
+  }, [fetchAdminPledges, fulfillmentStatus, pledgeStatus, limit, response?.data?.hasNext, response?.data?.nextCursor]);
+
+  const handleRefresh = useCallback(() => {
+    return fetchAdminPledges({ fulfillmentStatus, pledgeStatus, limit });
+  }, [fetchAdminPledges, fulfillmentStatus, pledgeStatus, limit]);
 
   return {
-    fetchAdminPledges,
+    response,
+    pledges,
     isLoading,
     error,
+    onLoadMore,
+    handleRefresh,
   };
 };

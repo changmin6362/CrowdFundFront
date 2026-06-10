@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import { useMyPledgeDetail } from '@api/pledge/my/detail/useMyPledgeDetail';
 import { usePaymentHistory } from '@api/payment/history/usePaymentHistory';
@@ -32,17 +32,17 @@ export default function PledgeDetailPage() {
     response: historyResponse, 
     isLoading: isHistoryLoading, 
     fetchPaymentHistory 
-  } = usePaymentHistory(paymentId);
+  } = usePaymentHistory();
 
-  const { cancelPledge, isLoading: isCancelling } = useMyPledgeCancel();
-  const { refundPayment, isLoading: isRefunding } = usePaymentRefund();
+  const { onCancel, isLoading: isCancelling } = useMyPledgeCancel();
+  const { onRefund, isLoading: isRefunding } = usePaymentRefund();
 
   const detail = detailResponse?.data?.myPledgeDetail;
   const payment = paymentData;
   const history = historyResponse?.data?.paymentHistories || [];
 
   const loadData = useCallback(async () => {
-    // 훅 내부의 useEffect가 있지만, 상태 변경(취소/환불) 후 수동 갱신을 위해 호출
+    // 순차적으로 데이터 로드
     await fetchMyPledgeDetail();
     const payRes = await fetchPaymentDetailByPledge();
     
@@ -52,30 +52,13 @@ export default function PledgeDetailPage() {
     }
   }, [fetchMyPledgeDetail, fetchPaymentDetailByPledge, fetchPaymentHistory]);
 
-  const handleCancel = async () => {
-    if (!confirm('후원을 취소하시겠습니까?')) return;
-    try {
-      await cancelPledge(pledgeId);
-      alert('후원이 취소되었습니다.');
+  useEffect(() => {
+    if (pledgeId) {
       loadData();
-    } catch (err: any) {
-      alert(err.message || '취소 실패');
     }
-  };
+  }, [pledgeId, loadData]);
 
-  const handleRefund = async () => {
-    if (!payment?.paymentId) return;
-    if (!confirm('환불을 요청하시겠습니까?')) return;
-    try {
-      await refundPayment(payment.paymentId);
-      alert('환불 요청이 완료되었습니다.');
-      loadData();
-    } catch (err: any) {
-      alert(err.message || '환불 실패');
-    }
-  };
-
-  if (isPledgeLoading) return <div className="p-8 text-center">정보를 불러오는 중...</div>;
+  if (isPledgeLoading && !detailResponse) return <div className="p-8 text-center">정보를 불러오는 중...</div>;
   if (!detail) return <div className="p-8 text-center text-red-500">후원 정보를 찾을 수 없습니다.</div>;
 
   return (
@@ -176,7 +159,7 @@ export default function PledgeDetailPage() {
       <div className="flex gap-4">
         {detail.status === 'PENDING' && (
           <button
-            onClick={handleCancel}
+            onClick={() => onCancel(pledgeId, loadData)}
             disabled={isCancelling}
             className="flex-1 bg-red-50 text-red-600 font-bold py-3 rounded-xl hover:bg-red-100 transition disabled:opacity-50"
           >
@@ -185,7 +168,11 @@ export default function PledgeDetailPage() {
         )}
         {detail.status === 'PAID' && (
           <button
-            onClick={handleRefund}
+            onClick={() => {
+              if (payment?.paymentId) {
+                onRefund(payment.paymentId, loadData);
+              }
+            }}
             disabled={isRefunding}
             className="flex-1 bg-gray-100 text-gray-700 font-bold py-3 rounded-xl hover:bg-gray-200 transition disabled:opacity-50"
           >

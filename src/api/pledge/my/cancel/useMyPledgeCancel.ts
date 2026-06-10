@@ -16,8 +16,20 @@ export const useMyPledgeCancel = () => {
     });
   }, [handleApiCall]);
 
+  const onCancel = useCallback(async (pledgeId: number, onSuccess?: () => void) => {
+    if (!confirm('후원을 취소하시겠습니까?')) return;
+    try {
+      await cancelPledge(pledgeId);
+      alert('후원이 취소되었습니다.');
+      onSuccess?.();
+    } catch (err: any) {
+      alert(err.message || '취소 실패');
+    }
+  }, [cancelPledge]);
+
   return {
     cancelPledge,
+    onCancel,
     isLoading,
     error,
   };

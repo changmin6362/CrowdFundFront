@@ -9,17 +9,20 @@ import Link from 'next/link';
 
 export default function AdminPledgeDetailPage() {
   const params = useParams();
-  const pledgeId = params?.id ? Number(params.id) : null;
-  const { fetchAdminPledgeDetail, isLoading } = useAdminPledgeDetail();
-  const [detail, setDetail] = useState<AdminPledgeDetail | null>(null);
+  const pledgeId = params?.id ? Number(params.id) : 0;
+  
+  const { 
+    fetchAdminPledgeDetail, 
+    response, 
+    isLoading 
+  } = useAdminPledgeDetail(pledgeId);
+  
+  const detail = response?.data?.adminPledgeDetail;
 
   const loadDetail = useCallback(async () => {
     if (!pledgeId) return;
     try {
-      const res = await fetchAdminPledgeDetail(pledgeId);
-      if (res.data?.adminPledgeDetail) {
-        setDetail(res.data.adminPledgeDetail);
-      }
+      await fetchAdminPledgeDetail();
     } catch (err) {
       console.error('Failed to fetch pledge detail:', err);
     }

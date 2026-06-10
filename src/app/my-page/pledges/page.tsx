@@ -5,8 +5,7 @@ import { ROUTES } from '@/constants/routes';
 import Link from 'next/link';
 
 export default function MyPledgesPage() {
-  const { response, isLoading } = useMyPledgeFetch();
-  const pledges = response?.data?.pledges || [];
+  const { response, pledges, isLoading, onLoadMore } = useMyPledgeFetch();
 
   if (isLoading && !response) return <div className="p-8 text-center">후원 목록을 불러오는 중...</div>;
 
@@ -56,6 +55,18 @@ export default function MyPledgesPage() {
               </div>
             </div>
           ))}
+        </div>
+      )}
+
+      {response?.data?.hasNext && (
+        <div className="mt-8 text-center">
+          <button
+            onClick={() => onLoadMore()}
+            disabled={isLoading}
+            className="px-6 py-2 border border-gray-300 rounded-lg text-sm font-medium hover:bg-gray-50 transition disabled:opacity-50"
+          >
+            {isLoading ? '로딩 중...' : '더 보기'}
+          </button>
         </div>
       )}
     </div>

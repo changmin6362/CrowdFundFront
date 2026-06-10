@@ -1,15 +1,15 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { ApiResult } from "@api/_common/types";
 import { useApiHandler } from "@api/_common/useApiHandler";
 import { PAYMENT_ENDPOINTS } from "@api/payment/constants";
 import { PaymentHistoryResponse } from "@api/payment/history/paymentHistoryResponse";
 
-export const usePaymentHistory = (paymentId?: number) => {
+export const usePaymentHistory = (initialPaymentId?: number) => {
   const { isLoading, error, handleApiCall } = useApiHandler();
   const [response, setResponse] = useState<ApiResult<PaymentHistoryResponse> | null>(null);
 
-  const fetchPaymentHistory = useCallback(async (id?: number): Promise<ApiResult<PaymentHistoryResponse>> => {
-    const targetId = id || paymentId;
+  const fetchPaymentHistory = useCallback(async (paymentId?: number): Promise<ApiResult<PaymentHistoryResponse>> => {
+    const targetId = paymentId || initialPaymentId;
     if (!targetId) return { message: "paymentId가 없습니다.", data: null };
     
     const res = await handleApiCall<PaymentHistoryResponse>({
@@ -18,13 +18,7 @@ export const usePaymentHistory = (paymentId?: number) => {
     });
     setResponse(res);
     return res;
-  }, [handleApiCall, paymentId]);
-
-  useEffect(() => {
-    if (paymentId) {
-      fetchPaymentHistory();
-    }
-  }, [fetchPaymentHistory, paymentId]);
+  }, [handleApiCall, initialPaymentId]);
 
   return {
     fetchPaymentHistory,

@@ -13,8 +13,20 @@ export const usePaymentRefund = () => {
     });
   }, [handleApiCall]);
 
+  const onRefund = useCallback(async (paymentId: number, onSuccess?: () => void) => {
+    if (!confirm('환불을 요청하시겠습니까?')) return;
+    try {
+      await refundPayment(paymentId);
+      alert('환불 요청이 완료되었습니다.');
+      onSuccess?.();
+    } catch (err: any) {
+      alert(err.message || '환불 실패');
+    }
+  }, [refundPayment]);
+
   return {
     refundPayment,
+    onRefund,
     isLoading,
     error,
   };

@@ -1,31 +1,14 @@
 'use client';
 
-import React, { useEffect, useState, useCallback } from 'react';
 import { useAdminPledgeFetch } from '@api/pledge/admin/fetch/useAdminPledgeFetch';
 import { ROUTES } from '@/constants/routes';
 import Link from 'next/link';
-import { PledgeSummary, AdminPledgesFetchResponse } from "@api/pledge/admin/fetch/adminPledgesFetchResponse";
+import { useMemo } from 'react';
 
 export default function AdminPledgesPage() {
-  const { fetchAdminPledges, isLoading } = useAdminPledgeFetch();
-  const [pledges, setPledges] = useState<PledgeSummary[]>([]);
-  const [hasNext, setHasNext] = useState(false);
-
-  const loadPledges = useCallback(async () => {
-    try {
-      const res = await fetchAdminPledges({ limit: 20 });
-      if (res.data?.pledges) {
-        setPledges(res.data.pledges);
-        setHasNext(res.data.hasNext || false);
-      }
-    } catch (err) {
-      console.error('Failed to fetch pledges:', err);
-    }
-  }, [fetchAdminPledges]);
-
-  useEffect(() => {
-    loadPledges();
-  }, [loadPledges]);
+  const fetchProps = useMemo(() => ({ limit: 20 }), []);
+  const { response, pledges, isLoading, onLoadMore } = useAdminPledgeFetch(fetchProps);
+  const hasNext = response?.data?.hasNext || false;
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -60,7 +43,7 @@ export default function AdminPledgesPage() {
                   <td colSpan={7} className="px-6 py-10 text-center text-gray-500">후원 내역이 없습니다.</td>
                 </tr>
               ) : (
-                pledges.map((pledge: any) => (
+                pledges.map((pledge) => (
                   <tr key={pledge.pledgeId} className="hover:bg-gray-50 transition">
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">#{pledge.pledgeId}</td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -85,7 +68,7 @@ export default function AdminPledgesPage() {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <Link 
-                        href={ROUTES.ADMIN.PLEDGE_DETAIL(pledge.pledgeId)} 
+                        href={ROUTES.ADMIN.PLEDGE_DETAIL(pledge.pledgeId || 0)} 
                         className="text-indigo-600 hover:text-indigo-900"
                       >
                         상세보기
@@ -101,8 +84,12 @@ export default function AdminPledgesPage() {
       
       {hasNext && (
         <div className="mt-6 text-center">
-          <button className="px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 transition">
-            더 보기
+          <button 
+            onClick={() => onLoadMore()}
+            disabled={isLoading}
+            className="px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 transition disabled:opacity-50"
+          >
+            {isLoading ? '로딩 중...' : '더 보기'}
           </button>
         </div>
       )}
