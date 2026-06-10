@@ -7,6 +7,6 @@ export const ROUTES = {
   MY_PAGE: "/my-page",
   MY_PAGE_ADDRESS: "/my-page/address",
   ADMIN: {
-    CATEGORY: "/admin/category",
+    CATEGORY: "/category",
   },
 } as const;
