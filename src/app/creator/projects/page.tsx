@@ -96,6 +96,12 @@ export default function MyProjectsPage() {
                   >
                     수정
                   </Link>
+                  <Link 
+                    href={project.projectId !== undefined ? ROUTES.CREATOR.REWARDS(project.projectId) : '#'}
+                    className="flex-1 text-center py-2 border rounded text-sm hover:bg-gray-50"
+                  >
+                    리워드
+                  </Link>
                   <button 
                     onClick={() => {
                       if (project.projectId !== undefined) {

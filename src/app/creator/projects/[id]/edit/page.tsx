@@ -1,11 +1,13 @@
 'use client';
 
 import React from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useProjectUpdate } from '@api/project/creator/update/useProjectUpdate';
+import { ROUTES } from '@/constants/routes';
 
 export default function ProjectUpdatePage() {
   const params = useParams();
+  const router = useRouter();
   const projectId = params.id ? Number(params.id) : 0;
 
   const {
@@ -73,13 +75,20 @@ export default function ProjectUpdatePage() {
           />
         </div>
 
-        <div className="pt-4">
+        <div className="pt-4 flex gap-4">
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-3 rounded font-bold hover:bg-blue-700 transition disabled:bg-gray-400"
+            className="flex-1 bg-blue-600 text-white py-3 rounded font-bold hover:bg-blue-700 transition disabled:bg-gray-400"
             disabled={isUpdateLoading}
           >
             {isUpdateLoading ? '수정 중...' : '프로젝트 수정하기'}
+          </button>
+          <button
+            type="button"
+            onClick={() => router.push(ROUTES.CREATOR.REWARDS(projectId))}
+            className="flex-1 bg-white border border-blue-600 text-blue-600 py-3 rounded font-bold hover:bg-blue-50 transition"
+          >
+            리워드 관리하기
           </button>
         </div>
       </form>
