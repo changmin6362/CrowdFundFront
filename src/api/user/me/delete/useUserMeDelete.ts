@@ -16,7 +16,20 @@ export const useUserMeDelete = () => {
     return res;
   };
 
+  const onDelete = async () => {
+    if (confirm("정말로 회원 탈퇴를 하시겠습니까? 이 작업은 되돌릴 수 없습니다.")) {
+      try {
+        await deleteMe();
+        alert("회원 탈퇴가 완료되었습니다.");
+        window.location.href = "/";
+      } catch (err: any) {
+        alert(`탈퇴 실패: ${err.message}`);
+      }
+    }
+  };
+
   return {
+    onDelete,
     deleteMe,
     isLoading,
     error,

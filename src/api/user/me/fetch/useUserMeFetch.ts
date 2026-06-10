@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ApiResult } from "@api/_common/types";
 import { useApiHandler } from "@api/_common/useApiHandler";
 import { USER_ENDPOINTS } from "@api/user/constants";
@@ -16,6 +16,10 @@ export const useUserMeFetch = () => {
     setResponse(res);
     return res;
   };
+
+  useEffect(() => {
+    fetchMe();
+  }, []);
 
   return {
     fetchMe,
