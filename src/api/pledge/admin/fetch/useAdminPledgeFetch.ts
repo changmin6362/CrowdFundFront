@@ -8,12 +8,14 @@ import { AdminPledgesFetchResponse, PledgeSummary } from "@api/pledge/admin/fetc
 interface UseAdminPledgeFetchProps {
   fulfillmentStatus?: FulfillmentStatus;
   pledgeStatus?: PledgeStatus;
+  projectId?: number;
   limit?: number;
 }
 
 export const useAdminPledgeFetch = (props?: UseAdminPledgeFetchProps) => {
   const fulfillmentStatus = props?.fulfillmentStatus;
   const pledgeStatus = props?.pledgeStatus;
+  const projectId = props?.projectId;
   const limit = props?.limit;
 
   const { isLoading, error, handleApiCall } = useApiHandler();
@@ -47,23 +49,24 @@ export const useAdminPledgeFetch = (props?: UseAdminPledgeFetchProps) => {
   }, [handleApiCall]);
 
   useEffect(() => {
-    fetchAdminPledges({ fulfillmentStatus, pledgeStatus, limit, id: null, createdAt: null });
-  }, [fetchAdminPledges, fulfillmentStatus, pledgeStatus, limit]);
+    fetchAdminPledges({ fulfillmentStatus, pledgeStatus, projectId, limit, id: null, createdAt: null });
+  }, [fetchAdminPledges, fulfillmentStatus, pledgeStatus, projectId, limit]);
 
   const onLoadMore = useCallback(() => {
     if (response?.data?.hasNext && response?.data?.nextCursor) {
       fetchAdminPledges({
         fulfillmentStatus,
         pledgeStatus,
+        projectId,
         limit,
         ...response.data.nextCursor
       }, true);
     }
-  }, [fetchAdminPledges, fulfillmentStatus, pledgeStatus, limit, response?.data?.hasNext, response?.data?.nextCursor]);
+  }, [fetchAdminPledges, fulfillmentStatus, pledgeStatus, projectId, limit, response?.data?.hasNext, response?.data?.nextCursor]);
 
   const handleRefresh = useCallback(() => {
-    return fetchAdminPledges({ fulfillmentStatus, pledgeStatus, limit, id: null, createdAt: null });
-  }, [fetchAdminPledges, fulfillmentStatus, pledgeStatus, limit]);
+    return fetchAdminPledges({ fulfillmentStatus, pledgeStatus, projectId, limit, id: null, createdAt: null });
+  }, [fetchAdminPledges, fulfillmentStatus, pledgeStatus, projectId, limit]);
 
   return {
     response,

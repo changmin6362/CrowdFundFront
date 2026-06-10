@@ -23,5 +23,6 @@ export const ROUTES = {
     CREATE_PROJECT: "/creator/projects/create",
     EDIT_PROJECT: (id: number) => `/creator/projects/${id}/edit`,
     REWARDS: (id: number) => `/creator/projects/${id}/rewards`,
+    SHIPPING: (id: number) => `/creator/projects/${id}/shipping`,
   },
 } as const;
