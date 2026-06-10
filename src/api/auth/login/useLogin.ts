@@ -23,8 +23,7 @@ export const useLogin = () => {
     });
 
     if (res.data?.accessToken) {
-      // Middleware에서도 접근할 수 있도록 쿠키에 저장
-      Cookies.set("accessToken", res.data.accessToken, { expires: 1 }); // 1일 동안 유지
+      Cookies.set("accessToken", res.data.accessToken, { expires: 1, path: '/' }); // 1일 동안 유지, 쿠키에 대한 접근 경로를 전역 경로로 설정
     }
 
     return res;

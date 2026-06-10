@@ -26,9 +26,11 @@ export function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL(ROUTES.HOME, request.url));
       }
     } catch (error) {
-      // 토큰이 유효하지 않으면 로그인 페이지로 리다이렉트
+      // 토큰이 유효하지 않으면 쿠키 삭제 후 로그인 페이지로 리다이렉트
       console.error('올바른 JWT 토큰이 아닙니다 : ', error);
-      return NextResponse.redirect(new URL(ROUTES.AUTH.LOGIN, request.url));
+      const response = NextResponse.redirect(new URL(ROUTES.AUTH.LOGIN, request.url));
+      response.cookies.set('accessToken', '', { path: '/', maxAge: 0 });
+      return response;
     }
   }
 
@@ -37,6 +39,15 @@ export function middleware(request: NextRequest) {
   if (authRequiredPaths.some(path => pathname === path || pathname.startsWith(path + '/'))) {
     if (!accessToken) {
       return NextResponse.redirect(new URL(ROUTES.AUTH.LOGIN, request.url));
+    }
+
+    try {
+      decodeJwt(accessToken);
+    } catch (error) {
+      console.error('만료되었거나 올바르지 않은 토큰입니다:', error);
+      const response = NextResponse.redirect(new URL(ROUTES.AUTH.LOGIN, request.url));
+      response.cookies.set('accessToken', '', { path: '/', maxAge: 0 });
+      return response;
     }
   }
 

@@ -28,6 +28,17 @@ export const useApiHandler = () => {
       return response.data;
     } catch (err) {
       const axiosError = err as AxiosError<ApiResult>;
+      
+      // 401 Unauthorized 에러 처리 (토큰 만료 등)
+      if (axiosError.response?.status === 401) {
+        Cookies.remove('accessToken', { path: '/' });
+        
+        // 브라우저 환경에서 즉시 /login으로 리다이렉트하여 사용자 경험 개선
+        if (typeof window !== 'undefined') {
+           window.location.href = '/login';
+        }
+      }
+
       const message = axiosError.response?.data?.message || '에러 메시지가 존재하지 않습니다.';
       setError(message);
       throw new Error(message);
