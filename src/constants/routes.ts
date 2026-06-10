@@ -9,7 +9,9 @@ export const ROUTES = {
   MY_PAGE_PLEDGES: "/my-page/pledges",
   MY_PAGE_PLEDGE_DETAIL: (id: number) => `/my-page/pledges/${id}`,
   ADMIN: {
-    CATEGORY: "/category",
+    CATEGORY: "/admin/category",
+    PLEDGES: "/admin/pledges",
+    PLEDGE_DETAIL: (id: number) => `/admin/pledges/${id}`,
   },
   PROJECT: {
     LIST: "/project",

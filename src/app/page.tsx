@@ -39,6 +39,12 @@ export default function Home() {
           Admin Category Test Page
         </Link>
         <Link
+          href={ROUTES.ADMIN.PLEDGES}
+          className="p-4 border rounded-lg hover:bg-gray-50 text-xl font-medium"
+        >
+          Admin Pledge Management Test Page
+        </Link>
+        <Link
           href={ROUTES.PROJECT.LIST}
           className="p-4 border rounded-lg hover:bg-gray-50 text-xl font-medium"
         >
