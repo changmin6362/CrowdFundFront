@@ -22,26 +22,18 @@ export const useMyPledgeFetch = (props?: UseMyPledgeFetchProps) => {
     query?: CursorRequest & UseMyPledgeFetchProps,
     isAppend: boolean = false
   ): Promise<ApiResult<MyPledgesFetchResponse>> => {
-    try {
-      const res = await handleApiCall<MyPledgesFetchResponse>({
-        url: PLEDGE_ENDPOINTS.MY.FETCH,
-        method: 'GET',
-        params: query,
-      });
-      setResponse(res);
-      if (res.data?.pledges) {
-        setPledges(prev => isAppend ? [...prev, ...res.data!.pledges!] : res.data!.pledges!);
-      } else if (!isAppend) {
-        setPledges([]);
-      }
-      return res;
-    } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : String(err);
-      const errorRes = { message, data: null };
-      setResponse(errorRes);
-      if (!isAppend) setPledges([]);
-      return errorRes;
+    const res = await handleApiCall<MyPledgesFetchResponse>({
+      url: PLEDGE_ENDPOINTS.MY.FETCH,
+      method: 'GET',
+      params: query,
+    });
+    setResponse(res);
+    if (res.status >= 200 && res.status < 300 && res.data?.pledges) {
+      setPledges(prev => isAppend ? [...prev, ...res.data!.pledges!] : res.data!.pledges!);
+    } else if (!isAppend) {
+      setPledges([]);
     }
+    return res;
   }, [handleApiCall]);
 
   // 첫 진입 및 필터 변경 시 자동 호출

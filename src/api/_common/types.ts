@@ -6,6 +6,8 @@ export interface ApiResult<T = void> {
   message: string;
   /** 응답 데이터 (데이터가 없을 경우 null) */
   data: T | null;
+  /** HTTP 상태 코드 */
+  status: number;
 }
 
 /**

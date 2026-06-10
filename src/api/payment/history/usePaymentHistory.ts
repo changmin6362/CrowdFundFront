@@ -10,7 +10,7 @@ export const usePaymentHistory = (initialPaymentId?: number) => {
 
   const fetchPaymentHistory = useCallback(async (paymentId?: number): Promise<ApiResult<PaymentHistoryResponse>> => {
     const targetId = paymentId || initialPaymentId;
-    if (!targetId) return { message: "paymentId가 없습니다.", data: null };
+    if (!targetId) return { message: "paymentId가 없습니다.", data: null, status: 400 };
     
     const res = await handleApiCall<PaymentHistoryResponse>({
       url: PAYMENT_ENDPOINTS.HISTORY(targetId),

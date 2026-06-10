@@ -20,14 +20,20 @@ export const useApiHandler = () => {
         ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
       };
 
-      const response = await axios<ApiResult<T>>({
+      const response = await axios({
         baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
         ...config,
         headers,
       });
-      return response.data;
+
+      const result: ApiResult<T> = {
+        ...response.data,
+        status: response.status,
+      };
+
+      return result;
     } catch (err) {
-      const axiosError = err as AxiosError<ApiResult>;
+      const axiosError = err as AxiosError<ApiResult<any>>;
       
       // 401 Unauthorized 에러 처리 (토큰 만료 등)
       if (axiosError.response?.status === 401) {
@@ -39,9 +45,16 @@ export const useApiHandler = () => {
         }
       }
 
-      const message = axiosError.response?.data?.message || '에러 메시지가 존재하지 않습니다.';
+      const status = axiosError.response?.status || 500;
+      const message = (axiosError.response?.data as any)?.message || '에러 메시지가 존재하지 않습니다.';
+      
       setError(message);
-      throw new Error(message);
+      
+      return {
+        message,
+        data: null,
+        status,
+      } as ApiResult<T>;
     } finally {
       setIsLoading(false);
     }

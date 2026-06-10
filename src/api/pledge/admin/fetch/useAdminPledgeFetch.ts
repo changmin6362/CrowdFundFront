@@ -26,26 +26,18 @@ export const useAdminPledgeFetch = (props?: UseAdminPledgeFetchProps) => {
     query?: CursorRequest & UseAdminPledgeFetchProps,
     isAppend: boolean = false
   ): Promise<ApiResult<AdminPledgesFetchResponse>> => {
-    try {
-      const res = await handleApiCall<AdminPledgesFetchResponse>({
-        url: PLEDGE_ENDPOINTS.ADMIN.FETCH,
-        method: 'GET',
-        params: query,
-      });
-      setResponse(res);
-      if (res.data?.pledges) {
-        setPledges(prev => isAppend ? [...prev, ...res.data!.pledges!] : res.data!.pledges!);
-      } else if (!isAppend) {
-        setPledges([]);
-      }
-      return res;
-    } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : String(err);
-      const errorRes = { message, data: null };
-      setResponse(errorRes);
-      if (!isAppend) setPledges([]);
-      return errorRes;
+    const res = await handleApiCall<AdminPledgesFetchResponse>({
+      url: PLEDGE_ENDPOINTS.ADMIN.FETCH,
+      method: 'GET',
+      params: query,
+    });
+    setResponse(res);
+    if (res.status >= 200 && res.status < 300 && res.data?.pledges) {
+      setPledges(prev => isAppend ? [...prev, ...res.data!.pledges!] : res.data!.pledges!);
+    } else if (!isAppend) {
+      setPledges([]);
     }
+    return res;
   }, [handleApiCall]);
 
   useEffect(() => {

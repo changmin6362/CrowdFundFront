@@ -26,11 +26,11 @@ export const useCreatorPledgeFulfill = (options?: { onSuccess?: () => void }) =>
     if (!confirm('배송을 시작(이행 완료) 처리하시겠습니까?')) return;
 
     const res = await fulfillPledge(pledgeId, { fulfillmentStatus: 'FULFILLED' });
-    if (res.success) {
+    if (res.status >= 200 && res.status < 300) {
       alert('성공적으로 업데이트되었습니다.');
       options?.onSuccess?.();
     } else {
-      alert(res.error?.message || '업데이트에 실패했습니다.');
+      alert(res.message || '업데이트에 실패했습니다.');
     }
   }, [fulfillPledge, options]);
 

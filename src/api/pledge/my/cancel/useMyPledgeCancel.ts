@@ -18,12 +18,12 @@ export const useMyPledgeCancel = () => {
 
   const onCancel = useCallback(async (pledgeId: number, onSuccess?: () => void) => {
     if (!confirm('후원을 취소하시겠습니까?')) return;
-    try {
-      await cancelPledge(pledgeId);
+    const res = await cancelPledge(pledgeId);
+    if (res.status >= 200 && res.status < 300) {
       alert('후원이 취소되었습니다.');
       onSuccess?.();
-    } catch (err: any) {
-      alert(err.message || '취소 실패');
+    } else {
+      alert(res.message || '취소 실패');
     }
   }, [cancelPledge]);
 

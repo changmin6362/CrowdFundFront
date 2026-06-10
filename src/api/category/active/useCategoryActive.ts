@@ -23,11 +23,11 @@ export const useCategoryActive = () => {
   };
 
   const onSubmit = async (id: number, data: CategoryActiveRequest, onSuccess?: () => void) => {
-    try {
-      await toggleCategoryActive(id, data);
+    const res = await toggleCategoryActive(id, data);
+    if (res.status >= 200 && res.status < 300) {
       if (onSuccess) onSuccess();
-    } catch (err: unknown) {
-      console.error(err);
+    } else {
+      console.error(res.message);
     }
   };
 

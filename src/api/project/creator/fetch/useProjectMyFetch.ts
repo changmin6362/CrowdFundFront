@@ -20,26 +20,18 @@ export const useProjectMyFetch = (props?: UseProjectMyFetchProps) => {
     query?: CursorRequest & { limit?: number },
     isAppend: boolean = false
   ): Promise<ApiResult<ProjectMyFetchResponse>> => {
-    try {
-      const res = await handleApiCall<ProjectMyFetchResponse>({
-        url: PROJECT_ENDPOINTS.CREATOR.FETCH_ME,
-        method: 'GET',
-        params: query,
-      });
-      setResponse(res);
-      if (res.data?.projects) {
-        setProjects(prev => isAppend ? [...prev, ...res.data!.projects!] : res.data!.projects!);
-      } else if (!isAppend) {
-        setProjects([]);
-      }
-      return res;
-    } catch (err) {
-      const message = err instanceof Error ? err.message : '내 프로젝트 목록을 불러오는 중 오류가 발생했습니다.';
-      const errorRes = { message, data: null };
-      setResponse(errorRes);
-      if (!isAppend) setProjects([]);
-      return errorRes;
+    const res = await handleApiCall<ProjectMyFetchResponse>({
+      url: PROJECT_ENDPOINTS.CREATOR.FETCH_ME,
+      method: 'GET',
+      params: query,
+    });
+    setResponse(res);
+    if (res.status >= 200 && res.status < 300 && res.data?.projects) {
+      setProjects(prev => isAppend ? [...prev, ...res.data!.projects!] : res.data!.projects!);
+    } else if (!isAppend) {
+      setProjects([]);
     }
+    return res;
   }, [handleApiCall]);
 
   useEffect(() => {
