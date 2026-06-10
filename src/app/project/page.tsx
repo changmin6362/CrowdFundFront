@@ -3,6 +3,8 @@
 import { useProjectFetch } from "@api/project/user/fetch/useProjectFetch";
 import { useCategoryFetch } from "@api/category/fetch/useCategoryFetch";
 import { ProjectStatus } from "@api/project/types";
+import { ROUTES } from "@/constants/routes";
+import Link from "next/link";
 
 export default function ProjectListPage() {
   const { 
@@ -73,7 +75,11 @@ export default function ProjectListPage() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {projects.map((project) => (
-            <div key={project.projectId} className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+            <Link 
+              key={project.projectId} 
+              href={ROUTES.PROJECT.DETAIL(project.projectId!)}
+              className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+            >
               <div className="h-48 bg-gray-200 flex items-center justify-center">
                 <span className="text-gray-400">이미지 준비 중</span>
               </div>
@@ -93,7 +99,7 @@ export default function ProjectListPage() {
                   <p>종료: {project.endAt ? new Date(project.endAt).toLocaleDateString() : "-"}</p>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       )}
