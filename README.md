@@ -1,14 +1,14 @@
 <!-- prettier-ignore-start -->
-# 포켓몬 도감 프로젝트
+# CrowdFundFront 프로젝트
 
 
-- 모바일에서 손쉽고 빠르게 포켓몬의 타입, 약점을 검색할 수 있는 사이트
+- 크라우드 펀딩 플랫폼의 프론트엔드 프로젝트입니다.
 
 
 
 ## 개발 기간
 
-2024.11 ~ 2025.02
+2026.06.08 ~ 2026.06.11(개발중)
 
 
 
@@ -20,106 +20,36 @@
 [![React](https://img.shields.io/badge/react-%2320232a.svg?style=flat&logo=react&logoColor=%2361DAFB)](https://github.com/facebook/react)
 [![Next JS](https://img.shields.io/badge/Next-black?style=flat&logo=next.js&logoColor=white)](https://github.com/vercel/next.js)
 [![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=flat&logo=tailwind-css&logoColor=white)](https://github.com/tailwindlabs/tailwindcss)
-[![pokeapi-js-wrapper](https://img.shields.io/badge/pokeapi-js-wrapper?style=flat&logoColor=yellow&labelColor=black)](https://github.com/PokeAPI/pokeapi-js-wrapper)
 [![react-swipeable](https://img.shields.io/badge/react-swipeable?style=flat&label=react-swipeable)](https://github.com/FormidableLabs/react-swipeable?tab=readme-ov-file)
-[![tesseract.js](https://img.shields.io/badge/Tesseract.js-black?style=flat&logo=tesseract)](https://github.com/naptha/tesseract.js#tesseractjs)
-[![react-image-crop](https://img.shields.io/badge/react-image-crop?style=flat&logo=react-image-crop)](link=https%3A%2F%2Fgithub.com%2Fdominictobias%2Freact-image-crop)
 
 
-- ssr을 사용하지 않는데 Next.js를 사용한 이유:
-  - 이미지, 폰트 자동 최적화 기능
-  - Vercel을 통한 배포 용이성
+## 브랜치 전략 (Git Flow)
 
-- TailwindCss를 사용한 이유
-  - 디자인 로직을 레이어 시스템을 통해 한 곳에서 관리하고 비즈니스 로직과 분리하기 위해
-  - 빠르고 간편한 디자인 구현을 위해서
+- **`main`** : 제품으로 배포되는 가장 안정적인 브랜치입니다. (Vercel 자동 배포)
+- **`develop`** : 다음 출시 버전을 개발하는 통합 브랜치입니다.
+- **`feature/기능명`** : 기능을 개발하거나 수정을 진행하는 작업 브랜치입니다. (`develop`에서 분기)
 
-- react-swipeable을 사용한 이유
-  - 좌우 스와이프 애니메이션을 별도의 커스텀훅 사용 없이 간편하게 구현하기 위해
- 
-- pokeapi-js-wrapper를 사용한 이유
-  - 필요한 포켓몬 정보를 빠르고 손쉽게 받아오기 위해서
-
-- tesseract.js를 사용한 이유
-  - api를 사용하지 않고 개발서버에서 직접 ocr을 수행하는 라이브러리라서
-  - 문장이 아닌 짧은 단어에 대한 ocr을 수행하기에 적절한 수준의 정확성을 지녀서
-
-- react-image-crop을 사용한 이유
-  - ocr 기능을 수행할 때 받아온 이미지 파일을 브러우저에서 크롭처리하기 위해
+### 개발 워크플로우
+1. `develop` 브랜치에서 작업 브랜치(`feat/` 또는 `refactor/`)를 분기합니다.
+2. 기능 개발 후 `develop` 브랜치로 **Pull Request (PR)**를 생성합니다.
+3. 코드 리뷰 및 `develop` 환경에서 테스트를 진행합니다.
+4. 테스트가 완료된 코드는 최종적으로 `main` 브랜치에 머지되어 배포됩니다.
 
 
+## 프로젝트 구조 (Project Structure)
 
----
-## 핵심 기능
-
-
-## 양방향 무한스크롤 기능
-  - 윗방향 api 커스텀훅: [useGetPreviousSearchItems.ts](src/api/useGetPreviousSearchItems.ts)
-  - 아랫방향 api 커스텀 훅: [useGetSearchItems.ts](src/api/useGetSearchItems.ts)
-  - 무한스크롤 훅: [useInfiniteScroll.ts](src/hooks/scrollEvent/useInfiniteScroll.ts)
-  - 스켈레톤 UI: [PreloadedSkeletonUI.tsx](src/app/components/page/main/pokedex/components/pokedexScrollView/preloadedSkeletonUI/index.tsx)
-  - 렌더링 컴포넌트: [PokedexScrollView.tsx](src/app/components/page/main/pokedex/components/pokedexScrollView/index.tsx)
-
-
-    - 구현 방식:
-      - 아랫방향: 일반적인 무한스크롤 방식과 동일함.
-      - 윗방향: PreloadedSkeletonUI에서 미리 스켈레톤UI를 렌더링해둠. api 요청이 발생할 때마다 스켈레톤UI에 데이터를 전달한 뒤에 다음 데이터를 위한 스켈레톤UI를 렌더링 함
-      
-    - 위처럼 구현한 이유:
-      - 위쪽 방향에 데이터가 추가되서 DOM 업데이트가 발생하면 브라우저가 스크롤 위치를 자동으로 유지시켜주지 못했습니다. 그래서 데이터가 추가되기 전에 미리 스켈레톤 UI를 렌더링함으로써 스크롤 위치가 유지되게 구현해야 했습니다.
-      - 그리고 스켈레톤 UI에서 각 요청마다 searchItemGroups의 어느 데이터를 가져와야 할 지 명확하게 나타내기 위해 2차원 배열의 형태로 관리했습니다.
-        
-
-## 검색 네비게이션 기능
-
-  - 기본 데이터를 관리하는 훅: [useDefaultData.ts](src/hooks/useSearchNavigation/useData/useDefaultData.ts)
-  - 검색 데이터를 관리하는 훅: [useSearchData.ts](src/hooks/useSearchNavigation/useData/useSearchData.ts)
-  - 검색 훅: [useSearchNavigation.ts](src/hooks/useSearchNavigation/index.ts)
-  - 네비게이션 훅: [useScrollToElement.ts](src/hooks/blur/useScrollToElement.ts)
-
-  - 구현 방식:
-    - 포켓몬 이름을 받아서 포켓몬 ID로 반환하는 로직
-    - 기본 데이터와 검색 데이터를 통합 관리하며, 포켓몬 ID를 기반으로 검색한 아이템의 위치로 스크롤 이동하는 로직
-    - 기본 데이터는 포켓몬 도감을 1번부터 불러오는 데이터, 검색 데이터는 포켓몬 도감을 검색한 id를 기준으로 불러오는 데이터.
-
-
-## 자동완성 기능
-
-  - 텍스트 검색 로직: [TextSearch.tsx](src/app/components/page/main/pokedex/components/searchBar/textSearch/index.tsx)
-  - 자동완성 로직 훅: [useAutoComplete.ts](src/hooks/autoComplete/useAutoComplete.ts)
-  - 구현 방식: PokemonNameData에서 포켓몬의 이름 데이터를 가져와서 자동완성 목록을 보여줌
-
-
-
-## OCR 기능
-
-  - ocr 커스텀 훅: [useOCR.ts](src/hooks/ocr/useOCR.ts)
-  - 이미지 검색 컴포넌트: [ImageSearch.tsx](src/app/components/page/main/pokedex/components/searchBar/imageSearch/index.tsx)
-  - 이미지 크롭 훅: [useImageCrop.ts](src/hooks/imageCrop/useImageCrop.ts)
-  - 이미지 크롭 컴포넌트: [ImageCropModal.tsx](src/app/components/page/main/pokedex/components/searchBar/imageSearch/imageCropModal/index.tsx)
-
-  - 구현 방식: 이미지 파일을 크롭하면 해당 범위 내의 이미지를 OCR로 텍스트를 추출함
-
-## 포켓몬 상세 보기 기능
-
-- 스와이프 기능 컴포넌트: [SwipeContainer.tsx](src/app/components/layout/SwipeContainer.tsx)
-- 상세 정보 표시 컴포넌트: [PokemonInfoDisplay.tsx](src/app/components/page/main/PokemonInfoDisplay/index.tsx)
-
-- 구현 방식: api 응답 객체를 받아서 가공함
-
-
-## 코드 작성 방식
-
-- 디자인 로직: 테일윈드의 @layer 지시문을 사용하여 의존성이 있거나 재사용 가능성이 있는 디자인 로직을 한 곳에서 관리함
-  - 폰트 적용 범위, 기본 스타일: [base.css](src/app/styles/base.css)
-  - 재사용 가능한 컴포넌트 스타일: [components.css](src/app/styles/components.css)
-  - 색상 및 스크롤바 숨김 스타일 등의 수정 가능성이 있는 스타일을 유틸리티 타입으로 선언함: [utilities.css](src/app/styles/utilities.css)
-
-- 훅 관리: 컴포넌트의 동작과 구분되는 로직 중에 복잡한 로직을 hooks 폴더로 분리함
-- 유틸 관리: 컴포넌트의 동작과 구분되는 로직 중에 간단한 로직을 utils 폴더로 분리함
-- 컴포넌트 관리: UI를 수정하기 쉽도록 디자인 로직이 있는 공통 컴포넌트를 UI 폴더로 분리함
-
-
+```text
+src/
+├── api/              API 통신 및 데이터 요청 관련 로직을 모아둔 폴더입니다.
+├── app/              Next.js App Router 기반의 페이지 레이아웃 및 라우팅을 담당합니다.
+├── assets/           이미지, 폰트, 아이콘 등 정적 자원을 관리하는 폴더입니다.
+├── components/       재사용 가능한 공통 UI 컴포넌트를 정의합니다.
+├── constants/        프로젝트 전역에서 사용되는 상수 값을 관리합니다.
+├── contexts/         전역 상태 관리를 위한 React Context를 정의합니다.
+├── hooks/            재사용 가능한 커스텀 훅을 모아둔 폴더입니다.
+├── styles/           Tailwind CSS 전역 설정 및 스타일 시트를 관리합니다.
+└── utils/            공통 유틸리티 함수 및 TypeScript 타입 정의를 포함합니다.
+```
 
 
 <!-- prettier-ignore-end -->
