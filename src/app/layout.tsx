@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import {
   PretendardRegular,
-} from "./styles/fonts";
+} from "@styles/fonts";
+import ClientProviders from "@components/providers/ClientProviders";
 
 // 메타데이터 선언
 export const metadata: Metadata = {
@@ -21,7 +22,10 @@ export default function RootLayout({
         // var 변수로 선언된 커스텀 폰트를 css 변수로 할당
         className={`${PretendardRegular.variable} antialiased`}
       >
-        {children}
+        <ClientProviders>
+          {children}
+          <div id="root-portal" />
+        </ClientProviders>
       </body>
     </html>
   );
