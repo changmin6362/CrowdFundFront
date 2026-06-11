@@ -26,3 +26,4 @@ export const ROUTES = {
     SHIPPING: (id: number) => `/creator/projects/${id}/shipping`,
   },
 } as const;
+// Vercel 배포 에러를 수정하기 위해 추가한 주석
