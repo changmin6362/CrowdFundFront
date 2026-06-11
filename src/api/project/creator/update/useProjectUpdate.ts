@@ -76,7 +76,7 @@ export const useProjectUpdate = (projectId: number) => {
       router.push(ROUTES.CREATOR.MY_PROJECTS);
     } catch (err) {
       const message = err instanceof Error ? err.message : '프로젝트 수정 중 오류가 발생했습니다.';
-      setResponse({ message, data: null });
+      setResponse({ message, data: null, status: 500 });
       alert(message);
     }
   };

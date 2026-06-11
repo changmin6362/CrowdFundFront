@@ -26,7 +26,6 @@ export default function PledgeDetailPage() {
   } = usePaymentDetail(pledgeId);
 
   const paymentData = paymentResponse?.data?.paymentDetail;
-  const paymentId = paymentData?.paymentId;
 
   const { 
     response: historyResponse, 

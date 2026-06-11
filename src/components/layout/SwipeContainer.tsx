@@ -1,5 +1,5 @@
 import useSwipeNavigation from "@/hooks/events/useSwipeNavigation";
-import { useModalContext } from "@/app/contexts/modalContext";
+import { useModalContext } from "@/contexts/modalContext";
 
 interface SwipeContainerProps {
   children: React.ReactNode;

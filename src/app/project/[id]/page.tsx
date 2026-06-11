@@ -4,26 +4,37 @@ import React from 'react';
 import { useParams } from 'next/navigation';
 import { ROUTES } from "@/constants/routes";
 import Link from 'next/link';
-import { useProjectDetailPage } from './useProjectDetailPage';
+import { useProjectDetail } from '@api/project/user/detail/useProjectDetail';
+import { useCommentFetch } from '@api/comment/fetch/useCommentFetch';
+import { useCommentCreate } from '@api/comment/create/useCommentCreate';
 
 export default function ProjectDetailPage() {
   const params = useParams();
   const projectId = params.id ? Number(params.id) : 0;
 
+  const { 
+    response: projectResponse, 
+    isLoading: isProjectLoading 
+  } = useProjectDetail(projectId);
+
+  const { 
+    comments, 
+    onLoadMore, 
+    response: commentFetchResponse,
+    isLoading: isCommentLoading,
+    handleRefresh: refreshComments
+  } = useCommentFetch(projectId);
+
   const {
-    project,
-    rewards,
-    comments,
-    onLoadMore,
-    commentFetchResponse,
-    isProjectLoading,
-    isCommentLoading,
-    commentRequest,
-    setCommentRequest,
-    onCommentSubmit,
-    isCommentCreating,
-    commentCreateResponse
-  } = useProjectDetailPage(projectId);
+    request: commentRequest,
+    setRequest: setCommentRequest,
+    onSubmit: onCommentSubmit,
+    isLoading: isCommentCreating,
+    response: commentCreateResponse
+  } = useCommentCreate(projectId, refreshComments);
+
+  const project = projectResponse?.data?.projectDetail;
+  const rewards = project?.rewards || [];
 
   if (isProjectLoading) return <div className="p-8 text-center">프로젝트 정보를 불러오는 중...</div>;
   if (!project) return <div className="p-8 text-center text-red-500">프로젝트를 찾을 수 없습니다.</div>;

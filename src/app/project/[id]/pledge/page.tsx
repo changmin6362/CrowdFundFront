@@ -1,24 +1,60 @@
 'use client';
 
 import React from 'react';
-import { useParams, useRouter } from 'next/navigation';
-import { usePledgePage } from './usePledgePage';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { ROUTES } from '@/constants/routes';
+import { useProjectDetail } from "@api/project/user/detail/useProjectDetail";
+import { useRewardFetch } from "@api/reward/user/fetch/useRewardFetch";
+import { useUserAddressFetch } from "@api/user-address/fetch/useUserAddressFetch";
+import { useMyPledgeCreate } from "@api/pledge/my/create/useMyPledgeCreate";
+import { usePaymentCreate } from "@api/payment/create/usePaymentCreate";
+import { usePledgeAddressReplace } from "@api/pledge-address/replace/usePledgeAddressReplace";
 
 export default function PledgePage() {
   const params = useParams();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const projectId = params.id ? Number(params.id) : 0;
+  
+  const rewardIdParam = searchParams.get("rewardId");
+  const selectedRewardId = rewardIdParam ? Number(rewardIdParam) : 0;
 
+  const { response: projectResponse, isLoading: isProjectLoading } =
+    useProjectDetail(projectId);
+  const { response: rewardResponse, isLoading: isRewardLoading } =
+    useRewardFetch(projectId);
   const {
-    project,
-    selectedReward,
-    addresses,
-    selectedAddressId,
-    handleAddressSelect,
-    handlePledgeAndPayment,
-    isLoading,
-  } = usePledgePage(projectId);
+    onSubmit: onSubmitReplace,
+    isLoading: isAddressReplacing,
+  } = usePledgeAddressReplace();
+
+  const { 
+    addresses, 
+    selectedAddressId, 
+    handleAddressSelect, 
+    isLoading: isAddressLoading 
+  } = useUserAddressFetch();
+
+  const { onPledgeAndPayment, isLoading: isPledgeLoading } = useMyPledgeCreate({
+    projectId,
+    rewardId: selectedRewardId,
+  });
+  const { createPayment: onSubmitPayment, isLoading: isPaymentLoading } = usePaymentCreate();
+
+  const project = projectResponse?.data?.projectDetail;
+  const rewards = rewardResponse?.data?.rewards || [];
+  const selectedReward = rewards.find((r) => r.rewardId === selectedRewardId);
+
+  const handlePledgeAndPayment = () => {
+    onPledgeAndPayment({
+      selectedAddressId,
+      onSubmitReplace,
+      onSubmitPayment,
+      onSuccess: () => router.push(ROUTES.MY_PAGE),
+    });
+  };
+  
+  const isLoading = isProjectLoading || isRewardLoading || isAddressLoading || isPledgeLoading || isPaymentLoading || isAddressReplacing;
 
   if (isLoading && !project) {
     return <div className="container mx-auto px-4 py-20 text-center">로딩 중...</div>;

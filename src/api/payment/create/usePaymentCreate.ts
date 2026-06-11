@@ -15,23 +15,23 @@ export const usePaymentCreate = () => {
     amount: 0,
   });
 
-  const createPayment = async (data: PaymentCreateRequest): Promise<ApiResult<PaymentCreateResponse>> => {
-    return handleApiCall<PaymentCreateResponse>({
+  const createPayment = async (pledgeId: number, data?: Partial<PaymentCreateRequest>): Promise<ApiResult<PaymentCreateResponse>> => {
+    const res = await handleApiCall<PaymentCreateResponse>({
       url: PAYMENT_ENDPOINTS.CREATE,
       method: 'POST',
-      data,
+      data: {
+        ...request,
+        pledgeId,
+        ...data,
+      },
     });
+    setResponse(res);
+    return res;
   };
 
-  const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      const res = await createPayment(request);
-      setResponse(res);
-    } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : String(err);
-      setResponse({ message, data: null });
-    }
+  const onSubmit = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    return await createPayment(request.pledgeId);
   };
 
   return {

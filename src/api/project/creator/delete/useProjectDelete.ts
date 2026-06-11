@@ -20,7 +20,7 @@ export const useProjectDelete = (onSuccess?: () => void) => {
       if (onSuccess) onSuccess();
     } catch (err) {
       const message = err instanceof Error ? err.message : '프로젝트 삭제 중 오류가 발생했습니다.';
-      setResponse({ message, data: null });
+      setResponse({ message, data: null, status: 500 });
       alert(message);
     }
   };
