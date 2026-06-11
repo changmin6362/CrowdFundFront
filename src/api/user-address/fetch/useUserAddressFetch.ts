@@ -7,6 +7,7 @@ import { UserAddressFetchResponse } from "@api/user-address/fetch/userAddressFet
 export const useUserAddressFetch = () => {
   const { isLoading, error, handleApiCall } = useApiHandler();
   const [response, setResponse] = useState<ApiResult<UserAddressFetchResponse> | null>(null);
+  const [selectedAddressId, setSelectedAddressId] = useState<number>(0);
 
   const fetchAddresses = useCallback(async (): Promise<ApiResult<UserAddressFetchResponse>> => {
     const res = await handleApiCall<UserAddressFetchResponse>({
@@ -21,10 +22,28 @@ export const useUserAddressFetch = () => {
     fetchAddresses();
   }, [fetchAddresses]);
 
+  const addresses = response?.data?.addresses || [];
+
+  useEffect(() => {
+    if (addresses.length > 0 && selectedAddressId === 0) {
+      const defaultAddr = addresses.find((a) => a.isDefault) || addresses[0];
+      if (defaultAddr.addressId) {
+        setSelectedAddressId(defaultAddr.addressId);
+      }
+    }
+  }, [addresses, selectedAddressId]);
+
+  const handleAddressSelect = (id: number) => {
+    setSelectedAddressId(id);
+  };
+
   return {
     fetchAddresses,
     isLoading,
     error,
     response,
+    addresses,
+    selectedAddressId,
+    handleAddressSelect,
   };
 };

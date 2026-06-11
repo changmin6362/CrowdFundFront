@@ -37,12 +37,12 @@ export const useUserMeUpdate = (initialData: UserDataInfo | null) => {
 
   const onSubmit = async (e: React.FormEvent, onSuccess?: () => void) => {
     e.preventDefault();
-    try {
-      await updateMe(request);
+    const res = await updateMe(request);
+    if (res.data) {
       alert("프로필이 성공적으로 수정되었습니다.");
       if (onSuccess) onSuccess();
-    } catch (err: unknown) {
-      console.error(err);
+    } else {
+      alert(res.message || "프로필 수정에 실패했습니다.");
     }
   };
 

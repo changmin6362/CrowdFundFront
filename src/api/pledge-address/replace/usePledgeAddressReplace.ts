@@ -15,23 +15,21 @@ export const usePledgeAddressReplace = () => {
 
   const replacePledgeAddress = async (
     pledgeId: number,
-    data: PledgeAddressReplaceRequest
+    addressId: number
   ): Promise<ApiResult<PledgeAddressReplaceResponse>> => {
-    return handleApiCall<PledgeAddressReplaceResponse>({
+    const res = await handleApiCall<PledgeAddressReplaceResponse>({
       url: PLEDGE_ADDRESS_ENDPOINTS.REPLACE(pledgeId),
       method: 'PUT',
-      data,
+      data: {
+        addressId,
+      },
     });
+    setResponse(res);
+    return res;
   };
 
-  const onSubmit = async (pledgeId: number) => {
-    try {
-      const res = await replacePledgeAddress(pledgeId, request);
-      setResponse(res);
-    } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : String(err);
-      setResponse({ message, data: null, status: 500 });
-    }
+  const onSubmit = async (pledgeId: number, addressId: number) => {
+    return await replacePledgeAddress(pledgeId, addressId);
   };
 
   return {
@@ -41,5 +39,6 @@ export const usePledgeAddressReplace = () => {
     isLoading,
     error,
     response,
+    replacePledgeAddress,
   };
 };

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React from 'react';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { ROUTES } from '@/constants/routes';
 import { useProjectDetail } from "@api/project/user/detail/useProjectDetail";
@@ -23,88 +23,38 @@ export default function PledgePage() {
     useProjectDetail(projectId);
   const { response: rewardResponse, isLoading: isRewardLoading } =
     useRewardFetch(projectId);
-  const { response: addressResponse, isLoading: isAddressLoading } =
-    useUserAddressFetch();
-
-  const { createPledge, isLoading: isPledgeLoading } = useMyPledgeCreate();
-  const { createPayment, isLoading: isPaymentLoading } = usePaymentCreate();
   const {
-    setRequest: setAddressReplaceReq,
-    onSubmit: replaceAddress,
+    onSubmit: onSubmitReplace,
+    isLoading: isAddressReplacing,
   } = usePledgeAddressReplace();
 
-  const [selectedAddressId, setSelectedAddressId] = useState<number>(0);
+  const { 
+    addresses, 
+    selectedAddressId, 
+    handleAddressSelect, 
+    isLoading: isAddressLoading 
+  } = useUserAddressFetch();
+
+  const { onPledgeAndPayment, isLoading: isPledgeLoading } = useMyPledgeCreate({
+    projectId,
+    rewardId: selectedRewardId,
+  });
+  const { createPayment: onSubmitPayment, isLoading: isPaymentLoading } = usePaymentCreate();
 
   const project = projectResponse?.data?.projectDetail;
   const rewards = rewardResponse?.data?.rewards || [];
   const selectedReward = rewards.find((r) => r.rewardId === selectedRewardId);
+
+  const handlePledgeAndPayment = () => {
+    onPledgeAndPayment({
+      selectedAddressId,
+      onSubmitReplace,
+      onSubmitPayment,
+      onSuccess: () => router.push(ROUTES.MY_PAGE),
+    });
+  };
   
-  const addresses = useMemo(
-    () => addressResponse?.data?.addresses || [],
-    [addressResponse]
-  );
-
-  useEffect(() => {
-    if (addresses.length > 0) {
-      const defaultAddr = addresses.find((a) => a.isDefault) || addresses[0];
-      if (defaultAddr.addressId) {
-        setSelectedAddressId(defaultAddr.addressId);
-        setAddressReplaceReq({ addressId: defaultAddr.addressId });
-      }
-    }
-  }, [addresses, setAddressReplaceReq]);
-
-  const handleAddressSelect = (id: number) => {
-    setSelectedAddressId(id);
-    setAddressReplaceReq({ addressId: id });
-  };
-
-  const handlePledgeAndPayment = async () => {
-    if (!selectedRewardId || !selectedReward) {
-      alert("리워드를 선택해주세요.");
-      return;
-    }
-    if (!selectedAddressId) {
-      alert("배송지를 선택해주세요.");
-      return;
-    }
-
-    try {
-      // 1. 후원 생성
-      const pledgeRes = await createPledge({
-        projectId,
-        rewardId: selectedRewardId,
-      });
-
-      if (!pledgeRes.data?.pledgeId) {
-        throw new Error(pledgeRes.message || "후원 생성에 실패했습니다.");
-      }
-
-      const pledgeId = pledgeRes.data.pledgeId;
-
-      // 2. 배송지 설정
-      await replaceAddress(pledgeId);
-
-      // 3. 결제 실행
-      const paymentRes = await createPayment({
-        pledgeId,
-        amount: selectedReward.price || 0,
-        paymentMethod: "CARD",
-      });
-
-      if (paymentRes.data) {
-        alert("후원 및 결제가 완료되었습니다!");
-        router.push(ROUTES.MY_PAGE);
-      } else {
-        throw new Error(paymentRes.message || "결제 요청에 실패했습니다.");
-      }
-    } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "오류가 발생했습니다.";
-      alert(message);
-    }
-  };
-
-  const isLoading = isProjectLoading || isRewardLoading || isAddressLoading || isPledgeLoading || isPaymentLoading;
+  const isLoading = isProjectLoading || isRewardLoading || isAddressLoading || isPledgeLoading || isPaymentLoading || isAddressReplacing;
 
   if (isLoading && !project) {
     return <div className="container mx-auto px-4 py-20 text-center">로딩 중...</div>;
