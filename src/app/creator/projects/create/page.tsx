@@ -79,6 +79,7 @@ export default function ProjectCreatePage() {
           <textarea
             name="contentBlocks"
             rows={5}
+            /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
             value={(request.contentBlocks as any)?.blocks?.[0]?.data?.text ?? ''}
             placeholder="프로젝트에 대해 설명해주세요. (추후 에디터 적용 예정)"
             onChange={handleInputChange}
