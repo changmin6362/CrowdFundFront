@@ -1,7 +1,6 @@
-import { CursorRequest } from "@api/_common/types";
 import { ProjectStatus } from "@api/project/types";
 
-export interface ProjectFetchRequest extends CursorRequest {
+export interface ProjectFetchRequest {
   statuses?: ProjectStatus[];
   categoryId?: number;
   limit?: number;

@@ -68,6 +68,7 @@ export default function ProjectUpdatePage() {
           <textarea
             name="contentBlocks"
             rows={10}
+            /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
             value={(request.contentBlocks as any)?.blocks?.[0]?.data?.text ?? ''}
             onChange={handleInputChange}
             placeholder="프로젝트 소개를 입력하세요"
