@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { ApiResult } from "@api/_common/types";
 import { useApiHandler } from "@api/_common/useApiHandler";
 import { USER_ADDRESS_ENDPOINTS } from "@api/user-address/constants";
@@ -22,7 +22,7 @@ export const useUserAddressFetch = () => {
     fetchAddresses();
   }, [fetchAddresses]);
 
-  const addresses = response?.data?.addresses || [];
+  const addresses = useMemo(() => response?.data?.addresses || [], [response]);
 
   useEffect(() => {
     if (addresses.length > 0 && selectedAddressId === 0) {
