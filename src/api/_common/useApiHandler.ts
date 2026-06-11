@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useCallback, useState } from "react";
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import { ApiResult } from "./types";
 import Cookies from "js-cookie";
@@ -14,7 +14,7 @@ export const useApiHandler = () => {
     setError(null);
     try {
       // 쿠키에서 토큰을 확인
-      const accessToken = Cookies.get('accessToken');
+      const accessToken = Cookies.get("accessToken");
       const headers = {
         ...config.headers,
         ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
@@ -26,14 +26,12 @@ export const useApiHandler = () => {
         headers,
       });
 
-      const result: ApiResult<T> = {
+      return {
         ...response.data,
         status: response.status,
       };
-
-      return result;
     } catch (err) {
-      const axiosError = err as AxiosError<ApiResult<any>>;
+      const axiosError = err as AxiosError<ApiResult<unknown>>;
       
       // 401 Unauthorized 에러 처리 (토큰 만료 등)
       if (axiosError.response?.status === 401) {
@@ -46,7 +44,8 @@ export const useApiHandler = () => {
       }
 
       const status = axiosError.response?.status || 500;
-      const message = (axiosError.response?.data as any)?.message || '에러 메시지가 존재하지 않습니다.';
+      const responseData = axiosError.response?.data as ApiResult<unknown> | undefined;
+      const message = responseData?.message || '에러 메시지가 존재하지 않습니다.';
       
       setError(message);
       

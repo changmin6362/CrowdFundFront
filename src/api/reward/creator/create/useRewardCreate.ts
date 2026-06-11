@@ -48,7 +48,7 @@ export const useRewardCreate = () => {
       }
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : String(err);
-      setResponse({ message, data: null });
+      setResponse({ message, data: null, status: 500 });
     }
   };
 

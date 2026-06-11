@@ -13,7 +13,7 @@ export const useRewardDelete = () => {
     onSuccess?: () => void
   ): Promise<ApiResult<RewardDeleteResponse>> => {
     if (!confirm('정말로 이 리워드를 삭제하시겠습니까?')) {
-      return { message: '취소됨', data: null };
+      return { message: '취소됨', data: null, status: 0 };
     }
     const res = await handleApiCall<RewardDeleteResponse>({
       url: REWARD_ENDPOINTS.CREATOR.DELETE(rewardId),

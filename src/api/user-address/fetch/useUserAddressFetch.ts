@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { ApiResult } from "@api/_common/types";
 import { useApiHandler } from "@api/_common/useApiHandler";
 import { USER_ADDRESS_ENDPOINTS } from "@api/user-address/constants";
@@ -8,18 +8,18 @@ export const useUserAddressFetch = () => {
   const { isLoading, error, handleApiCall } = useApiHandler();
   const [response, setResponse] = useState<ApiResult<UserAddressFetchResponse> | null>(null);
 
-  const fetchAddresses = async (): Promise<ApiResult<UserAddressFetchResponse>> => {
+  const fetchAddresses = useCallback(async (): Promise<ApiResult<UserAddressFetchResponse>> => {
     const res = await handleApiCall<UserAddressFetchResponse>({
       url: USER_ADDRESS_ENDPOINTS.LIST,
       method: 'GET',
     });
     setResponse(res);
     return res;
-  };
+  }, [handleApiCall]);
 
   useEffect(() => {
     fetchAddresses();
-  }, []);
+  }, [fetchAddresses]);
 
   return {
     fetchAddresses,

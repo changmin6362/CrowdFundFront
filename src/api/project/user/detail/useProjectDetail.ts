@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { ApiResult } from "@api/_common/types";
 import { useApiHandler } from "@api/_common/useApiHandler";
 import { PROJECT_ENDPOINTS } from "@api/project/constants";
@@ -8,20 +8,20 @@ export const useProjectDetail = (projectId: number) => {
   const { isLoading, error, handleApiCall } = useApiHandler();
   const [response, setResponse] = useState<ApiResult<ProjectDetailResponse> | null>(null);
 
-  const fetchProjectDetail = async (id: number): Promise<ApiResult<ProjectDetailResponse>> => {
+  const fetchProjectDetail = useCallback(async (id: number): Promise<ApiResult<ProjectDetailResponse>> => {
     const res = await handleApiCall<ProjectDetailResponse>({
       url: PROJECT_ENDPOINTS.USER.DETAIL(id),
       method: 'GET',
     });
     setResponse(res);
     return res;
-  };
+  }, [handleApiCall]);
 
   useEffect(() => {
     if (projectId) {
       fetchProjectDetail(projectId);
     }
-  }, [projectId]);
+  }, [projectId, fetchProjectDetail]);
 
   return {
     isLoading,
