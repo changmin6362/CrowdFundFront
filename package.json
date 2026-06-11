@@ -12,9 +12,12 @@
     "jose": "^6.2.3",
     "js-cookie": "^3.0.8",
     "next": "^14.2.23",
+    "pokeapi-js-wrapper": "^1.2.7",
     "react": "^18",
     "react-dom": "^18",
-    "react-swipeable": "^7.0.1"
+    "react-image-crop": "^11.0.7",
+    "react-swipeable": "^7.0.1",
+    "tesseract.js": "^6.0.0"
   },
   "devDependencies": {
     "@types/js-cookie": "^3.0.6",
